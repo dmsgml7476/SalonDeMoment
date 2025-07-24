@@ -1,0 +1,326 @@
+
+.section-container {
+  max-width: 960px;
+  margin: 40px auto;
+  padding: 30px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.08);
+  font-family: var(--font-noto-snas);
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.page-header h3 {
+  font-size: 24px;
+  font-weight: bold;
+  color: var(--main-color);
+}
+
+.btn-add {
+  background-color: var(--main-color);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+  cursor: pointer; /* 버튼에 커서 포인터 추가 */
+}
+
+.btn-add:hover {
+  background-color: #7489c5;
+}
+
+.designer-card-list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.designer-card {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--light-gray);
+  padding-bottom: 16px;
+}
+
+.designer-photo {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 20px;
+}
+
+.designer-info {
+  flex: 1;
+}
+
+.designer-title {
+  font-weight: bold;
+  font-size: 16px;
+  margin-bottom: 4px;
+}
+
+.designer-desc {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 6px;
+}
+
+.designer-stats span {
+  margin-right: 12px;
+  font-size: 14px;
+  color: #888;
+}
+
+.btn-book {
+  background-color: white;
+  border: 1px solid var(--main-color);
+  color: var(--main-color);
+  padding: 6px 12px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.btn-book:hover {
+  background-color: var(--main-color);
+  color: white;
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.6);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: #fff;
+    padding: 30px;
+    border: none;
+    width: 90%;
+    max-width: 650px;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    max-height: 90vh;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--border-color-light);
+}
+
+.modal-header h2 {
+    font-size: 26px;
+    font-weight: bold;
+    color: var(--main-color);
+    margin: 0;
+}
+
+.close-button {
+    color: #999;
+    font-size: 32px;
+    font-weight: normal;
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: var(--main-color);
+    text-decoration: none;
+}
+
+.modal-body {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+/* Custom Scrollbar for modal-body */
+.modal-body::-webkit-scrollbar {
+    width: 8px;
+}
+
+.modal-body::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.modal-body::-webkit-scrollbar-thumb {
+    background: #bbb;
+    border-radius: 10px;
+}
+
+.modal-body::-webkit-scrollbar-thumb:hover {
+    background: #888;
+}
+
+
+.search-container {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.search-container input {
+    flex-grow: 1;
+    padding: 10px 12px;
+    border: 1px solid var(--point-color);
+    border-radius: 6px;
+    font-size: 16px;
+}
+
+.search-container input:focus {
+    outline: none;
+    border-color: var(--point-color);
+    box-shadow: 0 0 0 3px rgba(86, 106, 142, 0.2);
+}
+
+.search-container button {
+    padding: 10px 20px;
+    background-color: var(--main-color);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.2s ease;
+}
+
+.search-container button:hover {
+    background-color: #7d8cce;
+}
+
+.search-results {
+    border: 1px solid var(--border-color-light);
+    max-height: 300px;
+    overflow-y: auto;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    background-color: #fcfcfc;
+}
+
+.search-result-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+    border-bottom: 1px solid #f5f5f5;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.search-result-item:last-child {
+    border-bottom: none;
+}
+
+.search-result-item:hover,
+.search-result-item.selected {
+    background-color: #f0f4fa;
+}
+
+.search-result-item img {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    margin-right: 20px;
+    object-fit: cover;
+    border: 2px solid var(--border-color-light);
+}
+
+.search-result-info {
+    flex: 1;
+}
+
+.search-result-info .name {
+    font-weight: bold;
+    font-size: 17px;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.search-result-info .tel {
+    font-size: 14px;
+    color: #777;
+}
+
+.no-results {
+    text-align: center;
+    color: #999;
+    padding: 30px;
+    font-size: 16px;
+}
+
+.add-designer-btn-container {
+    text-align: right;
+    margin-top: 20px;
+}
+
+#addSelectedDesignerBtn {
+    padding: 12px 25px;
+    background-color: var(--point-color);
+    color: var(--font-white);
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 17px;
+    font-weight: 600;
+    transition: background-color 0.2s ease;
+    display: none;
+}
+
+#addSelectedDesignerBtn:hover {
+    background-color: #495a7b;
+}
+
+/* 소속된 디자이너 검색 결과 아이템 스타일 */
+.search-result-item.affiliated-designer {
+    background-color: #f0f0f0; /* 배경색 변경 */
+    border: 1px dashed #ccc; /* 점선 테두리 */
+    cursor: not-allowed; /* 마우스 커서 변경 */
+    opacity: 0.8; /* 투명도 조정 */
+}
+
+/* 소속된 디자이너 아이템 hover 시 효과 제거 또는 변경 */
+.search-result-item.affiliated-designer:hover {
+    box-shadow: none;
+    background-color: #f0f0f0; /* hover 시에도 색상 유지 */
+}
+
+/* 새로 추가된 소속 상태 메시지 스타일 */
+.affiliation-status {
+    font-size: 0.85em; /* 글자 크기 조정 */
+    font-weight: bold; /* 볼드체 */
+    margin-top: 5px; /* 위쪽 여백 */
+}
+
+.affiliation-status.affiliated {
+    color: #dc3545; /* 빨간색 (Bootstrap danger color) */
+}

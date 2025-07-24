@@ -1,0 +1,77 @@
+.section-container {
+  max-width: 1280px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgb(0 0 0 / 0.1);
+  font-family: var(--font-noto-snas);
+}
+
+.section-container h3 {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--main-color);
+  margin-bottom: 30px;
+}
+
+.month-navigation {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+  gap: 20px;
+  font-weight: bold;
+  font-size: 18px;
+  color: var(--point-color);
+}
+
+.week-selector {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+.week-selector a {
+  padding: 8px 14px;
+  border: 1px solid var(--main-color);
+  border-radius: 6px;
+  background-color: white;
+  color: var(--main-color);
+  font-weight: bold;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.week-selector a.active {
+  background-color: var(--main-color);
+  color: white;
+}
+
+
+
+.section-container table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 16px;
+}
+
+.section-container th,
+.section-container td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.section-container thead tr {
+  background-color: var(--main-color);
+  color: white;
+}
+
+.section-container table td.table-empty {
+  text-align: center;
+  color: #888;
+  padding: 20px;
+}

@@ -1,0 +1,85 @@
+
+body {
+  font-family: var(--font-noto);
+  background-color: #f8f9fb;
+  margin: 0;
+  padding: 20px;
+}
+
+#payment-page {
+  max-width: 650px;
+  margin: 40px auto;
+  background: white;
+  border-radius: 16px;
+  padding: 32px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.05);
+  border-top: 6px solid var(--main-color);
+}
+
+#payment-page h2 {
+  margin-bottom: 25px;
+  color: var(--point-color);
+  font-size: 22px;
+  font-family: var(--font-pretendard);
+  font-weight: bold;
+  border-bottom: 2px solid var(--pink-background);
+  padding-bottom: 10px;
+}
+
+.form-row {
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-row label {
+  font-weight: 600;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.form-row input,
+.form-row select,
+.form-row textarea {
+  padding: 10px;
+  font-size: 15px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-family: var(--font-pretendard);
+  transition: border-color 0.2s ease;
+}
+
+.form-row input:focus,
+.form-row select:focus,
+.form-row textarea:focus {
+  border-color: var(--main-color);
+  outline: none;
+}
+
+textarea {
+  resize: vertical;
+}
+
+.btn-submit {
+  background-color: var(--point-color);
+  color: var(--font-white);
+  padding: 12px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: var(--font-pretendard);
+  font-weight: bold;
+  width: 100%;
+  transition: background-color 0.2s;
+}
+
+.btn-submit:hover {
+  background-color: var(--main-color);
+}
+
+.payment-info p {
+  margin: 10px 0;
+  font-size: 16px;
+  color: #333;
+}

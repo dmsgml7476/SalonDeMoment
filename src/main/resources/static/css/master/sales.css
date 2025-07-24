@@ -1,0 +1,210 @@
+.section-container {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    max-width: 1200px;
+    margin: 20px auto;
+    font-family: var(--font-noto-snas); /* 기본 폰트 적용 */
+}
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 15px;
+}
+
+.page-header h3 {
+    margin: 0;
+    color: #333;
+    font-size: 1.8em;
+}
+
+.date-filter {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* 요소들 사이의 간격 */
+}
+
+/* 월 선택 input 박스 스타일 */
+.date-filter input[type="month"] {
+    padding: 10px 15px; /* 패딩 조정 */
+    border: 1px solid #ccc;
+    border-radius: 6px; /* 모서리 둥글게 */
+    font-size: 1.0em; /* 폰트 크기 */
+    color: #333;
+    background-color: #fff;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    -webkit-appearance: none; /* 기본 UI 제거 (브라우저마다 다름) */
+    -moz-appearance: none;
+    appearance: none;
+    cursor: pointer; /* 마우스 오버 시 포인터 변경 */
+    font-family: var(--font-pretendard); /* 폰트 적용 */
+}
+
+.date-filter input[type="month"]:focus {
+    border-color: var(--main-color); /* 포커스 시 테두리 색상 변경 */
+    box-shadow: 0 0 0 3px rgba(140, 158, 217, 0.25); /* main-color 기반의 그림자 효과 */
+    outline: none; /* 기본 아웃라인 제거 */
+}
+
+/* 조회 버튼 스타일 */
+.date-filter button#applySalesFilterBtn { /* 명시적으로 ID 선택자를 사용하여 더 정확히 타겟팅 */
+    padding: 10px 20px; /* 패딩 조정 */
+    background-color: var(--main-color); /* 주 색상 (벽자색) */
+    color: white;
+    border: none;
+    border-radius: 6px; /* 모서리 둥글게 */
+    cursor: pointer;
+    font-size: 1.0em; /* 폰트 크기 */
+    font-weight: bold; /* 폰트 두껍게 */
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    font-family: var(--font-pretendard); /* 폰트 적용 */
+}
+
+.date-filter button#applySalesFilterBtn:hover {
+    background-color: var(--point-color); /* 호버 시 청현색 */
+    transform: translateY(-1px); /* 살짝 위로 뜨는 효과 */
+}
+
+.date-filter button#applySalesFilterBtn:active {
+    background-color: #435b80; /* point-color보다 약간 어둡게 */
+    transform: translateY(0); /* 클릭 시 원위치 */
+}
+
+/* 총 매출 섹션 */
+.total-sales-summary {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 30px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.total-sales-summary h4 {
+    color: var(--main-color); /* 주 색상 */
+    font-size: 1.5em;
+    margin-top: 0;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #f0f0f0;
+    padding-bottom: 10px;
+}
+
+.total-sales-summary .total-amount {
+    font-size: 2.5em;
+    font-weight: bold;
+    color: #28a745; /* 강조 색상 (녹색, 그대로 유지) - 필요시 변수 추가 */
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.total-sales-summary .category-breakdown h5 {
+    color: #555;
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+.total-sales-summary .category-breakdown ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid; /* 그리드 레이아웃 */
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* 반응형 그리드 */
+    gap: 10px;
+}
+
+.total-sales-summary .category-breakdown ul li {
+    background-color: #f8f8f8;
+    padding: 10px 15px;
+    border-radius: 6px;
+    border: 1px solid #eee;
+    font-size: 0.95em;
+    color: #444;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* 각 디자이너별 매출 섹션 */
+.designer-sales-list {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.designer-sales-list h4 {
+    color: var(--main-color); /* 주 색상 */
+    font-size: 1.5em;
+    margin-top: 0;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #f0f0f0;
+    padding-bottom: 10px;
+}
+
+#designerSalesCards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* 디자이너 카드 그리드 */
+    gap: 20px;
+}
+
+.designer-sales-card {
+    background-color: #fefefe;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s ease;
+}
+
+.designer-sales-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.designer-sales-card .designer-name {
+    font-size: 1.4em;
+    font-weight: bold;
+    color: #333;
+    margin-top: 0;
+    margin-bottom: 10px;
+    border-bottom: 1px dashed #eee;
+    padding-bottom: 8px;
+}
+
+.designer-sales-card .designer-total-amount {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #28a745; /* 녹색, 필요시 변수 추가 */
+    margin-bottom: 15px;
+}
+
+.designer-sales-card .category-breakdown h5 {
+    color: #555;
+    font-size: 1.1em;
+    margin-bottom: 10px;
+}
+
+.designer-sales-card .category-breakdown ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.designer-sales-card .category-breakdown ul li {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+    border-bottom: 1px dotted #f5f5f5;
+    font-size: 0.9em;
+    color: #666;
+}
+
+.designer-sales-card .category-breakdown ul li:last-child {
+    border-bottom: none;
+}

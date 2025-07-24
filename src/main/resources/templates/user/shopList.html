@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragment/default}">
+<head>
+  <link rel="stylesheet" th:href="@{/css/user/shopList.css}">
+  <th:block layout:fragment="css"></th:block>
+
+  <meta name="_csrf" th:content="${_csrf.token}" />
+  <meta name="_csrf_header" th:content="${_csrf.headerName}" />
+</head>
+<body>
+<div layout:fragment="main" id="main">
+  <div class="shop-list-wrap">
+    <div class="container">
+      <!-- 상단 검색 영역 -->
+      <div class="top-bar">
+        <div class="header-content">
+          <div class="initial-display active">
+            <div class="shop-search-box" id="initialShopSearchBox">
+              <div class="search-icon">
+                <img th:src="@{/images/search.png}" alt="돋보기" />
+              </div>
+              <input
+                      type="text"
+                      class="shop-search-input"
+                      placeholder="미용실 검색"
+                      readonly
+              />
+              <ul class="shop-suggestion-list" style="display: none;"></ul>
+            </div>
+
+            <div class="location-search-area" id="initialLocationSearchArea">
+              <div class="location-icon">
+                <img th:src="@{/images/location.png}" alt="위치아이콘" />
+              </div>
+              <div class="location-now" id="user-region">대전 광역시청</div>
+            </div>
+          </div>
+
+          <div
+                  class="shop-search-expanded-area hidden"
+                  id="expandedShopSearchArea"
+          >
+            <div class="expanded-search-box-centered">
+              <div class="search-icon">
+                <img th:src="@{/images/search.png}" alt="돋보기" />
+              </div>
+              <input
+                      type="text"
+                      class="shop-search-input-expanded"
+                      placeholder="검색어를 입력하세요"
+                      autofocus
+              />
+            </div>
+            <div class="shop-search-options">
+              <button class="close-search-mode-button">닫기</button>
+            </div>
+          </div>
+
+          <!-- 검색창 시작 -->
+          <div
+                  class="address-input-area hidden"
+                  id="expandedAddressInputArea"
+          >
+            <div class="location-now-centered">
+              <div class="location-icon">
+                <img th:src="@{/images/location.png}" alt="위치아이콘" />
+              </div>
+              <div class="location-now-text">현재 위치 선택</div>
+            </div>
+            <div class="address-search-box" style="position: relative">
+              <input
+                      type="text"
+                      class="address-search-input"
+                      placeholder="주소를 검색하거나 입력하세요"
+              />
+              <ul class="address-suggestion-list" style="display: none;"></ul>
+            </div>
+            <div class="address-manual-input">
+              <button class="close-location-mode-button">닫기</button>
+            </div>
+          </div>
+
+          <!-- 검색창 -->
+        </div>
+      </div>
+
+      <!-- 필터 + 가격비교 선택 -->
+      <div class="shop-list-filter">
+        <select  id="sort-select" class="order-ops">
+          <option value="" selected>정렬</option>
+          <option value="distance">거리순</option>
+          <option value="rating">평점순</option>
+          <option value="review">리뷰순</option>
+          <option value="like">좋아요순</option>
+        </select>
+
+        <div class="select-compare-area">
+          <button class="select-compare-title" id="compare-btn">한 눈에 보기</button>
+
+
+          <div class="selected-shop-boxs">
+            <div class="selected-shop-one compare-panel" style="display:none;">
+              <span class="selected-shop-name">가게 1</span>
+              <button class="remove-btn">x</button>
+            </div>
+            <div class="selected-shop-two compare-panel" style="display:none;">
+              <span class="selected-shop-name">가게 2</span>
+              <button class="remove-btn">x</button>
+            </div>
+            <div class="selected-shop-three compare-panel" style="display:none;">
+              <span class="selected-shop-name">가게 3</span>
+              <button class="remove-btn">x</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 가격 비교 패널 -->
+
+      <!-- 미용실 카드 리스트 -->
+      <div id="shop-list" class="shop-list">
+        <!-- 반복될 카드 -->
+        <div class="shop-card"th:each="shop : ${shops}">
+          <a th:href="@{'/shop/' + ${shop.id}}" class="shop-link">
+          <div class="shop-img"></div>
+
+          <div class="shop-info-area">
+            <div class="shop-info">
+              <div class="shop-header">
+                <h3 class="shop-name" th:text="${shop.name}">0000 미용실</h3>
+                <div class="shop-coupon">
+                  <img th:src="@{/images/coupon.png}" alt="쿠폰" />
+                </div>
+                <button class="select-box"></button>
+              </div>
+              <div class="shop-info-content">
+                <p class="shop-rating">
+                  <span class="rating-stars"  th:attr="data-rating=${shop.rating}"></span>
+                  <span class="rating-count" th:text="' ' + ${shop.rating + ' (' + shop.reviewCount + ')'}">5.0 (1,555)</span>
+                </p>
+                <p class="shop-address" th:text="${'주소' + shop.address}">
+                  주소 대전광역시 대덕구 신짱구미용실
+                </p>
+                <span th:text="${#temporals.format(shop.openTime, 'HH:mm')} + ' ~ ' + ${#temporals.format(shop.closeTime, 'HH:mm')}"></span>
+              </div>
+            </div>
+            <div class="profile-icons-wrapper" data-drag-scroll>
+              <div class="profile-icons">
+                <div class="icon-circle" th:each="i : ${numbers.sequence(1, shop.designerCount)}"></div>
+
+              </div>
+            </div>
+          </div>
+          </a>
+        </div>
+        <!-- 위 구조 반복 -->
+      </div>
+    </div>
+  </div>
+
+<!-- 위치 동의 모달 -->
+  <div id="location-agree-modal" class="modal hidden">
+    <div class="modal-overlay"></div>
+    <div class="modal-content">
+      <p class="modal-message">
+        이 기능을 사용하려면<br><strong>위치 정보 제공 동의</strong>가 필요합니다.<br>
+        동의하시겠습니까?
+      </p>
+      <div class="modal-actions">
+        <button id="location-agree-accept" class="btn-confirm" type="button">동의</button>
+        <button id="location-agree-cancel" class="btn-cancel" type="button">취소</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 우측 고정 토글 -->
+  <div class="floating-toggle" id="floatingToggle">
+    <div class="scissors-box">
+      <img src="/images/scissors.png" alt="toggle" />
+    </div>
+    <button class="drop-down-btn" onclick="openDropdown()">
+      <img src="/images/down.png" />
+    </button>
+
+    <div class="toggle-dropdown" id="toggleDropdown">
+      <div class="toggle-option">1</div>
+      <div class="toggle-option">2</div>
+      <div class="toggle-option">3</div>
+    </div>
+  </div>
+
+  <div class="shop-list-toggle" id="shopListToggle" style="display: none;">
+    <div class="scissors-box">
+      <img src="/images/scissors.png" alt="toggle" />
+    </div>
+    <button class="left-open-btn" onclick="closeShopListToggle()">
+      <img src="/images/down.png" />
+    </button>
+    <div class="shop-list-box">
+      <div class="name-box selected-shop-one toggle-panel">
+        <span class="selected-shop-name"></span>
+        <span class="remove-btn">X</span>
+      </div>
+      <div class="name-box selected-shop-two toggle-panel">
+        <span class="selected-shop-name"></span>
+        <span class="remove-btn">X</span>
+      </div>
+      <div class="name-box selected-shop-three toggle-panel">
+        <span class="selected-shop-name"></span>
+        <span class="remove-btn">X</span>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+<!-- fragment end -->
+</div>
+
+<th:block layout:fragment="script">
+
+
+  <script>
+
+    window.currentUserId = [[${#authorization.expression('isAuthenticated()') ? #authentication.principal.id : 'null'}]];
+    if (window.currentUserId === 'null') window.currentUserId = null;
+    window.userAgreeLocation = [[${userAgreeLocation}]];
+
+ const wrapper = document.querySelector(".profile-icons-wrapper");
+
+ if (wrapper) {
+ let isDown = false;
+ let startX;
+ let scrollLeft;
+
+ wrapper.addEventListener("mousedown", (e) => {
+   isDown = true;
+   wrapper.classList.add("dragging");
+   startX = e.pageX - wrapper.offsetLeft;
+   scrollLeft = wrapper.scrollLeft;
+ });
+
+ wrapper.addEventListener("mouseleave", () => {
+   isDown = false;
+   wrapper.classList.remove("dragging");
+ });
+
+ wrapper.addEventListener("mouseup", () => {
+   isDown = false;
+   wrapper.classList.remove("dragging");
+ });
+
+ wrapper.addEventListener("mousemove", (e) => {
+   if (!isDown) return;
+   e.preventDefault();
+   const x = e.pageX - wrapper.offsetLeft;
+   const walk = (x - startX) * 1.5;
+   wrapper.scrollLeft = scrollLeft - walk;
+ });
+}
+
+
+    // 토글 js
+
+
+  </script>
+  <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+  <script type="module" th:src="@{/javascript/user/shopList.js}"></script>
+</th:block>
+</body>
+</html>

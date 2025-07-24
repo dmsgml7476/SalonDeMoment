@@ -1,0 +1,138 @@
+/* designer-main.css */
+
+#designer-main {
+  padding: 20px;
+  font-family: var(--font-noto-snas);
+}
+
+#designer-main h2 {
+  font-size: 28px;
+  font-weight: bold;
+  color: var(--main-color);
+}
+
+.designer-container {
+  max-width: 1280px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgb(0 0 0 / 0.1);
+  font-family: var(--font-noto-snas);
+}
+
+.dashboard-summary {
+  display: flex;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.dashboard-summary .card {
+  flex: 1;
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #fff;
+}
+
+.dashboard-summary .card h3 {
+  margin-bottom: 10px;
+  font-size: 18px;
+  color: var(--point-color);
+}
+
+.dashboard-summary .card p {
+  font-size: 2rem;
+  color: var(--main-color);
+  margin: 0;
+}
+
+.schedule {
+  margin-top: 40px;
+}
+
+.schedule h3 {
+  font-size: 22px;
+  font-weight: bold;
+  color: var(--main-color);
+  margin-bottom: 10px;
+}
+
+.schedule table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.schedule th,
+.schedule td {
+  padding: 8px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.schedule thead tr {
+  background-color: var(--main-color);
+  color: white;
+}
+
+.status-complete {
+  color: green;
+}
+
+.status-reserved {
+  color: orange;
+}
+
+.status-canceled {
+  color: var(--red-msg);
+}
+
+.status-noshow {
+  color: #666666;
+}
+
+.schedule table td.table-empty {
+  text-align: center;
+  color: #888;
+  padding: 20px;
+}
+
+.quick-actions {
+  margin-top: 40px;
+  display: flex;
+  gap: 20px;
+}
+
+.quick-actions {
+  margin-top: 40px;
+  display: flex;
+  gap: 20px;
+}
+
+.quick-actions a {
+  flex: 1;
+  padding: 15px;
+  text-align: center;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  color: white;
+  font-family: var(--font-pretendard);
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+  display: inline-block;
+}
+
+.quick-actions a:nth-child(1),
+.quick-actions a:nth-child(3) {
+  background-color: var(--main-color);
+}
+
+.quick-actions a:nth-child(2) {
+  background-color: var(--point-color);
+}
+
+.quick-actions a:hover {
+  opacity: 0.85;
+}
+

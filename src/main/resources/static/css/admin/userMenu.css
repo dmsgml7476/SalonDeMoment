@@ -1,0 +1,67 @@
+:root {
+  --main-color: #8c9ed9;
+  --font-white: #e2e7e4;
+  --point-color: #566a8e;
+  --red-msg: rgb(247, 50, 50);
+  --pink-backgroud: rgb(252, 222, 227);
+  --font-pretendard: "Pretendard", sans-serif;
+  --font-noto-sans: "Noto Sans KR", sans-serif;
+}
+
+.user-footer {
+  font-family: var(--font-pretendard);
+  font-size: 14px;
+  color: #666;
+  padding: 20px;
+  border-top: 1px solid #ccc;
+  background-color: #fff;
+  text-align: center;
+  line-height: 1.6;
+}
+
+.user-footer ul {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 0;
+  margin: 10px 0;
+  list-style: none;
+}
+
+.user-footer ul:first-of-type {
+  border: 1px solid var(--main-color);
+  border-left: none;
+  border-right: none;
+  background-color: #f9f9f9;
+}
+
+.user-footer ul:first-of-type li {
+  padding: 10px 20px;
+  border-left: 1px solid #ddd;
+}
+
+.user-footer ul:first-of-type li:first-child {
+  border-left: none;
+}
+
+.user-footer ul li a {
+  text-decoration: none;
+  color: black;
+  font-weight: 500;
+}
+
+.user-footer ul li a:hover {
+  color: var(--main-color);
+}
+
+.user-footer br {
+  display: block;
+  margin-top: 5px;
+}
+
+.user-footer .copyright {
+  color: #bbb;
+  margin-top: 10px;
+  font-size: 13px;
+}

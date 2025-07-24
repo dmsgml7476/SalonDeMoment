@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragment/default}">
+<head>
+    <th:block layout:fragment="css">
+        <link rel="stylesheet" href="/css/admin/bannerDetail.css">
+    </th:block>
+</head>
+<body>
+<div layout:fragment="main" id="main">
+    <h1>쿠폰 배너 상세 정보</h1>
+    <div th:if="${couponBannerDetailDto.adminName != null}" class="info">
+        <label>등록 관리자:</label>
+        <span th:text="${couponBannerDetailDto.adminName}"></span>
+    </div>
+    <div class="info">
+        <label>등록일:</label>
+        <span th:text="${#temporals.format(couponBannerDetailDto.registerDate, 'yyyy-MM-dd')}"></span>
+    </div>
+    <div class="info">
+        <label>배너 이미지:</label>
+        <img class="banner" th:src="${couponBannerDetailDto.imgUrl}" alt="배너 이미지">
+    </div>
+    <hr style="margin: 30px 0;">
+    <div class="info">
+        <label>샵 이름:</label>
+        <span th:text="${couponBannerDetailDto.shopName}"></span>
+    </div>
+    <div class="info">
+        <label>이벤트 기간:</label>
+        <span th:text="${couponBannerDetailDto.startDate}"></span>
+        ~
+        <span th:text="${couponBannerDetailDto.endDate}"></span>
+    </div>
+    <div class="info">
+        <label>지역:</label>
+        <span th:text="${couponBannerDetailDto.region}"></span>
+    </div>
+    <div class="button-group" th:if="${isAdmin}">
+        <form th:action="@{/admin/cs/couponBanner/approve}" method="post" style="display:inline;">
+            <input type="hidden" name="id" th:value="${couponBannerDetailDto.id}">
+            <button type="submit">승인</button>
+        </form>
+        <form th:action="@{/admin/cs/couponBanner/reject}" method="post" style="display:inline; margin-left:5px;">
+            <input type="hidden" name="id" th:value="${couponBannerDetailDto.id}">
+            <button type="submit">거절</button>
+        </form>
+    </div>
+    <div class="back-link-wrapper">
+        <a class="back-link" href="/admin/cs/bannerList">목록으로 돌아가기</a>
+    </div>
+</div>
+<th:block layout:fragment="script"></th:block>
+</body>
+</html>

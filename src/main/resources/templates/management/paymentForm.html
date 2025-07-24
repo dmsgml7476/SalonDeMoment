@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragment/default}">
+<head>
+  <th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/management/paymentForm.css}">
+  </th:block>
+</head>
+<body>
+<div layout:fragment="main">
+  <div id="payment-page">
+    <h2>💳 매출 등록</h2>
+    <form id="payment-form" th:action="@{/manage/sales/new}" th:object="${newPay}" method="post">
+      <input type="hidden" th:field="*{reservationId}">
+
+      <div class="form-row">
+        <label for="customerName">고객 이름</label>
+        <input type="text" id="customerName" th:field="*{customerName}" required
+               th:attr="readonly=${newPay.reservationId != null ? 'readonly' : null}">
+      </div>
+      <div class="form-row">
+        <label for="customerTel">고객 연락처</label>
+        <input type="text" id="customerTel" th:field="*{customerTel}" required>
+      </div>
+      <div class="form-row">
+        <label for="serviceName">시술명</label>
+        <input type="text" id="serviceName" th:field="*{serviceName}" required>
+      </div>
+      <div class="form-row">
+        <label for="payDate">결제일</label>
+        <input type="datetime-local" id="payDate" name="payDate"
+               th:value="${newPay.payDate != null ? #temporals.format(newPay.payDate, 'yyyy-MM-dd''T''HH:mm') : ''}">
+      </div>
+      <div class="form-row">
+        <label for="totalPrice">총 금액</label>
+        <input type="number" id="totalPrice" th:field="*{totalPrice}" required>
+      </div>
+      <div class="form-row">
+        <label for="couponDiscountPrice">쿠폰 할인</label>
+        <input type="number" id="couponDiscountPrice" th:field="*{couponDiscountPrice}" value="0">
+      </div>
+      <div class="form-row">
+        <label for="ticketUsedPrice">정액권 사용</label>
+        <input type="number" id="ticketUsedPrice" th:field="*{ticketUsedPrice}" value="0">
+      </div>
+      <div class="form-row">
+        <label for="finalPrice">최종 결제 금액</label>
+        <input type="number" id="finalPrice" th:field="*{finalPrice}" required>
+      </div>
+      <div class="form-row">
+        <label for="paymentType">결제 수단</label>
+        <select id="paymentType" th:field="*{paymentType}" required>
+          <option value="">선택</option>
+          <option value="CASH">현금</option>
+          <option value="CARD">카드</option>
+          <option value="TICKET">정액권</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label for="serviceCategory">시술 카테고리</label>
+        <select id="serviceCategory" th:field="*{serviceCategory}" required>
+          <option value="">선택</option>
+          <option th:each="category : ${T(com.salon.constant.ServiceCategory).values()}"
+                  th:value="${category}" th:text="${category.label}">
+          </option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label for="memo">메모</label>
+        <textarea id="memo" th:field="*{memo}" rows="3" placeholder="시술 후기 또는 특이사항 입력"></textarea>
+      </div>
+      <button type="submit" class="btn-submit">등록</button>
+    </form>
+  </div>
+</div>
+</body>
+</html>

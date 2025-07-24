@@ -1,0 +1,101 @@
+@import url('https://cdn.jsdelivr.net/npm/pretendard@1.3.8/dist/web/static/pretendard.css');
+
+body {
+  font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
+  background-color: #f5f7fa;
+  color: #000;
+  margin: 0 auto;
+  padding: 40px 20px;
+  max-width: 1280px;
+}
+
+h1 {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 24px;
+  color: #566A8E;
+  text-align: center;
+  margin-top: 24px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+}
+
+thead{
+    background-color: #8C9ED9;
+    color: white;
+}
+
+th, td {
+  padding: 14px 16px;
+  text-align: center;
+  border-bottom: 1px solid #e2e7e4;
+  font-size: 15px;
+}
+tbody tr:hover {
+  background-color: #f2f5ff;
+}
+
+a {
+  color: #566A8E;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* ✅ 버튼 정렬 컨테이너 */
+td > form {
+  display: inline-block;
+  margin: 0 4px;
+}
+
+/* ✅ 버튼 공통 스타일 */
+button {
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+}
+
+/* ✅ 승인 버튼 (Primary) */
+form[action*="approve"] button {
+  background-color: #D63384;
+  color: #fff;
+  border: 1px solid #fff;
+}
+
+/* ✅ 거절 버튼 (Secondary) */
+form[action*="reject"] button {
+  background-color: transparent;
+  color: #444;
+  border: 1px solid #bbb;
+}
+
+/* ✅ 반응형 정렬 대응 */
+@media screen and (max-width: 768px) {
+  td {
+    font-size: 13px;
+    padding: 10px 8px;
+  }
+
+  form {
+    display: block;
+    margin: 6px auto;
+  }
+
+  button {
+    width: 100%;
+  }
+}

@@ -1,0 +1,271 @@
+/* ===== 기본 초기화 ===== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Pretendard", sans-serif;
+}
+
+
+:root {
+  /* 벽자색 */
+  --main-color: #8c9ed9;
+  /* 설백색 */
+  --font-white: #e2e7e4;
+  /* 청현색 */
+  --point-color: #566a8e;
+
+  /* 경고의 빨간색 */
+  --red-msg: rgb(247, 50, 50);
+
+  /* 버튼 */
+  --pink-backgroud: rgb(252, 222, 227);
+
+  /* 폰트 */
+  --font-pretendard: "pretendard", sans-serif;
+  --font-noto-snas: "Noto Sans KR", sans-serif;
+}
+
+.signUp-wrap {
+  background-color: #f8f9fa;
+  padding: 40px 20px;
+}
+
+
+.signUp-container {
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 40px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.signUp-container h2 {
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 30px;
+}
+
+/* ===== 폼 ===== */
+.signUp-form {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.form-group {
+  margin-bottom: 24px;
+}
+
+/* ===== 제목과 에러메시지 함께 정렬 ===== */
+.login-id-title,
+.pw-title,
+.pw-check-title,
+.email-title,
+.email-chk-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+/* ===== 인풋 ===== */
+input[type="text"],
+input[type="password"],
+input[type="email"] {
+  width: 100%;
+  padding: 10px 14px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+/* ===== 인풋 + 버튼 조합 ===== */
+.input-with-button {
+  display: flex;
+  gap: 10px;
+}
+
+.input-with-button input {
+  flex: 1;
+}
+
+.input-with-button button {
+  padding: 10px 14px;
+  font-size: 14px;
+  background-color: #8c9ed9;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.input-with-button button:hover {
+  background-color: #6d81c2;
+}
+
+/* ===== 에러 메시지 ===== */
+.error-msg {
+  font-size: 13px;
+  color: var(--red-msg);
+  display: none;
+}
+
+/* ===== 개인 정보 ===== */
+.personal-info p {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 15px;
+}
+
+
+
+.name-title-box {
+    display: flex;
+}
+
+.birthdate-gender {
+    display: flex;
+    justify-content: space-between;
+}
+
+.birthdate-gender > div > label {
+    margin-right: 10px;
+}
+
+.birth-date-box {
+    display: flex;
+    align-items: center;
+}
+
+.gender-box {
+    display: flex;
+    align-items: center;
+}
+
+
+/* ===== 성별 라디오 정렬 ===== */
+.gender-options {
+  display: flex;
+  position: relative;
+}
+
+.gender-options input[type="radio"] {
+  display: none;
+}
+
+.gender-options label {
+  padding: 10px 20px;
+  border: 2px solid #ccc;
+  background-color: #fff;
+  color: #333;
+  font-weight: 500;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.2s;
+  margin-right: -1px;
+  position: relative;
+  z-index: 0;
+}
+
+/* 마지막 버튼은 margin-right 제거 */
+.gender-options label:last-child {
+  margin-right: 0;
+}
+
+/* 선택된 라벨은 위로 올라오면서 선을 덮음 */
+.gender-options input[type="radio"]:checked + label {
+  background-color: var(--main-color);
+  border-color: var(--main-color);
+  color: white;
+  z-index: 1; /* ★ 선택된 게 위에 오도록 */
+}
+
+/* ===== 약관 동의 ===== */
+.terms-box {
+  border-top: 1px solid #ddd;
+  margin-top: 30px;
+  padding-top: 20px;
+}
+
+.term-item {
+  margin-bottom: 20px;
+}
+
+.term-item p {
+  font-weight: bold;
+  font-size: 15px;
+  margin-bottom: 6px;
+}
+
+.term-item label {
+  margin-right: 16px;
+  font-size: 14px;
+}
+
+.tag {
+  color: #dc3545;
+  font-size: 13px;
+  font-weight: normal;
+}
+
+/* ===== 버튼 박스 ===== */
+.btn-box {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 40px;
+}
+
+.btn-box button {
+  flex: 1;
+  padding: 12px;
+  font-size: 15px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  background-color: #8c9ed9;
+  color: #fff;
+}
+
+.btn-box button:first-child {
+  background-color: #6c757d;
+}
+
+.btn-box button:hover {
+  opacity: 0.9;
+}
+
+/* ===== 반응형 대응 ===== */
+@media screen and (max-width: 768px) {
+  .signUp-container {
+    padding: 20px;
+  }
+
+  .signUp-form {
+    width: 100%;
+  }
+
+  .input-with-button {
+    flex-direction: column;
+  }
+
+  .input-with-button button {
+    width: 100%;
+  }
+
+  .btn-box {
+    flex-direction: column;
+  }
+
+  .btn-box button {
+    width: 100%;
+  }
+
+  .gender-options {
+    flex-direction: column;
+    gap: 10px;
+  }
+}

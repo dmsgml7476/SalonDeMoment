@@ -1,0 +1,43 @@
+/* 대표 디자이너 메뉴바 */
+.owner-menu-bar {
+  transform: translateX(25%);
+  max-width: 1280px;
+  background-color: var(--main-color);
+  padding: 12px 0;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.owner-menu-bar ul {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.owner-menu-bar li a {
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+  text-decoration: none;
+  padding: 6px 12px;
+  position: relative;
+  font-family: var(--font-noto-sans);
+}
+
+.owner-menu-bar li a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 0;
+  height: 2px;
+  background-color: var(--font-white);
+  transition: width 0.3s ease;
+}
+
+.owner-menu-bar li a:hover::after,
+.owner-menu-bar li a.active::after {
+  width: 100%;
+}

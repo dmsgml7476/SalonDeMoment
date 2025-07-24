@@ -1,0 +1,300 @@
+* {
+  box-sizing: border-box;
+  overflow-x: auto;
+  -ms-overflow-style: none; /* IE, Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.scroll-hidden::-webkit-scrollbar {
+  display: none;
+}
+
+/* 전체적인 페이지 컨테이너 및 래퍼 */
+.my-page {
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+.my-page-container {
+  display: flex;
+  width: 1280px;
+  height: 850px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+/* --- 마이페이지 메뉴 영역 --- */
+.my-page-wrap {
+  width: 250px;
+  background-color: #f8f8f8;
+  border-right: 1px solid #eee;
+  padding: 20px 0;
+  flex-shrink: 0;
+}
+
+.my-page-menus-area {
+  padding: 0 20px;
+}
+
+.my-page-menus {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.my-page-menu {
+  margin-bottom: 5px; /* 메뉴 항목 간 간격 */
+}
+
+.my-page-menu a {
+  display: block;
+  padding: 12px 15px;
+  color: #333;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 600; /* 조금 더 두껍게 */
+  border-radius: 5px;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+.my-page-menu a:hover {
+  background-color: #e9ecef; /* 호버 시 연한 회색 배경 */
+  color: #007bff; /* 호버 시 파란색 텍스트 */
+}
+
+/* '내 예약 내역' 메뉴의 활성 상태 */
+.my-page-menu .my-like-page {
+  background-color: var(--main-color);
+  color: #fff;
+  pointer-events: none;
+}
+
+.my-page-menu .my-like-page {
+  background-color: var(--main-color);
+  color: #fff;
+}
+
+/* --- 마이페이지 컨텐츠 영역 --- */
+.my-page-content-area {
+  flex-grow: 1; /* 남은 공간 모두 차지 */
+  padding: 30px;
+  width: 100%;
+  max-width: 100%;
+}
+
+.my-page-content-box {
+  background-color: #fff;
+  padding: 20px;
+  height: 800px;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  border-radius: 8px;
+  border: 1px solid #eee;
+}
+
+.my-page-title {
+  font-size: 26px; /* 타이틀 크기 증가 */
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 30px;
+  padding-bottom: 15px; /* 밑줄과의 간격 */
+  border-bottom: 3px solid var(--main-color);
+}
+
+/* --- 변경되는 부분 --- */
+
+.my-DSESHOP-area {
+  width: 100%;
+  height: 88%;
+  display: grid;
+  gap: 20px;
+  grid-template-rows: 1fr 1fr;
+}
+
+.like-desginer-area,
+.like-shop-area {
+  width: 100%;
+  overflow: hidden;
+  border: 1px dashed #ced4da;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.content-area-header {
+  display: flex;
+  font-size: 30px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.scroll-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.designer-list {
+  width: 100%;
+  display: flex;
+  overflow-x: scroll;
+  gap: 16px;
+  width: max-content;
+}
+
+.designer-box {
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.designer-img {
+  border: 1px solid;
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+}
+
+.designer-name {
+  font-size: 20px;
+  font-weight: bolder;
+  margin: 10px;
+}
+
+.scroll-wrapper::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
+}
+
+.scroll-wrapper.dragging {
+  cursor: grabbing;
+  user-select: none;
+}
+
+/* 샵 */
+
+.shop-list {
+  display: flex;
+  overflow-x: scroll;
+  gap: 16px;
+  width: max-content;
+}
+
+.shop-box {
+  background-color: #f0f1f5;
+  height: 100%;
+  width: 500px;
+  display: flex;
+  padding: 20px;
+}
+
+.shop-img {
+  border: 1px solid;
+  width: 260px;
+  height: 180px;
+  margin-right: 10px;
+}
+
+.shop-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.shop-dayoff.closed     { color:#e74c3c; }
+.shop-dayoff.no-dayoff  { color:#2ecc71; }
+
+.coupon > img {
+    width: 20px;
+}
+
+/* 이미지 drag 끄기 */
+
+img {
+  -webkit-user-drag: none;
+  user-drag: none;
+}
+
+/* 변경 끝 */
+
+@media (max-width: 992px) {
+  .my-page-container {
+    width: 100%;
+    margin: 10px;
+    flex-direction: column;
+  }
+
+  .my-page-wrap {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #eee;
+    padding: 15px 0;
+  }
+
+  .my-page-menus-area {
+    padding: 0 15px;
+  }
+
+  .my-page-menus {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 5px;
+  }
+
+  .my-page-menu {
+    margin-bottom: 0;
+    flex-basis: auto;
+  }
+
+  .my-page-menu a {
+    padding: 10px 12px;
+    font-size: 14px;
+  }
+
+  .my-page-content-area {
+    padding: 20px;
+    height: 75%;
+  }
+
+  .my-page-content-box {
+    height: 700px;
+  }
+
+  .my-page-title {
+    font-size: 22px; /* 타이틀 크기 줄임 */
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+  }
+}
+
+/* 아주 작은 화면 (모바일, 화면 너비 576px 이하) */
+@media (max-width: 576px) {
+  .my-page-wrap {
+    padding: 10px 0; /* 더 작은 패딩 */
+  }
+
+  .my-page-menus {
+    justify-content: space-around; /* 메뉴 항목들 균등 분배 */
+  }
+
+  .my-page-menu a {
+    padding: 8px 10px; /* 더 작은 패딩 */
+    font-size: 13px; /* 더 작은 글씨 크기 */
+  }
+
+  .my-page-content-area {
+    padding: 15px; /* 더 작은 패딩 */
+  }
+
+  .my-page-title {
+    font-size: 20px; /* 더 작은 타이틀 */
+    margin-bottom: 15px;
+  }
+}

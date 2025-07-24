@@ -1,0 +1,770 @@
+/* 기본 세팅 */
+body {
+  font-family: "Pretendard", "Noto Sans KR", sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 24px;
+  box-sizing: border-box;
+}
+
+/* 디자이너 프로필 섹션 */
+.designer-profile-top {
+  padding: 40px 0;
+  background-color: #ffffff;
+  font-family: "Pretendard", "Noto Sans KR", sans-serif;
+}
+
+.designer-profile-box {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 24px;
+  box-sizing: border-box;
+}
+/* 프로필 이미지 감싸는 박스 */
+.designer-photo-wrapper {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid #ddd; /* 선택사항: 테두리 */
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1); /* 선택사항: 그림자 */
+  margin-right: 24px;
+}
+
+/* 실제 이미지 */
+.designer-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%; /* 이 부분이 원형 핵심 */
+}
+/* 오른쪽 전체 컨텐츠 */
+.designer-content-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.designer-info {
+  flex: 1;
+}
+.designer-name {
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0;
+  color: #000000;
+}
+
+.designer-subinfo {
+  font-size: 14px;
+  color: #888;
+  margin: 6px 0 12px;
+}
+
+/* 소속 미용실 테그 */
+.designer-salon {
+  font-size: 16px;
+  color: #8c9ed9;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.off-day {
+  font-size: 14px;
+  color: #566a8e;
+  margin-top: 6px;
+}
+
+.working-hours {
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 4px;
+}
+
+.more-button-wrapper {
+  margin-top: 4px;
+
+}
+
+.toggle-description {
+  background: none;
+  border: none;
+  font-size: 16px;
+  color: #8c9ed9;
+  margin-top: 8px;
+  cursor: pointer;
+}
+
+
+/* 상세 설명 */
+.designer-description {
+  display: none;
+  margin-top: 16px;
+  font-size: 17px;
+  line-height: 1.7;
+  color: #333;
+  white-space: pre-line;
+}
+
+.designer-description-wrap {
+  margin-top: 12px;
+}
+
+.designer-description p {
+  line-height: 1;
+  margin: 0;
+  color: #333;
+  font-size: 14px;
+  white-space: pre-line;
+}
+
+/* 버튼 스타일 */
+.profile-actions {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  line-height: normal;
+  overflow: visible !important;
+}
+
+/* 아이콘 + 텍스트 버튼 */
+.icon-text-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  color: #8c9ed9;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.2s;
+  line-height: 1;
+  vertical-align: middle;
+}
+.icon-text-btn:hover {
+  background: none;
+  color: #566a8e;
+}
+/* SVG 아이콘 크기 */
+.icon-text-btn svg {
+  width: 18px;
+  height: 18px;
+  display: inline-block;
+  margin-top: 1px;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+/* 공유하기 모달창 */
+#share-modal {
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Pretendard", "Noto Sans KR", sans-serif;
+}
+#share-modal .modal-content {
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 24px 28px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+}
+#share-modal .modal-content p {
+  font-size: 16px;
+  margin-bottom: 16px;
+  font-weight: 500;
+  color: #333;
+}
+#share-modal .modal-content input[type="text"] {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  margin-bottom: 16px;
+  background-color: #f9f9f9;
+  color: #333;
+}
+#share-modal .modal-content button {
+  background-color: #8c9ed9;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  font-size: 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: bachground-color 0.2s ease;
+}
+#share-modal .modal-content button:hover {
+  background-color: #566a8e;
+}
+
+/* 찜하기 버튼 하트 svg 색상 변화 */
+.lucide-heart.active {
+  stroke: #e74c3e;
+}
+
+/* 메뉴바 */
+.designer-tabs {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 14px 0;
+  box-sizing: border-box;
+  position: sticky;
+  top: 0;
+  background-color: #fff;
+  z-index: 1000;
+  border-top: 1px solid #ddd;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+  padding: 14px 0;
+}
+.designer-tabs-menu .tab-item.active {
+  position: relative;
+}
+.designer-tabs-menu .tab-item.active::after {
+  height: 4px;
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  border-color: #566a8e;
+  z-index: 100;
+}
+
+.designer-tabs-menu ul {
+  display: flex;
+  justify-content: space-around;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 15px;
+  font-weight: 500;
+  border-bottom: 1px solid #ddd;
+}
+
+/* 메뉴 (시술 목록 카테고리 바) */
+.category-tabs-wrapper {
+  margin-top: -1px;
+  position: sticky;
+  top: 56px;
+  z-index: 1001;
+  background-color: #ffffff;
+  padding: 6px 0;
+  border-bottom: 1px solid #ccc;
+}
+.category-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+}
+/* 메뉴바 컨텐츠 */
+
+/* 홈(home) */
+.tab-content {
+  display: none;
+  margin-top: 24px;
+}
+
+.tab-item {
+  position: relative;
+  padding: 12px;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  color: #333;
+  line-height: 1.5;
+  vertical-align: middle;
+}
+
+.tab-item.active::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: 100%;
+  height: 3px;
+  background-color: #566a8e;
+}
+
+.tab-content .container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 24px;
+  box-sizing: border-box;
+}
+
+/* 시술 리스트 전체 */
+.service-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 0;
+  list-style: none;
+  margin-top: 20px;
+}
+
+/* 시술 하나를 감싸는 박스 */
+.service-list li {
+  display: flex;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  background-color: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  overflow: hidden;
+  transition: box-shadow 0.3s ease;
+}
+
+.service-list li:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* 좌측 이미지 영역 */
+.service-img {
+  flex: 0 0 200px;
+  background-color: #f9f9f9;
+}
+
+.service-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* 우측 정보 영역 */
+.service-info {
+  flex: 1;
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* 시술명 */
+.service-name {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+/* 가격 정보 */
+.service-price {
+  margin-bottom: 10px;
+}
+
+.service-price .original {
+  font-size: 16px;
+  color: #333;
+  text-decoration: none;
+}
+
+.service-extra {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.4;
+}
+
+
+/* 리뷰 섹션 */
+.designer-review-section {
+  max-width: 1280px;
+  margin: 0 auto;
+  font-family: "Pretendard", "Noto Sans KR", sans-serif;
+  margin-top: 24px;
+  padding-top: 24px;
+}
+.review-container {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 16px;
+  box-sizing: border-box;
+  display: block;
+}
+
+.review-title {
+  margin-top: -30px;
+  margin-bottom: 16px;
+  padding: 0 16px;
+  max-width: 800px;
+  font-size: 20px;
+  font-weight: 600;
+  text-align: left;
+  color: #000000;
+}
+
+/* 리뷰미리보기 썸네일  */
+.review-thumbnails {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1mm;
+  margin: 24px auto;
+  max-width: 640px;
+}
+.thumbnail {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1/1;
+  overflow: hidden;
+  border-radius: 6px;
+}
+.thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(0.85);
+  transform-origin: center;
+}
+.thumbnail.last::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+.thumbnail.last .plus {
+  position: absolute;
+  color: white;
+  font-size: 24px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* 리뷰 리스트 */
+.review-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.review-item {
+  border-top: 1px solid #ccc;
+  padding: 20px 0;
+}
+.review-header {
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  font-size: 16px;
+  gap: 4px;
+}
+.review-header strong {
+  font-weight: 600;
+}
+.review-header .chevron {
+  margin-left: 6px;
+  color: #566a8e;
+}
+.review-rating {
+  font-size: 15px;
+  font-weight: 500;
+  color: #8c9ed9;
+  margin-top: 6px;
+}
+.review-content {
+  margin-top: 12px;
+}
+.review-content p {
+  margin: 0;
+  line-height: 1.5;
+  color: #333;
+}
+.review-meta {
+  font-size: 13px;
+  color: #888;
+  margin-top: 6px;
+}
+
+/* 리뷰 더보기 버튼 */
+.review-more {
+  display: flex;
+  justify-content: center;
+  margin: 24px 0;
+}
+.reviewmore-btn {
+  color: #8c9ed9;
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+  transition: color 0.2s, text-decoration 0.2s;
+}
+.reviewmore-btn:hover {
+  background: none;
+  color: #566a8e;
+}
+
+/* 시술 메뉴 (menu)*/
+
+/* 카테고리 버튼 (활성화 시) */
+.category-section + .category-section {
+  border-top: 1px solid #8c9ed9;
+  padding-top: 32px;
+  margin-top: 32px;
+}
+
+.category-btn {
+  font-family: "Pretendard", "Noto Sans KR", sans-serif;
+  background-color: #fff;
+  color: #333;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 16px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 500;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+}
+.category-btn:hover {
+  background-color: #e2e7f3;
+}
+
+.category-btn.active,
+.category-btn.highlight {
+  background-color: #8c9ed9;
+  color: #fff;
+  font-weight: bold;
+  border: 1px solid #566a8e;
+}
+
+.service-item.no-image {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 16px;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  background-color: #f9f9f9;
+}
+
+
+/* 리뷰 섹션 */
+.r-toolbar {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.r-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.r-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
+  margin-top: 30px;
+}
+.r-sort {
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  background-color: #fff;
+}
+
+/* 카테고리 탭  */
+.r-tabs-wrapper {
+  position: sticky;
+  top: 56px;
+  z-index: 1000;
+  background-color: #fff;
+  border-bottom: 1px solid #ddd;
+  padding: 8px 0;
+}
+.r-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+.r-tab {
+  margin-top: -10px;
+  margin-bottom: -8px;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: 500;
+  background-color: #fff;
+  border-radius: 999px;
+  color: #333;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.r-tab:hover {
+  background-color: #8c9ed9;
+  color: #fff;
+}
+.r-tab.active {
+  background-color: #8c9ed9;
+  color: #fff;
+  border-color: #566a8e;
+  font-weight: 600;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+}
+
+/* 리뷰 썸네일 */
+.r-thumbnails {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+  margin-bottom: 20px;
+}
+.r-thumb {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1/1;
+  overflow: hidden;
+  border-radius: 6px;
+}
+.r-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.r-thumb.last::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+.r-plus {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+  z-index: 1;
+}
+
+/* 리뷰 작성버튼  */
+.r-photo-btn-wrap {
+  text-align: right;
+  margin-bottom: 24px;
+}
+.r-photo-btn {
+  background-color: #8c9ed9;
+  color: white;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+}
+.r-photo-btn:hover {
+  background-color: #566a8e;
+}
+
+/* 리뷰 리스트 */
+.r-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.r-item {
+  border-top: 1px solid #ccc;
+  padding: 20px 0;
+}
+.r-item-header {
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  font-size: 16px;
+  gap: 4px;
+}
+.r-rating {
+  margin-top: 6px;
+  font-size: 14px;
+  color: #8c9ed9;
+}
+.r-content {
+  margin-top: 12px;
+}
+.r-content p {
+  margin: 0;
+  line-height: 1.5;
+  color: #333;
+}
+.r-meta {
+  font-size: 13px;
+  color: #888;
+  margin-top: 6px;
+}
+
+/* 더보기 버튼 */
+.r-more {
+  text-align: center;
+  margin: 32px 0;
+}
+.r-toggle-btn {
+  background: none;
+  border: none;
+  color: #566a8e;
+  font-size: 14px;
+  cursor: pointer;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.r-toggle-btn .arrow {
+  font-size: 12px;
+}
+
+.profileUpdate {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+}
+
+.profileUpdate-btn {
+  background-color: #8C9ED9;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.profileUpdate-btn:hover {
+  background-color: #566A8E;
+}

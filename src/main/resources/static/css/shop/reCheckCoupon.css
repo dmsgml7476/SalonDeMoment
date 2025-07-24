@@ -1,0 +1,264 @@
+
+/* 예약 확인 섹션 */
+.info-box {
+  margin: 60px 0;
+  background-color: #f1f1f1;
+  border-radius: 12px;
+  border: 1px solid #ccc;
+  padding: 24px;
+  border-radius: 8px;
+  text-align: left;
+  position: relative;
+}
+.info-box p {
+  font-size: 16px;
+  margin: 3px 0;
+}
+.info-box strong {
+  font-size: 14px;
+  color: #000000;
+}
+.info-box a {
+  margin-top: 16px;
+  background: none;
+  border: none;
+  color: #566a8e;
+  font-size: 16px;
+  cursor: pointer;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+.info-box a:hover {
+  background: none;
+  border: none;
+  color: #42516d;
+}
+
+/* 고객 요청사항 섹션 */
+.comment-textarea {
+  width: 100%;
+  padding: 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  resize: vertical;
+}
+.comment-form {
+  justify-content: space-between;
+}
+
+.submit-comment-btn {
+  margin-top: 10px;
+  padding: 10px 16px;
+  background: none;
+  color: #566a8e;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* 쿠폰 선택 섹션 */
+.couponSelect {
+  max-width: 1280px;
+  margin: 40px auto;
+  font-family: "Pretendard", "Noto Sans KR", sans-serif;
+}
+
+.couponSelect h2 {
+  font-size: 22px;
+  margin-bottom: 4px;
+}
+.filter-options {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  margin-bottom: 8px;
+}
+.filter-options button {
+  background: none;
+  border: none;
+  font-size: 16px;
+  color: #566a8e;
+  cursor: pointer;
+  padding: 4px 6px;
+}
+.couponSelect p {
+  font-size: 14px;
+  margin-bottom: 10px;
+  color: #555;
+}
+.coupon-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-self: flex-start;
+  align-items: center;
+  gap: 16px;
+}
+.coupon-item {
+  margin: 0 auto;
+  width: 300px;
+  max-width: 500px;
+  background-color: #f0f1f5;
+  border-radius: 10px;
+  padding: 12px 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  min-height: 180px;
+  position: relative;
+}
+.coupon-left {
+  width: calc(100% - 70px);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.coupon-amount {
+  font-size: 18px;
+  font-weight: bold;
+  color: #000;
+}
+.coupon-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #000;
+}
+.coupon-desc,
+.coupon-min,
+.coupon-exp {
+  font-size: 13px;
+  color: #555;
+}
+.coupon-item button {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  background: none;
+  border: none;
+  color: #566a8e;
+  font-size: 16px;
+  cursor: pointer;
+}
+.coupon-item button:hover {
+  background: none;
+  border: none;
+  color: #42516d;
+}
+#applied-discount {
+  font-size: 18px;
+  color: #000;
+  margin-top: 12px;
+}
+
+/* 정액권 선택 섹션 */
+.ticketselect {
+  max-width: 1280px;
+  margin: 40px auto;
+  font-family: "Pretendard", "Noto Sans KR", sans-serif;
+}
+.ticketselect h2 {
+  font-size: 22px;
+  margin-bottom: 8px;
+}
+.ticket-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: flex-start;
+}
+.ticket-item {
+  width: 300px;
+  padding: 16px 12px;
+  border-radius: 10px;
+  background-color: #f0f1f5;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 140px;
+}
+.ticket-left {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.ticket-amount {
+  font-size: 18px;
+  font-weight: bold;
+  color: #000;
+}
+.ticket-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+}
+.ticket-item button {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  background: none;
+  border: none;
+  font-size: 16px;
+  color: #566a8e;
+  cursor: pointer;
+  padding: 0;
+}
+.ticket-item button:hover {
+  background: none;
+  border: none;
+  color: #42516d;
+}
+
+.finalreserve {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #fff;
+  border-top: 1px solid #ddd;
+  padding: 12px 20px;
+  display: flex;
+  justify-content: center;
+  z-index: 1000;
+  box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.06);
+}
+
+.finalreserve .reserve-content {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  max-width: 500px;
+  width: 100%;
+  justify-content: space-between;
+}
+.finalreserve p {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: #333;
+  white-space: nowrap;
+}
+
+.finalreserve button {
+  font-size: 14px;
+  padding: 8px 16px;
+  background-color: #8c9ed9;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.finalreserve button:hover {
+  background-color: #566a8e;
+}
+
+.finalreserve #total-price {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: #333;
+  white-space: nowrap;
+}

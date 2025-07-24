@@ -1,0 +1,1343 @@
+/* 전체 레이아웃 컨테이너 */
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 16px;
+  box-sizing: border-box;
+  font-family: "Pretendard", "Noto Sans KR", sans-serif;
+}
+
+/* 혹시 모를 튀어나감 방지 */
+body, html {
+  overflow-x: hidden;
+}
+
+/* 각 section에도 패딩 주기 */
+.tab-content {
+  padding: 24px 0;
+}
+
+
+/* 미용실 상단 전체 컨테이너 */
+.shop-top {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 32px 24px;
+}
+
+/* 메인이미지 + 버튼 묶음 */
+.shop-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 30px;
+}
+
+/* 미용실 대표 이미지 */
+.shop-img {
+  width: 100%;
+  height: 280px;
+  background-color: #f0f0f0;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+/* 오른쪽 버튼 영역 */
+.shop-side {
+  width: 38%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 18px;
+  height: 100%;
+  padding-top: 16px;
+  padding-bottom: 16px;
+  font-family: "Pretendard", "Noto Sans KR", sans-serif;
+
+}
+
+/* 공통 버튼 및 아이콘 영역 스타일 */
+.shop-btn,
+.shop-icon {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  background: none;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: #333;
+}
+/* 아이콘 SVG 색상 기본 설정 */
+.shop-btn .icon svg,
+.shop-icon .icon svg {
+  stroke: #8c9ed9; /* 메인 컬러 */
+  transition: stroke 0.3s ease;
+}
+/* 텍스트 strong 색상 기본 설정 */
+.shop-btn .text strong,
+.shop-icon .text strong {
+  color: #8c9ed9;
+  transition: color 0.3s ease;
+  margin-right: 4px;
+  font-size: 16px;
+}
+.shop-btn .text small {
+  margin-left: 12px;
+  font-size: 14px;
+  color: #333;
+}
+
+/* hover 시 아이콘 색상 변경 */
+.shop-btn:hover .icon svg,
+.shop-icon:hover .icon svg {
+  stroke: #566a8e; /* 포인트 컬러 */
+}
+
+/* hover 시 텍스트 색상 변경 */
+.shop-btn:hover .text strong,
+.shop-icon:hover .text strong {
+  color: #566a8e;
+}
+
+/* 찜하기 버튼 */
+.lucide-heart1 {
+  color: #8c9ed9;
+  transition: fill 0.3s ease stroke 0.3s ease;
+  fill: none;
+  stroke: currentColor;
+}
+/* 디자이너 섹션 하트*/
+.lucide-heart {
+  color: #d34b57;
+  transition: fill 0.3s ease stroke 0.3s ease;
+  fill: none;
+  stroke: currentColor;
+}
+/* 공유하기 모달창 */
+#share-modal {
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Pretendard", "Noto Sans KR", sans-serif;
+}
+#share-modal .modal-content {
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  width: 500px;
+  max-width: 600px;
+  text-align: center;
+}
+#share-modal .modal-content p {
+  font-size: 16px;
+  margin-bottom: 16px;
+  font-weight: 500;
+  color: #333;
+}
+#share-modal .modal-content input[type="text"] {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  margin-bottom: 16px;
+  background-color: #f9f9f9;
+  color: #333;
+}
+#share-modal .modal-content button {
+  background-color: #8c9ed9;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  font-size: 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: bachground-color 0.2s ease;
+}
+#share-modal .modal-content button:hover {
+  background-color: #566a8e;
+}
+
+/* 아이콘 정보 블럭 (주소, 전화번호)*/
+.shop-icon {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 16px;
+  font-weight: normal;
+  color: #666;
+}
+.shop-icon .text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 16px;
+}
+.shop-icon .icon {
+  font-size: 16px;
+  color: #544a8e;
+}
+.shop-icon .text small {
+  font-size: 14px;
+  color: #544a8e;
+
+}
+
+/* 미용실 이름 및 평점 */
+.shop-title {
+  margin-top: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.shop-title h2 {
+  font-size: 32px;
+  font-weight: 600;
+  margin: 0;
+  margin-bottom: 4px;
+}
+
+.rating {
+  font-size: 18px;
+  color: #566a8e;
+}
+
+/* 운영시간 및 주의사항 */
+.shop-info-box {
+  margin-top: 24px;
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+}
+/* 매장 운영시간 */
+.shop-info-box h3 {
+  font-size: 22px;
+  font-weight: blod;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.shop-info-box p {
+  margin-bottom: 12px;
+  font-size: 14px;
+}
+
+/* 이용 전 안내  */
+.shop-info-box .shop-description strong {
+  font-size: 22px;
+  font-weight: 700;
+  color: #333;
+}
+
+.shop-info-box .red {
+  color: #d34b57;
+  font-weight: bold;
+  font-size:15px;
+}
+
+.shop-info-box span{
+  list-style-type: none;
+  margin: 0;
+  padding-left: 20px;
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+.shop-description p {
+  list-style-type: none;
+  margin: 0;
+  padding-left: 20px;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+/* 메뉴바 */
+.shop-tabs {
+  position: sticky;
+  top: 0;
+  background-color: #fff;
+  z-index: 999;
+  padding: 16px 0;
+  margin-top: 32px;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+  width: 100%;
+}
+
+.shop-tabs ul {
+  display: flex;
+  justify-content: space-around;
+  gap: 90px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  padding-left: 0;
+  font-size: 15px;
+  font-weight: 500;
+}
+.shop-tabs ul li {
+  letter-spacing: 0.05em;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  position: relative;
+  padding-bottom: 8px;
+}
+.shop-tabs ul li.active::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  width: 100%;
+  background-color: #8c9ed9;
+}
+.shop-tabs ul li:hover {
+  color: #8c9ed9;
+}
+
+/* 추천 시술 전체 섹션 */
+.recommend-service {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 40px 24px;
+}
+
+/* 시술 항목 리스트 */
+.service-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+/* 각 시술 항목 */
+.service-item {
+  display: flex;
+  gap: 16px;
+  padding: 16px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #fff;
+  align-items: flex-start;
+}
+
+/* 시술 썸네일 */
+.service-thumb {
+  width: 100px;
+  height: 100px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+
+/* 오른쪽 텍스트 묶음 */
+.service-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100px;
+}
+
+/* 시술명  */
+.service-info strong {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 4px;
+}
+
+/* 가격 */
+.service-info p {
+  font-size: 15px;
+  color: #333;
+  margin: 0 0 4px 0;
+}
+
+/* 커트포함 글씨 */
+.service-info span {
+  font-size: 13px;
+  color: #666;
+}
+
+/* 시술 더보기 버튼 */
+.btn-more {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  margin: 24px auto 0;
+  padding: 10px 16px;
+  background: none;
+  border: none;
+  color: #8c9ed9;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: "Pretendard", "Noto Sans KR", sans-serif;
+  outline: none;
+}
+
+.btn-more::after {
+  content: "▼";
+  font-size: 14px;
+}
+.btn-more:hover {
+  background: none;
+  color: #566a8e;
+  font-size: 16px;
+  font-weight: 500;
+}
+/* 디자이너 전체 섹션 */
+.designer-section {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 40px 24px;
+}
+
+/* 디자이너 카드 리스트  */
+.designer-list {
+  display: flex;
+  gap: 24px;
+  overflow-x: auto;
+  padding-bottom: 12px;
+  scrollbar-width: none;
+}
+
+/* 사이트 안에서 스크롤 숨기기 */
+.designer-list::-webkit-scrollbar {
+  display: none;
+}
+
+/* 디자이너별 개별 카드 */
+.designer-card {
+  width: 200px;
+  padding: 16px;
+  border: 1px solid #e6e6e6;
+  border-radius: 12px;
+  background-color: #f7f7f7;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+  box-shadow: inset 0 0 0.5px rgba(0,0,0,0.03);
+}
+
+.designer-img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid #ddd;
+  background-color: #f8f8f8;
+  margin-bottom: 12px;
+}
+
+/* 이미지 안쪽 */
+.designer-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* 디자이너 정보  */
+.designer-info strong {
+  font-size: 18px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 6px;
+}
+.designer-info p {
+  font-size: 12px;
+  color: #888;
+  margin-bottom: 8px;
+}
+.designer-card {
+  border: none;
+  font-size: 0.9rem;
+  color: #666;
+  margin-top: 4px;
+}
+/* 아이콘 + 숫자 */
+.designer-status {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 12px;
+  font-size: 14px;
+  color: #666;
+}
+
+.designer-summary {
+   display: block;
+   margin-top: 8px;
+   font-size: 14px;
+   color: #888;
+}
+
+/* 예약 버튼 */
+.btn-reserve {
+  padding: 8px 16px;
+  background-color: #8c9ed9;
+  color: #fff;
+  font-size: 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: "Pretendard", "Noto Sans KR", sans-serif;
+  transition: background-color 0.3s;
+}
+
+.btn-reserve:hover {
+  background-color: #7385c7;
+}
+
+/* 스타일 전체 섹션 */
+.style-section {
+  text-align: center;
+  padding: 40px 20px;
+}
+/* 스타일 섹션 제목 좌측 여백 조정 */
+.style-title {
+  font-size: 20px;
+  font-weight: 600;
+  margin-left: 24px; /* 다른 제목과 정렬 맞춤 */
+  margin-bottom: 16px;
+}
+
+/* 스타일 카테고리 버튼 */
+.style-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 0 24px;
+  margin-bottom: 20px;
+  justify-content: center;
+}
+
+.style-tabs button {
+  padding: 10px 18px;
+  font-size: 15px;
+  font-weight: 500;
+  color: #fff;
+  background-color: #8c9ed9;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.style-tabs button:hover {
+  background-color: #6f82c2;
+}
+
+.service-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.service-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 16px;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  background-color: #fff;
+  transition: box-shadow 0.2s;
+}
+
+.service-card:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.service-thumb {
+  width: 80px;
+  height: 80px;
+  border-radius: 8px;
+  background-size: cover;
+  background-position: center;
+  flex-shrink: 0;
+}
+
+.service-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.service-name {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #222;
+  margin-bottom: 6px;
+}
+
+.service-price {
+  font-size: 0.95rem;
+  margin-bottom: 6px;
+}
+
+.discount {
+  color: #e55;
+  font-weight: 600;
+  margin-right: 8px;
+}
+
+.sale-price {
+  font-weight: 500;
+  color: #333;
+}
+
+.original-price {
+  text-decoration: line-through;
+  color: #aaa;
+  margin-left: 8px;
+}
+
+.service-extra {
+  font-size: 0.85rem;
+  color: #888;
+}
+
+/* + 아이콘: 블러 영향 없이 선명하게, 라인 제거 */
+.style-photo.last-photo::after {
+  content: "+";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 32px;
+  font-weight: bold;
+  color: white;
+  z-index: 2;
+  filter: none;
+  border: none;
+  outline: none;
+}
+/* 리뷰 섹션 전체 */
+.review-section {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 40px 24px;
+}
+
+/* 시술 스타일 제목 */
+.style-title {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 0 0 16px 0;
+  text-align: left;
+  max-width: 1280px;
+  padding: 0 24px;
+  margin: 0 auto 16px auto;
+}
+
+/* 스타일 카테고리 버튼 */
+.style-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 0 24px;
+  margin-bottom: 24px;
+}
+.style-tabs button {
+  padding: 10px 18px;
+  font-size: 15px;
+  font-weight: 500;
+  color: #fff;
+  background-color: #8c9ed9;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.style-tabs button:hover {
+  background-color: #6f82c2;
+}
+
+/* 썸네일 이미지 박스 */
+.review-photo {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+/* 썸네일 한 장 */
+.review-thumb {
+  width: 80px;
+  height: 80px;
+  background-color: #ddd;
+  border-radius: 8px;
+  position: relative;
+}
+
+/* 마지막 썸네일에 블러 + +버튼 표시 */
+.review-thumb:last-child {
+  filter: blur(2px);
+  position: relative;
+}
+
+/* 마지막 썸네일 안의 + 버튼 스타일 */
+.review-thumb:last-child::after {
+  content: "+";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 24px;
+  color: white;
+  font-weight: bold;
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+
+/* 리뷰 카드 전체 */
+.review-card {
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* 시술 제목과 디자이너 이름 */
+.review-card h4 {
+  font-size: 18px;
+  margin-bottom: 12px;
+}
+.review-card h4 span {
+  font-size: 14px;
+  color: #777;
+  margin-left: 8px;
+}
+
+/* 이미지 영역 */
+.review-images {
+  display: inline;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.review-images .photo {
+  width: 100px;
+  height: 100px;
+  background-color: #ccc;
+  border-radius: 6px;
+  position: relative;
+}
+
+/* 평점 정보 */
+.review-meta {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 12px;
+}
+
+/* 리뷰 텍스트 */
+.review-comment {
+  font-size: 15px;
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+/* 디자이너 답글 전체 박스 */
+.disigner-reply {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px; /* 리뷰 본문과 간격 */
+  padding: 16px;
+  background-color: #f4f4f8;
+  border-radius: 12px;
+  position: relative;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+/* 말풍선 꼬리 (왼쪽 상단 방향) */
+.disigner-reply::before {
+  content: "";
+  position: absolute;
+  top: 16px;
+  left: -10px;
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-right: 10px solid #f4f4f8;
+  border-bottom: 10px solid transparent;
+}
+
+/* 디자이너 프로필 이미지 */
+.disigner-avatar {
+  width: 48px;
+  height: 48px;
+  background-color: #ccc;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background-size: cover;
+  background-position: center;
+}
+
+/* 답글 텍스트 영역 */
+.designer-msg {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* 디자이너 이름 */
+.designer-msg strong {
+  font-size: 15px;
+  color: #333;
+}
+
+/* 답글 텍스트 */
+.designer-msg p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #444;
+}
+
+.review-section {
+  min-height: 1800px;
+}
+
+/* 하단 고정 영역 전체 */
+.fixed-reserve {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #fff;
+  border-top: 1px solid #ddd;
+  box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.05);
+  z-index: 9999;
+}
+
+/* 예약하기 버튼 정렬 박스 */
+.fixed-reserve .reserve-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 12px 24px;
+  text-align: center;
+}
+
+/* 예약하기 버튼 스타일 */
+.reserve-btn {
+  display: inline-block;
+  padding: 12px 40px;
+  font-size: 16px;
+  font-weight: 600;
+  background-color: #8c9ed9;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: "Pretendard", "Noto Sans KR", sans-serif;
+  transition: background-color 0.3s;
+}
+
+/* 호버시 색상 변화 */
+.reserve-btn:hover {
+  background-color: #6f82c2;
+}
+
+/* 시술 (메뉴) 섹션*/
+
+/* 카테고리 버튼 (활성화 시) */
+.category-section + .category-section {
+  border-top: 1px solid #8c9ed9;
+  padding-top: 32px;
+  margin-top: 32px;
+}
+
+.category-btn {
+  font-family: "Pretendard", "Noto Sans KR", sans-serif;
+  background-color: #fff;
+  color: #333;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 16px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 500;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+}
+.category-btn:hover {
+  background-color: #e2e7f3;
+}
+
+.category-btn.active,
+.category-btn.highlight {
+  background-color: #8c9ed9;
+  color: #fff;
+  font-weight: bold;
+  border: 1px solid #566a8e;
+}
+
+.service-item.no-image {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 16px;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  background-color: #f9f9f9;
+}
+.service-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 8px;
+  flex: 1;
+}
+
+/* 시술항목 */
+.service-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 20px;
+  margin-bottom: 24px;
+}
+
+.service-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 16px;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  background-color: #f9f9f9;
+}
+.service-img img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+.service-info {
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+  align-items: flex-start;
+  gap: 6px;
+  flex: 1;
+}
+
+.service-name {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+}
+.service-price {
+  font-size: 14px;
+  color: #333;
+}
+.service-price.no-discount .original {
+  text-decoration: none;
+  color: #333;
+}
+.discount {
+  color: #ff5a5a;
+  margin-right: 6px;
+}
+.original {
+  color: #888;
+  margin-right: 6px;
+}
+.final {
+  font-weight: bold;
+  color: #000;
+}
+.service-extra {
+  margin-top: 10px;
+  font-size: 13px;
+  color: #566a8e;
+}
+
+/* 더보기 버튼  */
+.service-more {
+  display: flex;
+  justify-content: center;
+  margin-top: 12px;
+}
+.more-btn {
+  background: none;
+  border: none;
+  color: #566a8e;
+  font-size: 14px;
+  cursor: pointer;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+.more-btn::after {
+  content: "▼";
+  font-size: 12px;
+}
+
+/* 디자이너 섹션 */
+.designer-list-view {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 12px;
+  justify-content: center;
+  box-sizing: border-box;
+}
+.designer-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  min-height: 120px;
+  gap: 16px;
+  position: relative;
+}
+
+.designer-item img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+/* 디자이너 정보 */
+.designer-detail {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* 이름 + 직급 */
+.designer-label {
+  font-size: 16px;
+  font-weight: 600;
+  color: #222;
+  display: flex;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.designer-label span {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* 소개글 */
+.designer-card {
+  font-size: 14px;
+  color: #888;
+  margin-bottom: 8px;
+}
+
+/* 상태바 (좋아요, 리뷰 수) */
+.designer-status {
+  display: flex;
+  gap: 12px;
+  font-size: 14px;
+  color: #555;
+  align-items: center;
+}
+
+.status-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* 예약 버튼 우측 중앙 */
+.designer-book {
+  display: flex;
+  align-items: center;
+}
+
+.btn-book {
+  background-color: transparent;
+  border: 1px solid #8c9ed9;
+  color: #8c9ed9;
+  padding: 5px 12px;
+  font-size: 13px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.3s ease;
+}
+
+.btn-book i {
+  color: #8c9ed9;
+}
+
+.btn-book:hover {
+  border-color: #566a8e;
+  color: #566a8e;
+  background: none;
+}
+
+.btn-book:hover i {
+  color: #566a8e;
+}
+
+/* 리뷰 섹션 */
+.r-toolbar {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.r-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.r-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
+  margin-top: 30px;
+}
+.r-sort {
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  background-color: #fff;
+}
+
+/* 카테고리 탭  */
+.r-tabs-wrapper {
+  top: 56px;
+  z-index: 1000;
+  background-color: #fff;
+  border-bottom: 1px solid #ddd;
+  padding: 8px 0;
+}
+.r-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+.r-tab {
+  margin-top: -10px;
+  margin-bottom: -8px;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: 500;
+  background-color: #fff;
+  border-radius: 999px;
+  color: #333;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.r-tab:hover {
+  background-color: #8c9ed9;
+  color: #fff;
+}
+.r-tab.active {
+  background-color: #8c9ed9;
+  color: #fff;
+  border-color: #566a8e;
+  font-weight: 600;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+}
+
+/* 리뷰 썸네일 */
+/* 리뷰 썸네일 컨테이너 */
+.r-thumbnails {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4열 그리드 */
+  gap: 8px; /* 썸네일 간 간격 */
+  margin-bottom: 20px;
+}
+
+/* 개별 리뷰 썸네일 (기본 스타일) */
+.r-thumb,
+.r-thumb-last,
+.r-thumb-empty {
+  width: 100%;
+  padding-bottom: 100%; /* 1:1 비율 유지 */
+  position: relative;
+  overflow: hidden;
+  border-radius: 6px;
+  background-color: #f0f0f0; /* 이미지가 없을 때 기본 배경색 */
+}
+
+/* 빈칸 채우기 스타일 (reviewImgUrls가 8개 미만일 때) */
+.r-thumb-empty {
+  background-color: #f9f9f9;
+  border: 1px dashed #e0e0e0;
+}
+
+/* 썸네일 내부 이미지 스타일 */
+.r-thumb img,
+.r-thumb-last img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* 마지막 썸네일 (8번째) 에만 적용될 스타일 */
+.r-thumb-last::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4); /* 이미지 위에 어두운 반투명 오버레이 */
+  z-index: 1;
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+}
+
+/* + 더보기 텍스트 스타일 */
+.r-plus {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 1.5em;
+  font-weight: bold;
+  z-index: 2;
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+/* (기존 리뷰 상세 카드 내의 이미지 리스트 스타일은 유지) */
+.r-item .review-images {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.r-item .review-images .photo {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+/* 리뷰 작성버튼  */
+.r-photo-btn-wrap {
+  text-align: right;
+  margin-bottom: 24px;
+}
+.r-photo-btn {
+  background-color: #8c9ed9;
+  color: white;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+}
+.r-photo-btn:hover {
+  background-color: #566a8e;
+}
+
+/* 리뷰 리스트 */
+.r-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.r-item {
+  border-top: 1px solid #ccc;
+  padding: 20px 0;
+}
+.r-item-header {
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  font-size: 16px;
+  gap: 4px;
+}
+.r-rating {
+  margin-top: 6px;
+  font-size: 14px;
+  color: #8c9ed9;
+}
+.r-content {
+  margin-top: 12px;
+}
+.r-content p {
+  margin: 0;
+  line-height: 1.5;
+  color: #333;
+}
+.r-meta {
+  font-size: 13px;
+  color: #888;
+  margin-top: 6px;
+}
+
+/* 더보기 버튼 */
+.r-more {
+  text-align: center;
+  margin: 32px 0;
+}
+.r-toggle-btn {
+  background: none;
+  border: none;
+  color: #566a8e;
+  font-size: 14px;
+  cursor: pointer;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.r-toggle-btn .arrow {
+  font-size: 12px;
+}

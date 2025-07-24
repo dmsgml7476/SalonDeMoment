@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragment/default}">
+<head>
+    <th:block layout:fragment="css">
+        <link rel="stylesheet" href="/css/admin/bannerApply.css">
+    </th:block>
+</head>
+<body>
+<div layout:fragment="main" id="main">
+    <div class="modal-overlay" id="couponAdModal">
+        <div class="modal">
+            <h2>메인 배너 쿠폰 신청</h2>
+            <form id="couponAdForm" th:action="@{/cs/apply}" method="post" enctype="multipart/form-data">
+
+
+                <label for="couponSelect">쿠폰 선택</label>
+                <select id="couponSelect" name="couponId" required>
+                    <option value="" disabled selected>쿠폰을 선택하세요</option>
+                    <option th:each="coupon:${couponList}"
+                            th:value="${coupon.id}"
+                            th:text="${coupon.name}">
+                    </option>
+                </select>
+
+                <label for="startDate">시작일</label>
+                <input type="date" id="startDate" name="startDate" required>
+
+                <label for="endDate">종료일</label>
+                <input type="date" id="endDate" name="endDate" required>
+
+                <label for="image">배너 이미지(1개)</label>
+                <input type="file" id="image" name="file" accept="image/*" required>
+
+                <div class="button">
+                    <button type="submit" class="submit-btn">신청하기</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div th:if="${message}" class="alert alert-success" th:text="${message}"></div>
+    <div th:if="${error}" class="alert alert-danger th:text=${error}"></div>
+</div>
+<th:block layout:fragment="script"></th:block>
+</body>
+</html>

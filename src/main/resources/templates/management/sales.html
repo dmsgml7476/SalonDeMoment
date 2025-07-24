@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragment/default}">
+<head>
+  <th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/management/sales.css}">
+  </th:block>
+</head>
+<body>
+<div layout:fragment="main" id="main">
+
+
+  <div id="sales" class="section-container">
+    <h3>매출 내역</h3>
+
+    <!-- 날짜 선택 영역 -->
+    <div class="date-selector">
+      <a th:each="date : ${dateList}"
+         th:href="@{/manage/sales(date=${date})}"
+         th:text="${#temporals.format(date, 'MM/dd (E)')}"
+         th:classappend="${date} == ${selectedDate} ? 'active' : ''">
+        07/03 (수)
+      </a>
+    </div>
+
+    <!-- 매출 리스트 출력 -->
+    <table>
+      <thead>
+      <tr>
+        <th>날짜</th>
+        <th>고객명</th>
+        <th>시술 내용</th>
+        <th>시술 금액</th>
+        <th>결제 종류</th>
+        <th>메모</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="pay : ${paymentList}">
+        <td th:text="${#temporals.format(pay.payDate, 'yyyy-MM-dd HH:mm')}">2025-07-01 00:00</td>
+        <td th:text="${pay.memberName}">홍길동</td>
+        <td th:text="${pay.serviceName}">컷트 + 염색</td>
+        <td th:text="${pay.totalPrice}">120,000원</td>
+        <td th:if="${pay.category eq '방문 결제'}"
+            th:text="${pay.category}" class="visit">방문 결제</td>
+        <td th:if="${pay.category eq '예약 결제'}"
+            th:text="${pay.category}" class="res">예약 결제</td>
+        <td th:text="${pay.memo}"> 메모 </td>
+
+
+      <tr th:if="${#lists.isEmpty(paymentList)}">
+        <td colspan="6" class="table-empty"> 매출 내역이 없습니다. </td>
+      </tr>
+      </tbody>
+    </table>
+
+    <a href="/manage/sales/new" class="btn-add-payment">결제 등록</a>
+
+  </div>
+
+
+
+</div>
+<th:block layout:fragment="script"></th:block>
+</body>
+</html>

@@ -1,0 +1,114 @@
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org">
+
+
+<body>
+
+<div th:fragment="header" id="header">
+  <div class="h-container">
+    <div class="header-warp">
+      <a href="/"><div class="main-logo"><img th:src="@{/images/logo.png}" alt="로고이미지" /></div></a>
+
+      <div class="header-menu">
+        <ul class="user-navbar">
+          <li>
+            <a href="/"
+            >HOME
+              <div class="select-line"></div
+              ></a>
+          </li>
+
+          <li>
+            <a href="/shopList"
+            >헤어샵
+              <div class="select-line"></div
+              ></a>
+          </li>
+          <li>
+            <a href="/compare"  id="compare-header-link"
+            >한 눈에 보기
+              <div class="select-line"></div
+              ></a>
+          </li>
+        </ul>
+        <div class="bottom-line" style="display: none;"></div>
+      </div>
+
+      <!-- 비로그인 사용자 로그인 -->
+      <th:block sec:authorize="isAnonymous()">
+
+        <div class="profile-area">
+          <div class="nav-login"><a href="/login">로그인</a></div>
+          <div class="hamburger" id="anonymous-hamburger">☰</div>
+        </div>
+
+      </th:block>
+
+      <th:block sec:authorize="isAuthenticated()">
+        <div class="profile-area">
+          <div class="member-info"
+               th:if="${#authentication.principal != null}"
+               th:text="${#authentication.principal.name}"></div><span class="name-plus">님</span>
+          <div class="member-info"
+               th:unless="${#authentication.principal != null}"
+               th:text="${#authentication.name}"
+          ><span class="name-plus">님</span></div>
+          <div class="hamburger" id="loginHamburger">☰
+              <span id="notification-badge"
+                  th:attr="data-count=${unreadCnt}"
+                  th:style="${unreadCnt == 0} ? 'display:none' : ''">
+                  <span th:text="${unreadCnt}">0</span>
+              </span>
+          </div>
+
+
+        </div>
+
+
+        <div class="sidebar" id="sidebar">
+          <div class="sidebar-header">
+            <div class="member-name"
+                 th:if="${#authentication.principal != null}"
+                 th:text="${#authentication.principal.name}">신짱구님</div>
+            <div class="member-name"
+                 th:unless="${#authentication.principal != null}"
+                 th:text="${#authentication.name}"
+            ></div>
+            <div>
+              <form th:action="@{/logout}" method="post" style="display:inline;">
+                <button type="submit" class="logout-btn">로그아웃</button>
+              </form>
+            </div>
+          </div>
+
+          <ul class="sidebar-menu">
+            <li><a href="/myPage/reservation">내 예약 내역</a></li>
+            <li><a href="/myPage/coupons">쿠폰/정액권</a></li>
+            <li><a href="/myPage/likeList">찜 목록</a></li>
+            <li><a href="/myPage/review">내 리뷰</a></li>
+            <li><a href="/myPage/myQuestionList">나의 고객 문의</a></li>
+          </ul>
+
+          <div id="sidebar-alert-container" class="sidebar-alert-container">
+            <!-- 알림 아이템이 여기에 동적으로 추가됨 -->
+            <div th:each="n : ${unreadTop3}" class="sidebar-alert"
+                 th:attr="data-target=${n.webTarget}, data-id=${n.targetId}">
+              <span class="alert-content" th:text="${n.message}">알림 내용</span>
+              <span class="alert-date"    th:text="${n.createAt}">방금 전</span>
+            </div>
+          </div>
+
+          <div class="sidebar-close">
+            <img src="/images/right-arrow.png" />
+          </div>
+        </div>
+      </th:block>
+
+
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

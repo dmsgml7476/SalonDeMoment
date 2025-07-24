@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragment/default}">
+<head>
+    <link rel="stylesheet" type="text/css" href="/css/user/compare.css" />
+    <th:block layout:fragment="css"></th:block>
+</head>
+<body>
+<div layout:fragment="main" id="main">
+    <div class="shop-list-wrap">
+        <div class="shop-list-head">
+            <div class="compare-title">한눈에 보기</div>
+<!--            <div class="gender-options">-->
+<!--                <button type="button">전체</button>-->
+<!--                <button type="button">여성</button>-->
+<!--                <button type="button">남성</button>-->
+<!--            </div>-->
+
+<!--            <div>-->
+<!--                <img class="search-icon" src="/images/search.png" />-->
+<!--                <input class="search-input" style="display: none" />-->
+<!--            </div>-->
+
+            <div class="service-cate-list">
+                <!-- 헤어 카테고리 -->
+                <button class="service-cate"
+                        th:each="category : ${serviceCategories}"
+                        th:text="${category.label}"
+                        th:attr="data-category=${category.name()}">
+                    카테고리
+                </button>
+
+            </div>
+        </div>
+
+        <div class="shop-card-container">
+            <div th:each="compareResult, iterStat : ${compareResults}"
+                 th:id="'shop' + ${iterStat.index + 1}"
+                 class="compare-area">
+
+                <div class="compare-box">
+
+                    <div class="shop-img">
+                        <img th:src="${compareResult.shopListDto.shopImageDto != null ? compareResult.shopListDto.shopImageDto.imgUrl : '/images/default.png'}"
+                                 alt="미용실 이미지" />
+                    </div>
+
+                    <div class="compare-shop-info-box">
+                        <div class="shop-name-box">
+                            <div class="shop-name" th:text="${compareResult.shopListDto.shopName}">미용실 이름</div>
+                            <div class="shop-coupon" th:if="${compareResult.shopListDto.hasCoupon}">
+                                <img th:src="@{/images/coupon.png}" alt="쿠폰" />
+                            </div>
+                        </div>
+                        <div class="shop-title">
+                            <div class="shop-status" th:switch="${compareResult.shopListDto.openStatus}">
+                                <span th:case="${T(com.salon.constant.OpenStatus).OPEN}">
+                                  <span class="dot-open"></span><span class="status-text">영업중</span>
+                                </span>
+                                <span th:case="${T(com.salon.constant.OpenStatus).CLOSED}">
+                                  <span class="dot-closed"></span><span class="status-text">영업종료</span>
+                                </span>
+                                <span th:case="${T(com.salon.constant.OpenStatus).DAYOFF}">
+                                    <span class="dot-holiday"></span><span class="status-text">휴무일</span>
+                                </span>
+                            </div>
+
+                            <div class="work-time-area">
+                                <span class="dayoff-text red" th:text="${compareResult.shopListDto.dayOffShowDto.dayOffText ?: '정보 없음'}"></span>
+                                <div class="shop-running-time"
+                                     th:text="'영업시간: ' + ${#temporals.format(compareResult.shopListDto.openTime, 'HH:mm')} + ' ~ ' + ${#temporals.format(compareResult.shopListDto.closeTime, 'HH:mm')}">
+                                    영업시간
+                                </div>
+                            </div>
+
+                            <div class="address-box">
+                                <div class="address"
+                                     th:text="${compareResult.shopListDto.address} + ' ' + ${compareResult.shopListDto.addressDetail}">
+                                     대전 어쩌구
+                                </div>
+
+
+                            </div>
+                            <div class="distance-area"
+                                 th:if="${compareResult.shopListDto.distance != null}">
+                                <span style="color: lightGray;" th:text="' (' + ${#numbers.formatDecimal(compareResult.shopListDto.distance.divide(1000), 1, 2)} + 'km)'"></span>
+
+                            </div>
+                            <div class="tel"
+                                 th:if="${compareResult.shopListDto.tel != null}"
+                                 th:text="'전화번호 : ' + ${compareResult.shopListDto.tel}"
+                            >010-1111-1524</div>
+                        </div>
+
+
+
+                        <!-- 리뷰 0개 -->
+
+                        <div class="rating-area no-review"
+                             th:if="${compareResult.shopListDto.reviewCount == 0}">
+                            평점이 없습니다
+                        </div>
+
+                        <div class="rating-area"
+                             th:if="${compareResult.shopListDto.reviewCount > 0}"
+                             th:attr="data-rating=${compareResult.shopListDto.rating}">
+                            <div class="rating-stars">★★★★★</div>
+                            <div class="rating" th:text="${compareResult.shopListDto.rating}">5.0</div>
+                            <div class="review-count" th:text="'(' + ${compareResult.shopListDto.reviewCount} + ')'">(1,500)</div>
+                        </div>
+                    </div>
+
+                    <div class="service-list">
+                        <div class="service-cate-box"
+                             th:each="category : ${serviceCategories}"
+                             th:if="${!#lists.isEmpty(compareResult.categorizedServices.get(category))}">
+                            <div class="service-cate-title" th:text="${category.label}">
+                                커트
+                            </div>
+
+                            <a th:href="@{'/shop/' + ${compareResult.shopListDto.id}}" class="service-box-link">
+
+                                <div class="service-box"
+                                     th:each="service : ${compareResult.categorizedServices.get(category)}"
+                                >
+
+                                    <div class="service-img-box"
+                                        th:if="${service.imgUrl != null}">
+                                        <img th:src="@{${service.imgUrl}}" class="service-img" alt="서비스 이미지" />
+                                    </div>
+                                    <div class="service-info">
+                                        <div class="service-name" th:text="${service.name}">커트</div>
+                                        <div class="service-price-area">
+                                            <div class="price" th:text="${#numbers.formatInteger(service.price, 3, 'COMMA')}">20,000</div>
+                                            <!-- 원가 없을 수도 있으니 조건부 표시 -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div th:if="${#lists.size(compareResults) < 3}"
+                 th:each="i : ${#numbers.sequence(1, 3 - #lists.size(compareResults))}"
+                 class="compare-area dummy-area"
+                 style="visibility: hidden;">
+                <!-- 아무 내용 없이, 레이아웃만 채움 -->
+            </div>
+        </div>
+
+    </div>
+</div>
+<th:block layout:fragment="script">
+
+    <script type="module" src="/javascript/user/compare.js"></script>
+</th:block>
+</body>
+</html>

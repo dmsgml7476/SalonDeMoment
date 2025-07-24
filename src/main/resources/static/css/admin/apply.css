@@ -1,0 +1,52 @@
+body{
+    font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
+}
+#main{
+    max-width: 1280px;
+    margin: 40px auto;
+    padding: 30px;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    font-family: "Noto Sans KR", sans-serif;
+}
+
+form div {
+    margin-bottom: 20px;
+}
+
+input[type="text"],
+input[type="file"]{
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 15px;
+    box-sizing: border-box;0
+}
+
+input[type="file"]{
+    background-color: #fff;
+}
+
+.form-buttons{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.form-buttons > button{
+    background-color: #FF3B77;
+    padding: 5px 6px;
+    border-radius: 4px;
+    border:1px solid #ddd;
+}
+.form-buttons > a{
+    background-color: transparent;
+}
+.form-buttons > button:hover{
+    background-color: #ccc;
+}
+label{
+    display: flex;
+    margin-bottom: 10px;
+}

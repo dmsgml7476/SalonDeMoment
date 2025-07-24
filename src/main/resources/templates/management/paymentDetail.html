@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragment/default}">
+<head>
+  <th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/management/payment.css}">
+  </th:block>
+</head>
+<body>
+<div layout:fragment="main">
+  <div id="payment-page">
+    <h2>🧾 매출 상세 내역</h2>
+    <div class="payment-info">
+      <p><strong>고객 이름:</strong> 홍길동</p>
+      <p><strong>연락처:</strong> 010-1234-5678</p>
+      <p><strong>시술명:</strong> 볼륨매직</p>
+      <p><strong>결제일:</strong> 2025-07-01 14:20</p>
+      <p><strong>총 금액:</strong> 100,000원</p>
+      <p><strong>쿠폰 할인:</strong> 10,000원</p>
+      <p><strong>정액권 사용:</strong> 20,000원</p>
+      <p><strong>최종 결제:</strong> 70,000원</p>
+      <p><strong>결제 수단:</strong> 카드</p>
+      <p><strong>메모:</strong> 다음 시술 시 앞머리 덧붙임 요청</p>
+    </div>
+  </div>
+</div>
+</body>
+</html>

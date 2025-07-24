@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragment/default}">
+<head>
+  <meta charset="UTF-8" />
+  <title>시술 목록 관리</title>
+  <th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/master/services.css}" />
+  </th:block>
+</head>
+<body>
+<div layout:fragment="main" id="main">
+  <div class="section-container">
+    <div class="page-header">
+      <h3>시술 목록</h3>
+      <a href="#" id="openServiceModal" class="btn-add">시술 추가</a>
+    </div>
+
+    <div class="service-list" id="serviceList">
+      <div class="service-item" th:each="service : ${serviceList}">
+        <div class="service-img-preview" th:if="${service.imgUrl}">
+          <img th:src="${service.imgUrl}" alt="시술 이미지" class="service-photo" />
+        </div>
+        <div class="service-info">
+          <p class="service-title" th:text="${service.name}">컷</p>
+          <p class="service-desc" th:text="${service.description}">깔끔한 기본 컷</p>
+          <div class="service-details">
+            <span class="service-category" th:text="${service.category.label}">커트</span>
+            <span class="service-price" th:text="${#numbers.formatInteger(service.price, 0, 'COMMA') + '원'}">20,000원</span>
+            <span class="service-recommended" th:if="${service.recommended}">추천</span>
+          </div>
+        </div>
+        <div class="service-actions">
+          <button type="button" class="btn-edit" th:data-service-id="${service.id}">수정</button>
+          <button type="button" class="btn-delete" th:data-service-id="${service.id}">삭제</button>
+        </div>
+      </div>
+
+      <div th:if="${#lists.isEmpty(serviceList)}" class="no-services">
+        <p>등록된 시술이 없습니다.</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="serviceModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modalTitle">시술 추가</h2>
+        <span class="close-button" id="closeServiceModal">&times;</span>
+      </div>
+      <div class="modal-body">
+        <form id="serviceForm" enctype="multipart/form-data"> <input type="hidden" id="serviceId" name="id" />
+          <input type="hidden" id="originalImgName" name="originalImgName" />
+          <input type="hidden" id="imgName" name="imgName" />
+          <input type="hidden" id="imgUrl" name="imgUrl" />
+
+          <div class="form-group">
+            <label for="serviceName">시술명</label>
+            <input type="text" id="serviceName" name="name" required /> </div>
+          <div class="form-group">
+            <label for="description">설명</label>
+            <textarea id="description" name="description" rows="3"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="price">가격</label>
+            <input type="number" id="price" name="price" required min="0" />
+          </div>
+          <div class="form-group">
+            <label for="category">카테고리</label>
+            <select id="category" name="category">
+              <option th:each="cat : ${T(com.salon.constant.ServiceCategory).values()}"
+                      th:value="${cat}"
+                      th:text="${cat.label}">카테고리</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="imgFile">이미지</label>
+            <input type="file" id="imgFile" name="imgFile" accept="image/*" />
+            <div id="currentImagePreview" class="image-preview" style="margin-top: 10px;">
+              <img id="imagePreview" src="#" alt="미리보기" style="max-width: 150px; max-height: 150px; display: none;" />
+              <p id="imageFileName" style="font-size: 14px; color: #777;"></p>
+              <button type="button" id="deleteCurrentImageBtn" class="btn-link" style="display: none; color: red; margin-top: 5px;">현재 이미지 삭제</button>
+            </div>
+          </div>
+          <div class="form-group checkbox-group">
+            <input type="checkbox" id="recommended" name="recommended" />
+            <label for="recommended">추천 시술</label>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn-primary" id="saveServiceBtn">저장</button>
+            <button type="button" class="btn-secondary" id="cancelServiceBtn">취소</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<th:block layout:fragment="script">
+  <script th:src="@{/javascript/master/services.js}"></script>
+</th:block>
+</body>
+</html>

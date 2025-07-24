@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragment/default}">
+
+<head>
+  <th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/master/designerEdit.css}">
+  </th:block>
+</head>
+
+<body>
+<div layout:fragment="main" id="main">
+  <div class="section-container">
+    <div class="page-header">
+      <h3>디자이너 목록</h3>
+      <a href="#" id="openDesignerModal" class="btn-add">디자이너 추가</a>
+    </div>
+
+    <div class="designer-card-list" id="designerCardList">
+      <div class="designer-card">
+        <img src="/images/sample.jpg" alt="디자이너 사진" class="designer-photo" />
+        <div class="designer-info">
+          <p class="designer-title">수석디자이너 진섭</p>
+          <p class="designer-desc">복구펌/복구열펌/스타일전문(12년)</p>
+          <div class="designer-stats">
+            <span>🤍 11</span>
+            <span>💬 102</span>
+          </div>
+        </div>
+        <a href="/shop/designer/1" class="btn-book">관리</a>
+      </div>
+
+      <div class="designer-card">
+        <img src="/images/songe.jpg" alt="디자이너 사진" class="designer-photo" />
+        <div class="designer-info">
+          <p class="designer-title">수석디자이너 송이</p>
+          <p class="designer-desc">얼굴작아보이는 레이어드컷 전문가 송이(12년)</p>
+          <div class="designer-stats">
+            <span>🤍 29</span>
+            <span>💬 212</span>
+          </div>
+        </div>
+        <a href="/shop/designer/2" class="btn-book">관리</a>
+      </div>
+    </div>
+  </div>
+
+  <div id="designerModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>디자이너 추가</h2>
+        <span class="close-button">&times;</span>
+      </div>
+      <div class="modal-body">
+        <div class="search-container">
+          <input type="text" id="designerSearchInput" placeholder="이름 또는 전화번호로 검색" />
+          <button id="searchDesignerBtn">검색</button>
+        </div>
+        <div id="designerSearchResults" class="search-results">
+          <p class="no-results">검색 결과가 없습니다.</p>
+        </div>
+        <div class="add-designer-btn-container">
+          <button id="addSelectedDesignerBtn">선택한 디자이너 추가</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

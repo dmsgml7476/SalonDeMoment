@@ -1,0 +1,20 @@
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+<th:block sec:authorize="hasRole('ADMIN')">
+  <div style="color:red;">[관리자만 보는 테스트 메시지]</div>
+  <div th:fragment="adminMenu" th:if="${isAdmin}" class="admin-header">
+    <ul>
+      <li><a href="/admin/cs/shopList">미용실 관리</a></li>
+      <li><a href="/admin/cs/bannerList">배너 관리</a></li>
+      <li><a href="/admin/cs/questionList">CS 관리</a></li>
+      <li><a href="/admin/designer/list">디자이너 승인</a></li>
+      <li><a href="/admin/cs">공지 관리</a></li>
+    </ul>
+  </div>
+</th:block>
+</body>
+
+
+</html>

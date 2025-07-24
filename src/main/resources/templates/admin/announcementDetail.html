@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragment/default}">
+<head>
+    <th:block layout:fragment="css">
+        <link rel="stylesheet" th:href="@{/css/admin/announcementDetail.css}">
+    </th:block>
+</head>
+<body>
+<div layout:fragment="main" id="main">
+        <h1 th:text="${ancDetailDto.title}"></h1>
+        <div class="writeDate">
+            <span th:text="${#temporals.format(ancDetailDto.writeAt, 'yyyy-MM-dd')}"></span>
+        </div>
+        <div class="manager">
+            <span th:text="${ancDetailDto.adminName}"></span>
+        </div>
+        <div class="content">
+            <span th:utext="${ancDetailDto.content}"></span>
+        </div>
+        <li th:each="file : ${ancDetailDto.files}">
+            <ul><img th:src="${file.fileUrl}" alt=""></ul>
+        </li>
+        <div th:if="${ancDetailDto.files}" class="attachment">
+            <span>첨부파일 : </span>
+            <ul>
+                <li th:each="file : ${ancDetailDto.files}">
+                    <a th:href="@{/admin/anc/download(fileName=${file.fileName})}" th:text="${file.fileName}" download target="_blank"></a>
+                </li>
+            </ul>
+        </div>
+        <div class="link">
+            <div class="left">
+                <a th:if="${ancDetailDto.hasPrev}" th:href="@{/admin/anc/detail(id=${ancDetailDto.prevId})}">
+                    이전글 보기
+                </a>
+            </div>
+            <div class="right">
+                <a  th:if="${ancDetailDto.hasNext}" th:href="@{/admin/anc/detail(id=${ancDetailDto.nextId})}">
+                    다음글 보기
+                </a>
+            </div>
+        </div>
+        <div class="buttons">
+            <form action="/cs">
+                <button class="back">뒤로가기</button>
+            </form>
+            <form th:action="@{/admin/anc/update}" method="get">
+                <input type="hidden" name="id" th:value="${ancDetailDto.id}">
+                <button class="edit">수정</button>
+            </form>
+            <form th:action="@{/admin/anc/delete}" method="post">
+                <input type="hidden" name="id" th:value="${ancDetailDto.id}">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                <button class="delete">삭제</button>
+            </form>
+        </div>
+</div>
+<th:block layout:fragment="script"></th:block>
+</body>
+</html>

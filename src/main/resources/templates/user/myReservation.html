@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragment/default}">
+<head>
+    <link rel="stylesheet" href="/css/user/myReservation.css">
+    <th:block layout:fragment="css"></th:block>
+</head>
+<body>
+<div layout:fragment="main" id="main">
+    <div class="my-page">
+        <div class="my-page-container">
+            <div class="my-page-wrap">
+                <div class="my-page-menus-area">
+                    <div class="my-page-menus">
+                        <div class="my-page-menu">
+                            <a class="my-reservation" th:href="@{/myPage/reservation}">내 예약 내역</a>
+                        </div>
+
+                        <div class="my-page-menu">
+                            <a class="my-coupons" th:href="@{/myPage/coupons}">쿠폰/정액권</a>
+                        </div>
+
+                        <div class="my-page-menu">
+                            <a class="my-like-page" th:href="@{/myPage/likeList}">찜목록</a>
+                        </div>
+
+                        <div class="my-page-menu">
+                            <a class="my-review" th:href="@{/myPage/review}">내 리뷰</a>
+                        </div>
+
+                        <div class="my-page-menu">
+                            <a class="my-cs-list-page" th:href="@{/myPage/myQuestionList}">나의 고객문의</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="my-page-content-area">
+                <div class="my-page-content-box">
+                    <div class="my-page-title">내 예약 내역</div>
+
+                    <div class="my-reservation-list">
+                        <div class="my-reservation-box" th:each="res: ${myReservations}">
+                            <div class="my-reservation-title">
+                                <div class="res-designer">
+                                    <span class="designer-name" th:text="${res.designerName}"></span>
+                                    <span class="designer-position" th:text="' ' + ${res.position}"></span>
+                                    <span class="shop-name" th:text="'(' + ${res.shopName} + ')'">(떡잎마을 미용실)</span>
+                                </div>
+
+                                <div class="reservation-info-box">
+                                    <div class="reservation-date" th:text = "${#temporals.format(res.reservationDate, 'yyyy.MM.dd')}">2025.05.20</div>
+                                    <div class="reservation-time" th:text = "${#temporals.format(res.reservationDate, 'HH:mm')}">12:30</div>
+                                    <div class="service-name" th:text="${res.serviceName}">커트</div>
+                                </div>
+
+                                <div class="reservation-status" th:text="${res.status.getLabel()}">진행중</div>
+                            </div>
+                            <div class="my-reservation-details" style="display: none">
+                                <div th:switch="${res.status.name()}">
+                                    <!-- 분기 - 예약 진행중 -->
+                                    <div class="price-details" th:case="'RESERVED'">
+                                        <div class="service-price">
+                                            <div class="price-box">
+                                                <span>시술가격</span>
+                                                <span th:text="${#numbers.formatInteger(res.servicePrice, 3, 'COMMA')}">30000</span>
+                                            </div>
+                                            <div class="coupon-icon-area"></div>
+                                        </div>
+                                        <div class="coupon-discount" th:if="${res.couponUsed}">
+
+                                            <div class="price-box">
+                                                <span>할인가격</span>
+                                                <span th:text="'-' + ${#numbers.formatInteger(res.couponDiscount, 3, 'COMMA')}">-5000</span>
+                                            </div>
+                                            <div class="coupon-icon-area">
+                                                <div class="coupon-container">
+                                                    <img
+                                                            th:src="@{/images/coupon.png}"
+                                                            alt="쿠폰"
+                                                            class="coupon-img"
+                                                    />
+                                                    <div class="tooltip">
+                                                        <div>
+                                                            <strong th:text="${res.couponName}">쿠폰이름</strong>
+                                                            <span class="tooltip-time"
+                                                                  th:if = "${res.daysExpire == 0}"
+                                                            >만료됨</span>
+                                                            <span class="tooltip-time"
+                                                                  th:if="${res.daysExpire != null and res.daysExpire > 0}"
+                                                            >만료 D-<span th:text="${res.daysExpire}"></span></span>
+                                                        </div>
+                                                        <div>
+                                                            <div>
+                                                                <strong class="coupon-discount" th:if="${res.couponType == T(com.salon.constant.CouponType).PERCENT}"><span th:text="${res.discountValue}">15</span>%</strong>
+                                                                <strong class="coupon-discount" th:if="${res.couponType == T(com.salon.constant.CouponType).AMOUNT}"><span th:text="${#numbers.formatInteger(res.discountValue, 3, 'COMMA')}">2000</span>원</strong>
+                                                            </div>
+                                                            <div class="tooltip-min">
+                                                                최소 금액 : <span th:text="${#numbers.formatInteger(res.couponMin, 3, 'COMMA')}">20,000</span></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="ticket-used-amount" th:if="${res.ticketUsed}">
+                                            <div class="price-box">
+                                                <span>사용금액</span>
+                                                <span th:text="'-' + ${#numbers.formatInteger(res.ticketUsedAmount, 3, 'COMMA')}">-25000</span>
+                                            </div>
+                                            <div class="coupon-icon-area">
+                                                <div class="coupon-container">
+                                                    <img
+                                                            src="/images/coupon.png"
+                                                            alt="쿠폰"
+                                                            class="coupon-img"
+                                                    />
+                                                    <div class="tooltip">
+                                                        <div>
+                                                            <strong><strong th:text="${res.shopName}">000샵</strong> 정액권</strong>
+                                                            <div th:text="${#numbers.formatInteger(res.ticketTotalAmount, 3, 'COMMA')}">100,000</div>
+                                                        </div>
+                                                        <div>
+                                                            <strong>현재 잔액</strong>
+                                                            <div th:text="${#numbers.formatInteger(res.ticketNowAmount, 3, 'COMMA')}">70,000</div>
+                                                        </div>
+                                                        <div>
+                                                            <strong>결제 예정액</strong>
+                                                            <div th:text="${'-' + #numbers.formatInteger(res.ticketNowAmount, 3, 'COMMA')}">-25,000</div>
+                                                        </div>
+
+                                                        <div></div>
+
+                                                        <div>
+                                                            <strong>예정 잔액</strong>
+                                                            <div th:text="${#numbers.formatInteger(res.ticketFinalAmount, 3, 'COMMA')}">45,000</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="final-price">
+                                            <div class="price-box">
+                                                <span>지불 예정액</span>
+                                                <span th:text="${#numbers.formatInteger(res.finalPrice, 3, 'COMMA')}">0</span>
+                                            </div>
+                                            <div class="coupon-icon-area">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 분기 - 완료 -->
+                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;"th:case="'COMPLETED'">
+                                        <div class="price-details" >
+
+                                            <!--  결제 전  -->
+
+                                            <div style="display:block;" th:text="'예약 내역 (' + ${res.serviceName} + ')'" class="complete-reservation">
+                                            </div>
+                                            <div class="service-price">
+                                                <div class="price-box price-complete">
+                                                    <span>시술가격</span>
+                                                    <span th:text="${#numbers.formatInteger(res.servicePrice, 3, 'COMMA')}">30000</span>
+                                                </div>
+                                            </div>
+                                            <div class="coupon-discount" th:if="${res.couponUsed}">
+
+                                                <div class="price-box price-complete">
+                                                    <span>할인가격</span>
+                                                    <span th:text="'-' + ${#numbers.formatInteger(res.couponDiscount, 3, 'COMMA')}">-5000</span>
+                                                </div>
+                                            </div>
+                                            <div class="ticket-used-amount" th:if="${res.ticketUsed}">
+                                                <div class="price-box price-complete">
+                                                    <span>사용금액</span>
+                                                    <span th:text="'-' + ${#numbers.formatInteger(res.ticketUsedAmount, 3, 'COMMA')}">-25000</span>
+                                                </div>
+                                            </div>
+                                            <div class="final-price">
+                                                <div class="price-box price-complete">
+                                                    <span>지불 예정액</span>
+                                                    <span th:text="${#numbers.formatInteger(res.finalPrice, 3, 'COMMA')}">0</span>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <!--  결제후  -->
+
+                                        <div style="display:block;" class="price-details payment-before">
+                                            <div th:text="${res.myPaymentDto != null ? '결제 내역 (' + res.myPaymentDto.payServiceName + ')' : '결제 정보 없음'}"
+                                                 class="complete-reservation">
+                                            </div>
+
+                                            <div class="service-price">
+
+                                                <div class="price-box price-complete">
+                                                    <span>시술가격</span>
+                                                    <span th:text="${#numbers.formatInteger(res.myPaymentDto.totalPrice, 3, 'COMMA')}">30000</span>
+                                                </div>
+                                            </div>
+                                            <div class="coupon-discount">
+                                                <div class="price-box price-complete" th:if="${res.myPaymentDto != null}">
+                                                    <span>할인가격</span>
+                                                    <span th:text="${#numbers.formatInteger(res.myPaymentDto.couponDiscountPrice, 3, 'COMMA')}">-5000</span>
+                                                </div>
+                                            </div>
+                                            <div class="ticket-used-amount">
+                                                <div class="price-box price-complete">
+                                                    <span>정액권</span>
+                                                    <span th:text="${#numbers.formatInteger(res.myPaymentDto.ticketUsedPrice, 3, 'COMMA')}">-25000</span>
+                                                </div>
+                                            </div>
+                                            <div class="final-price">
+                                                <div class="price-box price-complete">
+                                                    <span>결제액</span>
+                                                    <span th:text="${#numbers.formatInteger(res.myPaymentDto.finalPrice, 3, 'COMMA')} + ' (' + ${res.myPaymentDto.paymentType.getLabel()} + ')'">0</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <!-- 분기 - 취소 -->
+
+                                    <div class="price-details" th:case="'CANCELED'">
+                                        <div>* 반복되는 예약취소는 미용실을 불안하게 해요 8^8</div>
+                                        <div class="service-price">
+                                            <div class="price-box price-complete">
+                                                <span>시술가격</span>
+                                                <span th:text="${#numbers.formatInteger(res.servicePrice, 3, 'COMMA')}">30000</span>
+                                            </div>
+                                        </div>
+                                        <div class="coupon-discount" th:if="${res.couponUsed}">
+
+                                            <div class="price-box price-complete">
+                                                <span>할인가격</span>
+                                                <span th:text="'-' + ${#numbers.formatInteger(res.couponDiscount, 3, 'COMMA')}">-5000</span>
+                                            </div>
+                                        </div>
+                                        <div class="ticket-used-amount" th:if="${res.ticketUsed}">
+                                            <div class="price-box price-complete">
+                                                <span>사용금액</span>
+                                                <span th:text="'-' + ${#numbers.formatInteger(res.ticketUsedAmount, 3, 'COMMA')}">-25000</span>
+                                            </div>
+                                        </div>
+                                        <div class="final-price">
+                                            <div class="price-box price-complete">
+                                                <span>지불 예정액</span>
+                                                <span th:text="${#numbers.formatInteger(res.finalPrice, 3, 'COMMA')}">0</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 분기 - 노쇼 -->
+
+                                    <div class="price-details" th:case="'NOSHOW'">
+                                        <div>노쇼</div>
+                                        <div class="service-price">
+                                            <div class="price-box">
+                                                <span>시술가격</span>
+                                                <span th:text="${#numbers.formatInteger(res.servicePrice, 3, 'COMMA')}">30000</span>
+                                            </div>
+                                        </div>
+                                        <div class="coupon-discount" th:if="${res.couponUsed}">
+
+                                            <div class="price-box">
+                                                <span>할인가격</span>
+                                                <span th:text="'-' + ${#numbers.formatInteger(res.couponDiscount, 3, 'COMMA')}">-5000</span>
+                                            </div>
+
+                                        </div>
+                                        <div class="ticket-used-amount" th:if="${res.ticketUsed}">
+                                            <div class="price-box">
+                                                <span>사용금액</span>
+                                                <span th:text="'-' + ${#numbers.formatInteger(res.ticketUsedAmount, 3, 'COMMA')}">-25000</span>
+                                            </div>
+                                        </div>
+                                        <div class="final-price">
+                                            <div class="price-box">
+                                                <span>지불 예정액</span>
+                                                <span th:text="${#numbers.formatInteger(res.finalPrice, 3, 'COMMA')}">0</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+
+                                <div class="shop-info-details">
+                                    <div class="address-box">
+                                        <div class="address-title">주소</div>
+                                        <div class="address" th:text="${res.shopAddress}">대전 광역시 대덕구 어쩌구저쩌구</div>
+                                    </div>
+
+                                    <div class="tel-box">
+                                        <div class="tel-title">전화번호</div>
+                                        <div class="tel" th:text="${res.shopTel}">010-5482-5482</div>
+                                    </div>
+                                </div>
+                                <div class="btn-box">
+                                    <button class="reservation-change cancel-btn"
+                                            th:if="${res.status.name() == 'RESERVED'}"
+                                            th:attr="data-reservation-id=${res.reservationId}">
+                                    취소하기</button>
+                                    <a class="re-reservation"
+                                       th:if="${res.status.name() == 'COMPLETED' or res.status.name() == 'CANCELED' or res.status.name() == 'NOSHOW'}"
+                                       th:href="@{'/reservation/write?shopId=' + ${res.shopId}}">
+                                        재예약하기
+                                    </a>
+                                    <button th:if="${res.canWriteReview}"
+                                            class="review-create"
+                                            th:onclick="|openCreateReviewModal(${res.reservationId})|">
+                                        리뷰쓰기
+                                    </button>
+                                    <button  th:if="${res.reviewExists}" class="review-show" th:onclick="|location.href='@{/myPage/review(reservationId=${res.reservationId})}'|">리뷰 보기</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 존재하는 예약만큼 반복 -->
+                    </div>
+                    <div class="no-reserviation" style="display: none">
+                        예약 내역이 없습니다. 헤어샵에 예약을 해보세요!
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 리뷰 작성 모달 -->
+
+    <div id="createReviewModal" class="modal">
+        <div class="modal-container">
+            <div class="modal-header">
+                <div></div>
+                <h2>리뷰 작성하기</h2>
+                <span class="close" onclick="closeCreateReviewModal()">&times;</span>
+            </div>
+
+            <div class="modal-main">
+                <form
+                        action="/myPage/review/create"
+                        method="post"
+                        enctype="multipart/form-data"
+                >
+
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                    <input type="hidden" name="reservationId" id="reservationIdInput" />
+                    <div class="star-rating">
+                        <span class="star" data-value="1">★</span>
+                        <span class="star" data-value="2">★</span>
+                        <span class="star" data-value="3">★</span>
+                        <span class="star" data-value="4">★</span>
+                        <span class="star" data-value="5">★</span>
+                    </div>
+                    <input
+                            type="hidden"
+                            name="rating"
+                            id="ratingInput"
+                            value="0"
+                            required
+                    />
+
+                    <div class="review-input-box">
+              <textarea
+                      id="reviewText"
+                      class="review-textarea"
+                      rows="5"
+                      name="Comment"
+                      required
+              ></textarea>
+                    </div>
+
+                    <div class="image-upload-box">
+                        <label for="reviewImages">이미지 첨부</label>
+                        <input
+                                type="file"
+                                id="reviewImages"
+                                name="reviewImages"
+                                accept="image/*"
+                                multiple
+                        />
+                        <div id="previewContainer" class="preview-container"></div>
+                    </div>
+
+                    <button type="submit">보내기</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<th:block layout:fragment="script">
+
+    <script src="/javascript/user/myReservation.js"></script>
+
+</th:block>
+</body>
+</html>

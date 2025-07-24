@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragment/default}">
+<head>
+  <th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/management/features.css}">
+  </th:block>
+</head>
+<body>
+<div layout:fragment="main" id="main">
+
+
+  <div id="statistics" class="section-container">
+    <h3>일별 / 월별 통계</h3>
+    <div class="stats-filter">
+      <label for="month-select">월 선택: </label>
+      <select id="month-select">
+        <option>2025-07</option>
+        <option>2025-06</option>
+        <option>2025-05</option>
+      </select>
+    </div>
+    <div class="stats-summary">
+      <p>총 근무일: <strong>22일</strong></p>
+      <p>총 시술 건수: <strong>150건</strong></p>
+      <p>총 매출: <strong>3,500,000원</strong></p>
+    </div>
+    <!-- 여기에 그래프나 차트 삽입 가능 -->
+  </div>
+
+</div>
+<th:block layout:fragment="script"></th:block>
+</body>
+</html>

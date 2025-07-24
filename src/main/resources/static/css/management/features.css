@@ -1,0 +1,238 @@
+.section-container {
+  max-width: 1280px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgb(0 0 0 / 0.1);
+  font-family: var(--font-noto-snas);
+}
+
+.section-container h3 {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--main-color);
+  margin-bottom: 20px;
+}
+
+/* 테이블 공통 스타일 */
+.section-container table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 16px;
+}
+
+.section-container th,
+.section-container td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.section-container thead tr {
+  background-color: var(--main-color);
+  color: white;
+}
+
+.paid {
+  color: green;
+  font-weight: bold;
+}
+
+.pending {
+  color: orange;
+  font-weight: bold;
+}
+
+.confirmed {
+  color: green;
+  font-weight: bold;
+}
+
+.cancelled {
+  color: red;
+  font-weight: bold;
+}
+
+.btn-edit {
+  background-color: var(--point-color);
+  border: none;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+.btn-edit:hover {
+  opacity: 0.8;
+}
+
+
+
+/* 통계 필터 */
+
+.stats-filter {
+  margin-bottom: 20px;
+}
+
+.stats-filter label {
+  font-weight: 700;
+  margin-right: 10px;
+}
+
+.stats-filter select {
+  padding: 5px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+
+/* 통계 요약 */
+
+.stats-summary p {
+  font-size: 18px;
+  margin: 8px 0;
+}
+
+.stats-summary strong {
+  color: var(--point-color);
+}
+
+
+/* 멤버 카드 관리 */
+.customer-card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 30px;
+  background-color: #f9f9f9;
+}
+
+.customer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  margin-bottom: 15px;
+}
+
+.customer-header strong {
+  font-size: 18px;
+  color: var(--main-color);
+  flex-shrink: 0;
+}
+
+.customer-header textarea {
+  flex-grow: 1;
+  resize: vertical;
+  min-height: 60px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 8px;
+  font-size: 14px;
+  font-family: var(--font-noto-snas);
+}
+
+.payment-history h4 {
+  font-size: 16px;
+  margin-bottom: 10px;
+  color: var(--point-color);
+}
+
+.payment-history ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.payment-item {
+  background-color: white;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  margin-bottom: 12px;
+}
+
+.payment-item > div {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+  flex-wrap: wrap;
+}
+
+.payment-item .date {
+  color: #666;
+  font-size: 14px;
+  margin-right: 10px;
+}
+
+.payment-item .desc {
+  font-weight: 500;
+  color: #333;
+  margin-right: auto;
+}
+
+.payment-item .price {
+  color: var(--main-color);
+  font-weight: bold;
+}
+
+.payment-item textarea {
+  width: 100%;
+  resize: vertical;
+  min-height: 40px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 6px;
+  font-size: 14px;
+  font-family: var(--font-noto-snas);
+}
+
+.memo-output {
+  background-color: #f1f1f1;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  color: #333;
+}
+
+.memo-output p {
+  margin: 0;
+  line-height: 1.4;
+}
+
+.memo-block {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-left: auto;
+  max-width: 500px;
+  flex: 1;
+}
+
+.btn-edit-memo,
+.btn-save-memo {
+  align-self: flex-end;
+  background-color: var(--point-color);
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-family: var(--font-pretendard);
+  transition: background-color 0.3s ease;
+}
+
+.btn-edit-memo:hover,
+.btn-save-memo:hover {
+  background-color: #3e4f71;
+}
+
+.hidden {
+  display: none;
+}
+
+

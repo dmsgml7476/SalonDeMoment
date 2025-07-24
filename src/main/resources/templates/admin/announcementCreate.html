@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragment/default}">
+<head>
+    <th:block layout:fragment="css">
+        <link rel="stylesheet" th:href="@{/css/admin/announcementCreate.css}" />
+    </th:block>
+</head>
+<body>
+<div layout:fragment="main" id="main">
+    <form action="/admin/anc/registration" method="post" enctype="multipart/form-data" th:object="${ancCreateDto}">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+        <div class="title">제목 <br/>
+            <input type="text" name="title" placeholder="제목을 입력하시오" />
+        </div>
+        <div class="radio">
+            <label><input type="radio" name="role" value="USER" />회원</label>
+            <label><input type="radio" name="role" value="DESIGNER" />디자이너</label>
+        </div>
+        <div class="content">
+            내용 <br/>
+            <textarea name="content" cols="60" rows="20" placeholder="내용을 입력하시오"></textarea>
+        </div>
+        <div class="file">
+            파일 <br/>
+            <input type="file" name="files" multiple/>
+        </div>
+        <div id="button" style="margin-top : 20px; margin-right: 10px;">
+            <button>등록</button>
+            <button type="button" style="padding: 2px 8px;" onclick="location.href='/cs'">취소</button>
+        </div>
+    </form>
+</div>
+<th:block layout:fragment="script"></th:block>
+</body>
+</html>

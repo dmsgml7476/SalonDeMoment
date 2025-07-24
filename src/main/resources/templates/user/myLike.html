@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragment/default}">
+<head>
+  <link rel="stylesheet" href="/css/user/myLike.css">
+  <th:block layout:fragment="css"></th:block>
+</head>
+<body>
+<div layout:fragment="main" id="main">
+  <div class="my-page">
+    <div class="my-page-container">
+      <div class="my-page-wrap">
+        <div class="my-page-menus-area">
+          <div class="my-page-menus">
+            <div class="my-page-menu">
+              <a class="my-reservation" th:href="@{/myPage/reservation}">내 예약 내역</a>
+            </div>
+
+            <div class="my-page-menu">
+              <a class="my-coupons" th:href="@{/myPage/coupons}">쿠폰/정액권</a>
+            </div>
+
+            <div class="my-page-menu">
+              <a class="my-like-page" th:href="@{/myPage/likeList}">찜목록</a>
+            </div>
+
+            <div class="my-page-menu">
+              <a class="my-review" th:href="@{/myPage/review}">내 리뷰</a>
+            </div>
+
+            <div class="my-page-menu">
+              <a class="my-cs-list-page" th:href="@{/myPage/myQuestionList}">나의 고객문의</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="my-page-content-area">
+        <div class="my-page-content-box">
+          <div class="my-page-title">내 찜 목록</div>
+
+          <!-- 변경부분 -->
+          <div class="my-DSESHOP-area">
+            <!-- 쿠폰영역 -->
+            <div class="like-desginer-area">
+              <div class="content-area-header">
+                <div>♥</div>
+                <div>디자이너</div>
+              </div>
+
+              <div class="scroll-wrapper">
+                <div class="designer-list">
+                  <!-- 디자이너 박스 -->
+                  <div class="designer-box" th:each="designer : ${myLikeDesigner}">
+                    <div class="designer-img">
+                      <img th:src="${designer.imgUrl ?: '/images/default_profile.jpg'}" alt="디자이너 이미지">
+                    </div>
+                    <div class="designer-name" th:text="${designer.position} + ' ' + ${designer.designerName}">누구누구 수석 디자이너</div>
+                    <div class="btn-area">
+                        <button type="button">예약</button>
+                        <button type="button">상세</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 헤어샵 라이크 영역 -->
+            <div class="like-shop-area">
+              <div class="content-area-header">
+                <div>♥</div>
+                <div>헤어샵</div>
+              </div>
+              <div class="scroll-wrapper">
+                <div class="shop-list">
+                  <div class="shop-box" th:each="shop : ${myLikeShop}">
+                    <div class="shop-img">
+                      <img th:src="@{${shop.imgUrl}}" alt="헤어샵이미지" draggable="false"/>
+                    </div>
+                    <div class="shop-info">
+                      <div class="shop-info-details">
+                        <div class="shop-name" th:text="${shop.shopName}">떡잎마을미용실</div>
+                        <div class="shop-address" th:text="${shop.address}">대전 떡잎마을</div>
+
+                        <!-- 휴일 있을때 -->
+                        <div class="shop-dayoff closed"
+                             th:if="${shop.dayOffShowDto.dayOff != 0}"
+                             th:text="${shop.dayOffShowDto.dayOffText}">매주 화요일</div>
+                        <!-- 휴일 없을때 -->
+                        <div class="shop-dayoff no-dayoff" th:if="${shop.dayOffShowDto.dayOff == 0}">연중무휴</div>
+
+                        <!-- 평점 -->
+                        <span th:if="${shop.rating != null}"
+                              th:text="${#strings.repeat('★', T(java.lang.Math).round(shop.rating)) +
+                                      #strings.repeat('☆', 5 - T(java.lang.Math).round(shop.rating)) +
+                                      ' ' + #numbers.formatDecimal(shop.rating, 1, 1)}">
+</span>
+                        <span th:if="${shop.rating == null}">평점 없음</span>
+
+                        <div class="coupon" th:if="${shop.hasCoupon}">
+                          <img src="/images/coupon.png" alt="쿠폰">
+                        </div>
+
+                      </div>
+                      <div class="btn-area">
+                        <button>예약</button>
+                        <a th:href="@{/shop/{id}(id=${shop.shopId})}">
+                          <button>상세</button>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 변경부분 끝 -->
+        </div>
+      </div>
+    </div>
+<!-- 본문 끝 -->
+</div>
+<th:block layout:fragment="script">
+  <script src="/javascript/user/myLike.js"></script>
+</th:block>
+</body>
+</html>

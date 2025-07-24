@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragment/default}">
+<head>
+    <th:block layout:fragment="css">
+        <link rel="stylesheet" href="/css/admin/reply.css">
+    </th:block>
+</head>
+<body>
+<div layout:fragment="main" id="main">
+    <h2>고객 문의 상세</h2>
+    <div class="question-box">
+        <p><strong>카테고리:</strong><span th:text="${csCreateDto.csCategory}"></span></p>
+        <p><strong>문의 내용</strong></p>
+        <p class="question-text" th:text="${csCreateDto.questionText}"></p>
+        <p><strong>문의 일시:</strong><span th:text="${#temporals.format(csListDto.questionAt, 'yyyy-MM-dd')}"></span></p>
+        <p><strong>상태:</strong><span th:text="${csCreateDto.csStatus}"></span></p>
+    </div>
+    <div class="answer-box">
+        <h3>관리자 답변</h3>
+        <!-- 답변 있음 -->
+        <div th:if="${csDetailDto.replyText != null}">
+            <p><strong>답변자:</strong><span th:text="${csDetailDto.loginId}"></span></p>
+            <p><strong>답변일시:</strong><span th:text="${#temporals.format(csDetailDto.replyAt, 'yyyy-MM-dd')}"></span></p>
+            <div class="reply-text" th:text="${csDetailDto.replyText}"></div>
+        </div>
+        <!-- 답변 없음 + 관리자일 때: 작성 폼-->
+        <div th:if="${csDetailDto.replyText == null}">
+            <div th:if="${isAdmin}">
+                <form th:action="@{/admin/cs/reply}" method="post" th:object="${csDetailDto}" onsubmit="return validateForm()">
+                    <input type="hidden" th:field="*{id}">
+                    <label for="replyText">답변 작성</label>
+                    <textarea th:field="*{replyText}" id="replyText" rows="6" placeholder="답변을 입력하세요"></textarea>
+                    <div class="button">
+                        <button type="submit" class="submit-btn">답변 등록</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- 답변 없음 + 일반 사용자 -->
+        <div th:if="${!isAdmin}">
+            <p>아직 답변이 등록되지 않았습니다. 조금만 기다려 주세요 🙏</p>
+        </div>
+    </div>
+
+    <!-- 뒤로가기 -->
+    <div class="button" style="margin-top: 20px;">
+        <a href="/admin/cs/questionList">
+            <button class="secondary-btn">목록으로</button>
+        </a>
+    </div>
+</div>
+<th:block layout:fragment="script">
+    <script>
+        function validateForm(){
+            const reply = document.getElementById('replyText').value.trim();
+            if(!reply){
+                alert('답변 내용을 입력해주세요.');
+                return false;
+            }
+            return true;
+        }
+    </script>
+</th:block>
+</body>
+</html>

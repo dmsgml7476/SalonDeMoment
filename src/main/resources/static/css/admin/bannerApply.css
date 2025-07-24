@@ -1,0 +1,82 @@
+body{
+    font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #000000;
+}
+
+#main{
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.modal-overlay{
+    display: flex;
+    justify-content: center;
+    height: 700px;
+    align-items: center;
+}
+
+.modal{
+    background: #ffffff;
+    width: 100%;
+    max-width: 1280px;
+    padding: 48px;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.modal h2{
+    font-size: 24px;
+    margin-bottom: 24px;
+    color: #566A8E;
+}
+
+.modal label{
+    display: block;
+    margin-top: 20px;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #000000;
+}
+
+.modal input[type="date"],
+.modal input[type="file"],
+.modal select{
+    width: 100%;
+    padding: 12px 14px;
+    border : 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 15px;
+    box-sizing: border-box;
+}
+
+.button{
+    display: flex;
+    justify-content:flex-end;
+    margin-top: 40px;
+}
+
+.submit-btn{
+    padding: 12px 14px;
+    background-color: #FF4891;
+    color: #ffffff;
+    border: 2px solid #ffffff;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.submit-btn:hover{
+    background-color: #e03d7a;
+}
+
+.submit-btn:disabled{
+    background-color: #cccccc;
+    border-color: #cccccc;
+    color: #888888;
+    cursor: not-allowed;
+}

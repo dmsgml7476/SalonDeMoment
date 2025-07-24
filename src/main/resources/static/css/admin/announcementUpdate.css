@@ -1,0 +1,63 @@
+body {
+  font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
+  margin: 0;
+  padding: 20px;
+}
+#main{
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 20px 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+#main > div{
+    margin-bottom: 10px;
+}
+.title,
+.content,
+.file,
+.radio {
+  font-size: 16px;
+  color: #333;
+}
+input[type="text"],
+textarea,
+input[type="file"] {
+  width: 95%;
+  padding: 10px;
+  margin-top: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+#button {
+  text-align: right;
+}
+#button > button {
+    padding: 8px 18px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease ease-in-out;
+}
+#button > button:first-child {
+  background-color: #FF3B77;
+  color: white;
+  border: 2px solid white;
+}
+#button > button:first-child:hover {
+  background-color: #e0316a;
+}
+
+/* 취소(Secondary) - 링크 안에 버튼 있으므로 별도 지정 */
+#button a button {
+  background-color: transparent;
+  border: 1px solid #999;
+  color: #333;
+}
+#button a button:hover {
+  background-color: #f2f2f2;
+}

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragment/default}">
+<head>
+  <th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/master/sales.css}" />
+  </th:block>
+</head>
+
+<body>
+<div layout:fragment="main" id="main">
+  <div class="section-container">
+    <div class="page-header">
+      <h3>매출 현황</h3>
+      <div class="date-filter">
+        <input type="month" id="salesMonthFilter">
+        <button id="applySalesFilterBtn">조회</button>
+      </div>
+    </div>
+
+    <div class="total-sales-summary">
+      <h4>총 매출</h4>
+      <p class="total-amount">₩ <span id="totalSalesAmount">0</span></p>
+      <div class="category-breakdown">
+        <h5>카테고리별 총 매출</h5>
+        <ul id="totalCategorySalesList">
+        </ul>
+      </div>
+    </div>
+
+    <div class="designer-sales-list">
+      <h4>디자이너별 매출</h4>
+      <div id="designerSalesCards">
+      </div>
+    </div>
+  </div>
+</div>
+
+<th:block layout:fragment="script">
+  <script th:src="@{/javascript/master/sales.js}"></script>
+</th:block>
+</body>
+</html>

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragment/default}">
+<head>
+    <th:block layout:fragment="css">
+        <link rel="stylesheet" th:href="@{/css/designer/designerProfile.css}">
+    </th:block>
+</head>
+<body>
+<div layout:fragment="main" id="main">
+
+    <!-- 디자이너 프로필 섹션 -->
+    <section class="designer-profile-top">
+        <div class="container">
+            <div class="designer-profile-box">
+                <div class="designer-photo-wrapper">
+                    <img class="designer-photo"
+                         th:src="${detail?.imgUrl ?: '/images/default.png'}"
+                         alt="프로필사진" />
+                </div>
+
+                <div class="designer-content-wrapper">
+                    <div class="designer-info">
+                        <h2 class="designer-name" th:text="${detail?.designerName ?: '이름 없음'}">디자이너 이름</h2>
+                        <p th:text="${detail?.expertise ?: '전문분야 없음'}">전문분야</p>
+                        <div class="designer-salon">
+                            <i class="fa-solid fa-scissors"></i>
+                            <a th:href="@{'/shop/' + ${detail.shopId}}">
+                                <span th:text="${detail?.shopName ?: '@소속 미용실'}">@Salon</span>
+                            </a>
+                        </div>
+                        <p class="off-day" th:text="'📅 디자이너 ' + ${detail.careerYears} + '년차'">근무기간</p>
+                        <span class="working-hours" th:text="|근무시간 : ${#temporals.format(detail.scheduledStartTime, 'HH:mm')} ~ ${#temporals.format(detail.scheduleEndTime, 'HH:mm')}|">
+                                근무시간 : 11:00 ~ 20:00
+                        </span>
+                        <div class="more-button-wrapper">
+                            <button class="toggle-description">더보기 <i class="fa-solid fa-chevron-down"></i></button>
+                        </div>
+                    </div>
+
+
+                    <div class="designer-description">
+                        <p th:text="${detail?.description ?: '소개글이 없습니다.'}">소개글</p>
+                    </div>
+
+                    <div class="profile-actions">
+                        <button class="icon-text-btn">
+                            <i class="fa fa-heart"></i>
+                            <span th:text="'찜 ' + ${detail?.likeCount ?: 0}">찜 수</span>
+                        </button>
+                        <button class="icon-text-btn">
+                            <i class="fa fa-comment"></i>
+                            <span th:text="'리뷰 ' + ${detail?.reviewCount ?: 0}">리뷰 수</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 메뉴바 -->
+    <section class="designer-tabs">
+        <div class="container">
+            <nav class="designer-tabs-menu">
+                <ul>
+                    <li class="tab-item active" data-tab="tab-home">홈</li>
+                    <li class="tab-item" data-tab="tab-menu">메뉴</li>
+                    <li class="tab-item" data-tab="tab-review">리뷰</li>
+                </ul>
+            </nav>
+        </div>
+    </section>
+
+    <!-- 시술 카테고리 탭 -->
+    <section class="category-tabs-wrapper" id="categoryTabs" style="display: none">
+        <div class="category-tabs">
+            <button class="category-btn active" data-category="cut">커트</button>
+            <button class="category-btn" data-category="perm-w">여성펌</button>
+            <button class="category-btn" data-category="perm-m">남성펌</button>
+            <button class="category-btn" data-category="clinic">클리닉</button>
+            <button class="category-btn" data-category="style">스타일링</button>
+        </div>
+    </section>
+
+    <!-- 메뉴 탭 콘텐츠: 홈 -->
+    <section class="tab-content" id="tab-home" style="display: block">
+        <div class="container">
+            <h3 th:text="|${detail?.designerName ?: '디자이너'}의 시술 미리보기|">시술 미리보기</h3>
+            <ul class="service-list">
+                <span th:text="${detail != null and detail.expertise != null ? detail.expertise : '전문분야 없음'}">전문분야</span>
+                    <li>
+                    <div class="service-img">
+                        <img th:src="${service?.imgUrl ?: '/images/placeholder.png'}" alt="시술사진" />
+                    </div>
+                    <div class="service-info">
+                        <strong class="service-name" th:text="${service?.name ?: '이름 없음'}">시술명</strong>
+                        <div class="service-price">
+                            <span class="original" th:text="|${#numbers.formatInteger(service?.price, 3, 'COMMA')}원|">정가</span>
+                        </div>
+                        <div class="service-extra" th:text="${service?.description ?: ''}">추가정보</div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- 리뷰 섹션 -->
+    <section class="tab-content" id="tab-review" style="display: none">
+        <div class="container">
+            <div class="designer-review-section">
+                <div class="review-container">
+                    <h3 class="review-title">리뷰 | <span th:text="${home?.reviewCount ?: 0}">0</span></h3>
+
+                    <!-- 썸네일 이미지 -->
+                    <div class="review-thumbnails"
+                         th:if="${home != null and home.thumbnails != null and (!#lists.isEmpty(home.thumbnails))}">
+                        <div class="thumbnail"
+                             th:each="img, iter : ${home.thumbnails}"
+                             th:if="${iter.count <= 7}" th:remove="tag">
+                            <img th:src="${img.imgUrl != null ? img.imgUrl : '/images/placeholder.png'}" alt="리뷰이미지" />
+                        </div>
+
+                        <div class="thumbnail last" th:if="${home.thumbnails.size() >= 8}">
+                            <img th:src="${home.thumbnails[7].imgUrl != null ? home.thumbnails[7].imgUrl : '/images/placeholder.png'}"
+                                 alt="추가 이미지" />
+                            <span class="plus">+</span>
+                        </div>
+                    </div>
+
+                    <!-- 리뷰 리스트 -->
+                    <ul class="review-list"  th:each="review : ${home.recentReviews}">
+                        <span th:text="${home != null and home.recentReviews != null ? home.recentReviews.size() : 0}">리뷰 개수</span>
+                            <div class="review-header">
+                                <strong th:text="${review?.serviceName ?: '시술명 없음'}">시술명</strong>
+                                <span class="chevron">&gt;</span>
+                            </div>
+                            <div class="review-rating" th:text="${review?.rating != null ? review.rating + '점' : '평점 없음'}">평점</div>
+                        <div class="review-content">
+                            <p th:text="${review != null and review.reviewText != null ? review.reviewText : '리뷰 없음'}">리뷰내용</p>
+
+
+                            <div class="review-meta">
+                                <span th:text="${review != null and review.memberName != null ? review.memberName : '익명'}">작성자</span>
+                                <span> · </span>
+                                <span th:text="${review.createdDateFormatted}">작성일 · 몇일 전</span>
+                                <span th:if="${review.visitCount != null}"> ·
+                                  <span th:text="${review.visitCount + '번째 방문'}">방문횟수</span>
+                                </span>
+                            </div>
+                        </div>
+                            <!-- 디자이너 답글 -->
+                            <div class="r-reply" th:if="${review?.replyDto != null}">
+                                <strong>디자이너 답글</strong>
+                                <p th:text="${review.replyDto?.replyComment ?: '답글 없음'}">답글 내용</p>
+                                <div class="r-meta"
+                                     th:text="${#temporals.format(review.replyDto?.replyAt ?: @java.time.LocalDate.now(), 'yyyy.MM.dd')}">답글 날짜</div>
+                            </div>
+                    </ul>
+
+                    <div class="review-more">
+                        <button class="reviewmore-btn">더보기</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 메뉴 탭 콘텐츠 -->
+    <section class="tab-content" id="tab-menu" style="display: none">
+        <div class="container">
+            <th:block th:if="${serviceMap != null}">
+                <th:block th:each="entry : ${serviceMap}">
+                    <h3 th:text="${entry.key == 'RECOMMENED' ? '추천 시술' : entry.key.label}">카테고리명</h3>
+                    <ul class="service-list">
+                        <li th:each="service : ${entry.value}">
+                            <div class="service-img">
+                                <img th:src="${service.imgUrl ?: '/images/placeholder.png'}" alt="시술사진" />
+                            </div>
+                            <div class="service-info">
+                                <strong class="service-name" th:text="${service.name ?: '이름 없음'}">시술명</strong>
+                                <div class="service-price">
+                                    <span class="original" th:text="|${#numbers.formatInteger(service.price, 3, 'COMMA')}원|">정가</span>
+                                </div>
+                                <div class="service-extra" th:text="${service?.description ?: ''}">추가정보</div>
+                            </div>
+                        </li>
+                    </ul>
+                </th:block>
+            </th:block>
+        </div>
+    </section>
+
+</div>
+<!-- JS -->
+<th:block layout:fragment="script">
+    <script th:src="@{/javascript/designer/designerProfile.js}" defer></script>
+</th:block>
+</body>
+</html>

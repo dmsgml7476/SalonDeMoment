@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragment/default}" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <th:block layout:fragment="css">
+        <link rel="stylesheet" href="/css/admin/csList.css">
+    </th:block>
+</head>
+<body>
+<div layout:fragment="main" id="main">
+    <h2>고객 문의 목록</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>번호</th>
+            <th>카테고리</th>
+            <th>문의 내용</th>
+            <th>작성자 유형</th>
+            <th>상태</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="list" th:each="csList, stat : ${csListDtoList}">
+            <td th:text="${stat.count}"></td>
+            <td th:text="${csList.CategoryLabel}"></td>
+            <td><a th:href="@{/admin/cs/reply(id=${csList.id})}" th:text="${csList.questionText}"></a></td>
+            <td th:text="${csList.loginId}"></td>
+            <!--<th th:text="${#temporals.format(csList.questionAt, 'yyyy-MM-dd')}"></th>-->
+            <td th:text="${csList.statusLabel}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="button-wrapper" sec:authorize="!hasRole('ADMIN')">
+        <a href="/admin/cs/question" id="button">
+            <button class="primary-btn">문의 작성하기</button>
+        </a>
+    </div>
+</div>
+<th:block layout:fragment="script"></th:block>
+</body>
+</html>

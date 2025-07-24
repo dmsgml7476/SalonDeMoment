@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragment/default}">
+<head>
+    <th:block layout:fragment="css">
+        <link rel="stylesheet" th:href="@{/css/management/reservationForm.css}">
+    </th:block>
+</head>
+<body>
+<div layout:fragment="main" id="main">
+
+    <div class="section-container">
+        <h3 th:text="${reservationId} != null ? '예약 수정' : '예약 등록'">예약 등록</h3>
+
+        <form id="reservationForm" class="reservation-form"
+              th:action="${reservationId} != null ? @{/manage/reservations/update/{id}(id=${reservationId})} : @{/manage/reservations/save}"
+              method="post"
+              th:object="${newRes}">
+            <input type="hidden" name="id" th:if="${reservationId} != null" th:value="${reservationId}">
+
+
+            <div class="row input-autocomplete-wrapper">
+                <label>고객명</label>
+                <input type="text" id="memberName" th:value="*{memberName}" placeholder="고객명을 입력하세요" autocomplete="off">
+                <input type="hidden" id="memberId" th:value="*{memberId}" name="memberId">
+                <div id="memberSearchResults" class="autocomplete-results"></div>
+            </div>
+
+            <div class="row date-picker-row"
+                 th:with="now=${T(java.time.LocalDateTime).now()},
+                   initialDate=${newRes.reservationDate != null
+                   ? newRes.reservationDate : now}">
+                <label for="reservationDate">예약 날짜</label>
+                <input type="datetime-local"
+                       id="reservationDate"
+                       name="reservationDate"
+                       th:value="${#temporals.format(initialDate, 'yyyy-MM-dd''T''HH:mm')}"
+                       th:min="${#temporals.format(now, 'yyyy-MM-dd''T''HH:mm')}" />
+            </div>
+
+            <div class="row input-autocomplete-wrapper"> <label>시술명</label>
+                <input type="text" id="serviceName" th:value="*{serviceName}" name="serviceName" placeholder="시술명을 입력하세요" autocomplete="off">
+                <input type="hidden" id="serviceId" th:value="*{serviceId}" name="serviceId">
+                <div id="serviceSearchResults" class="autocomplete-results"></div> </div>
+
+            <div class="row">
+                <label>시술 금액</label>
+                <input type="number" id="servicePrice" th:value="*{servicePrice}" name="servicePrice">
+            </div>
+
+            <div class="row">
+                <label>쿠폰</label>
+                <select id="couponSelect" name="couponId">
+                    <option value="" data-discount-type="" data-discount-value="0" data-minimum-amount="0">선택 안 함</option>
+                </select>
+                <input type="hidden" th:value="*{couponDiscount}" id="couponDiscount" name="couponDiscount">
+            </div>
+
+            <div class="row">
+                <label><input type="checkbox" id="useTicket" name="ticketIsUsed"
+                              th:checked="*{ticketIsUsed} ? 'checked' : null"> 정액권 사용</label>
+            </div>
+
+            <div class="row" id="ticketAmountRow" th:style="*{ticketIsUsed} ? '' : 'display:none'">
+                <label>정액권 사용 금액</label>
+                <input type="number" id="ticketAmount" th:value="*{ticketUsedAmount}" name="ticketUsedAmount" min="0">
+            </div>
+
+            <div class="row final-price">
+                <label>최종 결제 금액</label>
+                <input type="number" id="finalPrice" th:value="*{finalPrice}" name="finalPrice" readonly>
+            </div>
+
+            <div class="row">
+                <label>예약 상태</label>
+                <select id="status" name="status">
+                    <option th:value="RESERVED" th:selected="*{status} == 'RESERVED'">예약중</option>
+                    <option th:value="CANCELED" th:selected="*{status} == 'CANCELED'">취소</option>
+                    <option th:value="NOSHOW" th:selected="*{status} == 'NOSHOW'">노쇼</option>
+                    <option th:value="COMPLETED" th:selected="*{status} == 'COMPLETED'">예약완료</option>
+                </select>
+            </div>
+
+            <div class="row">
+                <label for="comment">메모</label>
+                <textarea id="comment" name="comment" th:text="*{comment}" rows="3" placeholder="예약 관련 메모를 입력하세요."></textarea>
+            </div>
+
+            <div class="row">
+                <button type="submit" th:text="${reservationId} != null ? '수정' : '등록'"></button>
+            </div>
+
+        </form>
+    </div>
+
+</div>
+
+<th:block layout:fragment="script">
+    <script th:src="@{/javascript/management/reservationForm.js}"></script>
+</th:block>
+
+</body>
+</html>

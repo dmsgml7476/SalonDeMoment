@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html
+        lang="ko"
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{fragment/default}"
+>
+<head>
+  <link rel="stylesheet" type="text/css" href="/css/user/login.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.4.2/zxcvbn.js"></script>
+
+
+  <th:block layout:fragment="css"></th:block>
+</head>
+<body>
+
+
+<div layout:fragment="main" id="main">
+  <div class="login-container">
+    <div class="login-wrap">
+      <form method="post" th:action="@{/login}" class="login-form">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+        <div class="loginPage">
+          <span>LOGIN</span>
+        </div>
+        <div class="login-area">
+          <div class="input-area">
+            <div>
+              <input
+                      type="text"
+                      name="loginId"
+                      placeholder="아이디를 입력하세요"
+                      class="input-login-id"
+              />
+              <span class="clear-btn" id="clearLoginId">×</span>
+            </div>
+            <div>
+              <input
+                      type="password"
+                      name="password"
+                      placeholder="비밀번호를 입력하세요"
+                      class="input-password"
+              />
+              <span class="clear-btn" id="clearPassword">×</span>
+            </div>
+
+            <p
+                    th:if="${loginErrorMsg}"
+                    class="error-msg"
+                    th:text="${loginErrorMsg}"
+            ></p>
+            <div class="remember-user">
+              <label>
+                <input type="checkbox" name="remember-me" />
+                <span>로그인 상태 유지</span>
+              </label>
+            </div>
+          </div>
+
+          <button type="submit" class="btn">로그인</button>
+        </div>
+      </form>
+
+
+
+      <div class="login-ops">
+        <div class="login-op find-id">아이디 찾기</div>
+        <div class="login-op find-pw">비밀번호 찾기</div>
+        <div class="login-op signUp"><a href="/signUp">회원가입</a></div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- 모달창 html -->
+
+  <!-- find id modal start-->
+  <div id="findIdModal" class="modal">
+    <div class="modal-container">
+      <div class="modal-header">
+        <div></div>
+        <div><h2>아이디 찾기</h2></div>
+        <span class="close" onclick="closeFindIdModal()">&times;</span>
+      </div>
+
+      <!--  step 1: email-check  -->
+
+      <div class="modal-main" id="findIdStep1">
+        <form onsubmit="return false;">
+          <div class="input-area check-email">
+            <div class="email-check-title">
+              <p>이메일</p>
+              <p class="chk-error-msg" id="chkEmailMsg" style="display: none;">일치하는 이메일이 없습니다</p>
+            </div>
+            <div class="input-box">
+              <input type="email" name="email" placeholder="가입시 입력한 이메일을 입력하세요" id="emailInput" required>
+              <button class="button" type="button" id="sendChkNum">인증번호 전송</button>
+            </div>
+          </div>
+
+          <div class="input-area check-code">
+            <div class="check-code-title">
+              <p>인증번호</p>
+              <p class="chk-error-msg" id="chkCodeMsg" style="display: none;">
+                인증번호가 틀립니다
+              </p>
+            </div>
+
+            <div class="input-box">
+              <input type="text" id="emailCodeInput" required>
+              <button type="button" id="chkNumCheck">인증</button>
+            </div>
+          </div>
+
+          <button type="button" id="nextBtn" onclick="goToIdPrintStep()" class="next-btn" disabled>다음</button>
+        </form>
+      </div>
+
+      <!-- step 2 : print found id -->
+
+      <div class="modal-main" id="findIdStep2" style="display:none;">
+        <div class="find-id-area">
+          <div class="find-id-box">
+            <span>고객님의 아이디는</span>
+            <div class="found-id-print"><p id="foundId">user1234</p></div>
+            <span>입니다.</span>
+          </div>
+        </div>
+
+        <div class="btn-area">
+          <button class="next-btn" onclick="closeFindIdModal()">
+            로그인
+          </button>
+          <button class="next-btn" onclick="goToFindPwModal()">
+            비밀번호 찾기
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--find id modal end-->
+
+  <!-- find pw modal start -->
+
+
+  <!-- find pw modal start-->
+  <div id="findPwModal" class="modal">
+    <div class="modal-container">
+      <div class="modal-header">
+        <div></div>
+        <div><h2>비밀번호 찾기</h2></div>
+        <span class="close" onclick="closeFindPwModal()">&times;</span>
+      </div>
+
+      <!--  step 1: email-check  -->
+
+      <div class="modal-main" id="findPwStep1">
+        <form onsubmit="return false;">
+          <div class="input-area check-email">
+            <div class="email-check-title">
+              <p>이메일</p>
+              <p class="chk-error-msg" id="pwEmailMsg" style="display: none;">일치하는 이메일이 없습니다</p>
+            </div>
+            <div class="input-box">
+              <input type="email" name="email" placeholder="가입시 입력한 이메일을 입력하세요" id="pwEmailInput" required>
+              <button class="button" type="button" id="pwSendChkNum">인증번호 전송</button>
+            </div>
+          </div>
+
+          <div class="input-area check-code">
+            <div class="check-code-title">
+              <p>인증번호</p>
+              <p class="chk-error-msg" id="chkPwCodeMsg" style="display: none;">
+                인증번호가 틀립니다
+              </p>
+            </div>
+
+            <div class="input-box">
+              <input type="text" id="pwEmailCodeInput" required>
+              <button type="button" id="pwNumCheck">인증</button>
+            </div>
+          </div>
+
+          <button type="button" id="pwNextBtn" onclick="goToPwChange()" class="next-btn" disabled>다음</button>
+        </form>
+      </div>
+
+      <!-- step 2 : change pw -->
+
+      <div class="modal-main" id="findPwStep2" style="display:none;">
+        <form action="auth/email/editPw" method="post" id="changePwForm">
+          <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+          <input type="hidden" name="email" id="changePwEmail"/>
+          <div class="input-box editPw-box">
+            <div class="input-box-title new-password area">
+              <p>새 비밀번호</p>
+              <p class="chk-pw-text" id="pwConfirmMsg" style = "display: none;">비밀번호 형식이 옳지 않습니다.</p>
+            </div>
+            <div class="input-box-content new-password-input">
+              <input type="password" name="newPassword" id="newPassword" required/>
+            </div>
+
+            <div class="input-box-title confirm-password-area">
+              <p>비밀번호 확인</p>
+              <p class="chk-pw-text" id="pwMismatchMsg" style = "display: none;">입력한 비밀번호가 일치하지 않습니다.</p>
+            </div>
+            <div class="input-box-content password-confirm-input">
+              <input type="password" name="confirmPassword" id="confirmPassword" required/>
+            </div>
+          </div>
+
+          <button type="submit" id="changePwBtn" disabled>변경</button>
+        </form>
+      </div>
+
+      <!-- step 3 : pw change result-->
+
+      <div class="modal-main" id="changePwResult" style="display:none;">
+
+        <div>
+          <span>비밀번호가 성공적으로 변경되었습니다.</span>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+  <!-- find pw modal end -->
+
+  <input type="hidden" id="csrfToken" th:value="${_csrf.token}" />
+  <input type="hidden" id="csrfHeader" th:value="${_csrf.headerName}" />
+  <!-- fragment div end-->
+</div>
+
+
+
+<th:block layout:fragment="script">
+  <script src="/javascript/user/login.js"></script>
+</th:block>
+</body>
+</html>

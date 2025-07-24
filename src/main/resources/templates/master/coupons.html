@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragment/default}">
+
+<head>
+  <th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/master/coupons.css}">
+  </th:block>
+</head>
+
+<body>
+<div layout:fragment="main" id="main">
+
+  <div id="coupon-main" class="designer-container">
+    <h2>쿠폰 관리</h2>
+
+    <section class="coupon-list-section">
+      <h3>발행된 쿠폰 목록</h3>
+      <table class="default-table">
+        <thead>
+        <tr>
+          <th>쿠폰명</th>
+          <th>할인 값</th>
+          <th>최소 사용 금액</th>
+          <th>유효기간</th>
+          <th>사용 가능</th>
+          <th>관리</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="coupon : ${couponList}">
+          <td th:text="${coupon.name}">첫방문 20%</td>
+          <td th:text="${coupon.discountValue + (coupon.discountType.name() eq 'PERCENT' ? '%' : '원')}"></td>
+          <td th:text="${coupon.minimumAmount} + '원'">30,000원</td>
+          <td th:text="${coupon.expireDate}">2025-12-31</td>
+          <td th:text="${coupon.active ? '가능' : '중지'}">가능</td>
+          <td><button class="btn-edit" th:attr="data-id=${coupon.id}">수정</button></td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(couponList)}">
+          <td colspan="7" class="table-empty">발행된 쿠폰이 없습니다.</td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+
+
+    <section class="coupon-register-section">
+      <h3>신규 쿠폰 등록</h3>
+      <form action="/master/coupons/new" method="post" class="coupon-form" th:object="${couponDto}">
+
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+        <input type="hidden" th:field="*{shopId}" />
+
+        <div class="form-group">
+          <label for="name">쿠폰명</label>
+          <input type="text" id="name" th:field="*{name}" required />
+        </div>
+
+        <div class="form-group">
+          <label for="discountType">할인 유형</label>
+          <select id="discountType" th:field="*{discountType}" required>
+            <option value="PERCENT">퍼센트(%)</option>
+            <option value="AMOUNT">금액(원)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="discountValue">할인 값</label>
+          <input type="number" id="discountValue" th:field="*{discountValue}" min="1" required />
+        </div>
+
+        <div class="form-group">
+          <label for="minimumAmount">최소 사용 금액</label>
+          <input type="number" id="minimumAmount" th:field="*{minimumAmount}" min="0" value="0" />
+        </div>
+
+        <div class="form-group">
+          <label for="expireDate">유효기간</label>
+          <input type="date" id="expireDate" th:field="*{expireDate}" required />
+        </div>
+
+        <div class="form-group">
+          <label><input type="checkbox" th:field="*{active}"/> 사용 가능</label>
+        </div>
+
+        <button type="submit" class="btn-submit">등록하기</button>
+      </form>
+
+    </section>
+
+  </div>
+
+</div>
+</body>
+</html>

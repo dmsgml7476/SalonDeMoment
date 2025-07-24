@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragment/default}">
+<head>
+    <th:block layout:fragment="css">
+        <link rel="stylesheet" href="/css/admin/applyList.css">
+    </th:block>
+</head>
+<body>
+<div layout:fragment="main" id="main">
+    <h2>샵 승인 요청 목록</h2>
+    <table border="1" cellpadding="5" cellspacing="0" style="width:100%;">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>성명</th>
+            <th>사업자 등록번호</th>
+            <th>발급일</th>
+            <th>요청일</th>
+            <th>상태</th>
+            <th>승인/거절</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="shopApply : ${shopApplyList}">
+            <td th:text="${shopApply.id}"></td>
+            <td th:text="${shopApply.member.name}"></td>
+            <td th:text="${shopApply.applyNumber}"></td>
+            <td th:text="${shopApply.issuedDate}"></td>
+            <td th:text="${#temporals.format(shopApply.createAt, 'yyyy-MM-dd')}"></td>
+            <td th:text="${shopApply.StatusLabel}"></td>
+            <td>
+                <div th:if="${shopApply.status.name() == 'WAITING'}">
+                    <form th:action="@{'/admin/cs/approve/' + ${shopApply.id}}" method="post" style="display:inline;" onsubmit="return validateApproveReject(this)">
+                        <button type="submit" style="margin-right: 16px;">승인</button>
+                    </form>
+                    <form th:action="@{'/admin/cs/reject/' + ${shopApply.id}}" method="post" style="display:inline;">
+                        <button type="submit">거절</button>
+                    </form>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<th:block layout:fragment="script">
+    <script>
+        function validateApproveReject(form){
+          const tr = form.closest('tr');
+          if(!tr) return true;
+
+          const applyNumberCell = tr.querySelector('td:nth-child(3)');
+          if(!applyNumberCell) return true;
+
+          const applyNumber = applyNumberCell.textContent.trim();
+          if(!applyNumber){
+            return false;
+          }
+          return true;
+        }
+    </script>
+</th:block>
+</body>
+</html>

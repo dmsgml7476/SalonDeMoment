@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragment/default}">
+<head>
+    <th:block layout:fragment="css">
+        <link rel="stylesheet" th:href="@{/css/shop/reCheckCoupon.css}">
+    </th:block>
+</head>
+<body>
+<div layout:fragment="main" id="main">
+    <section class="info-box">
+        <h2>예약 확인</h2>
+        <p>
+            <strong>미용실 :</strong>
+            <span th:text="|${preview.shopName} - ${preview.shopAddress}|">미용실 정보</span>
+        </p>
+        <p>
+            <strong>디자이너 :</strong>
+            <span th:text="${preview.designerTitle}">디자이너명</span>
+        </p>
+        <p>
+            <strong>시술 :</strong>
+            <span th:text="${preview.serviceSummary}">시술 정보</span>
+        </p>
+        <p>
+            <strong>예약자 :</strong>
+            <span th:text="${member.name}">이름</span> </p>
+        <p>
+            <strong>예약자 연락처 :</strong>
+            <span th:text="${member.tel}">전화번호</span> </p>
+        <p>
+            <strong>예약 일시 :</strong>
+            <span th:text="${#temporals.format(preview.reservationDate, 'yyyy년 MM월 dd일')}"></span>
+            <span th:text="${#temporals.format(preview.reservationTime, 'HH:mm')}"></span>
+        </p>
+        <a th:href="@{/reservation/write(
+            shopId=${preview.shopId},
+                shopDesignerId=${preview.designerId},
+                    date=${#temporals.format(preview.reservationDate, 'yyyy-MM-dd')})}"
+           class="btn-modify-reservation">예약 수정</a>
+    </section>
+
+    <section class="member-comment">
+        <h2>고객 요청사항</h2>
+        <div class="comment-form">
+            <label for="customerComment">요청 내용을 작성해주세요:</label>
+            <button id="commentApplyBtn" type="button" class="submit-comment-btn">요청사항 적용</button>
+        </div>
+        <textarea name="customerCommentTextarea"
+                  id="customerComment"
+                  rows="4"
+                  th:text="${requestDto.requestMemo}"
+                  placeholder="예: 앞머리 정리도 함께 부탁드려요!"
+                  class="comment-textarea"></textarea>
+    </section>
+
+    <section class="couponSelect">
+        <h2>쿠폰 선택</h2>
+        <p>사용 가능한 쿠폰: <span th:text="${couponDto.validCoupons.size()}">0개</span></p>
+
+        <div class="coupon-list">
+            <div th:if="${couponDto.validCoupons.isEmpty()}">
+                <p>사용 가능한 쿠폰이 없습니다.</p>
+            </div>
+            <div class="coupon-item" th:each="coupon : ${couponDto.validCoupons}">
+                <div class="coupon-left">
+                    <div class="coupon-amount"
+                         th:text="${coupon.discountRate != null ? coupon.discountRate + '%' : coupon.discountAmount + '원'}">할인</div>
+                    <div class="coupon-title" th:text="${coupon.name}">쿠폰명</div>
+                    <div class="coupon-desc" th:text="${coupon.description}">설명</div>
+                    <div class="coupon-min" th:text="|${coupon.minOrderAmount}원 이상 사용 가능|">최소금액</div>
+                    <div class="coupon-exp" th:text="|사용기한: ${#temporals.format(coupon.expireAt, 'yyyy-MM-dd')}|">기한</div>
+                </div>
+                <button type="button"
+                        class="btn-coupon-apply"
+                        th:data-coupon-id="${coupon.id}"
+                        th:data-discount-amount="${coupon.discountAmount != null ? coupon.discountAmount : 0}"
+                        th:data-discount-rate="${coupon.discountRate != null ? coupon.discountRate : 0}"
+                        th:data-min-amount="${coupon.minOrderAmount != null ? coupon.minOrderAmount : 0}">사용하기</button>
+            </div>
+        </div>
+
+        <p><strong>할인 적용금액:</strong> <span id="applied-discount">총 0원 할인</span></p>
+        <button type="button" id="btn-coupon-cancel" style="display: none;">쿠폰 취소</button>
+    </section>
+
+
+    <section class="ticketselect">
+        <h2>정액권 선택</h2>
+        <div class="ticket-list">
+            <div th:if="${couponDto.ticketDtos.isEmpty()}">
+                <p>사용 가능한 정액권이 없습니다.</p>
+            </div>
+            <div class="ticket-item" th:each="ticket : ${couponDto.ticketDtos}">
+                <div class="ticket-left">
+                    <div class="ticket-amount" th:text="|${ticket.remainingAmount}원|">잔액</div>
+                    <div class="ticket-title" th:text="${ticket.name}">정액권 명칭</div>
+                </div>
+                <button type="button"
+                        class="btn-ticket-apply"
+                        th:data-ticket-id="${ticket.id}"
+                        th:data-remaining-amount="${ticket.remainingAmount}">사용하기</button>
+            </div>
+        </div>
+
+        <p id="ticket-price">정액권 적용 금액: <span id="ticket-used-amount">0</span>원</p>
+        <button type="button" id="btn-ticket-cancel" style="display: none;">정액권 취소</button>
+    </section>
+
+    <section class="finalreserve">
+        <div class="reserve-content">
+            <p>총 시술 금액: <span id="original-total-amount" th:text="${checkDto.originalAmount}"></span>원</p>
+            <p>할인 적용 금액: <span id="discounted-amount">0</span>원</p>
+            <p>정액권 사용 금액: <span id="ticket-applied-amount">0</span>원</p>
+            <p>최종 결제 금액: <span id="final-payment-amount" th:text="${checkDto.finalAmount}"></span>원</p>
+            <p style="color: #999;" th:text="${checkDto.precaution}">주의사항</p>
+            <form th:action="@{/reservation/complete}" method="post">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                <input type="hidden" name="memberId" th:value="${requestDto.memberId}" />
+                <input type="hidden" name="shopDesignerId" th:value="${requestDto.shopDesignerId}" />
+                <input type="hidden" name="shopServiceId" th:value="${requestDto.shopServiceId}" />
+                <input type="hidden" name="dateTime" th:value="${requestDto.dateTime}" />
+                <input type="hidden" name="requestMemo" th:value="${requestDto.requestMemo}" id="hiddenRequestMemo"/>
+                <input type="hidden" name="selectCouponId" id="selectedCouponId" />
+                <input type="hidden" name="selectTicketId" id="selectedTicketId" />
+                <button type="submit">예약 확정하기</button>
+            </form>
+        </div>
+    </section>
+</div>
+<th:block layout:fragment="script">
+    <script th:src="@{/javascript/shop/reCheckCoupon.js}" defer></script>
+</th:block>
+</body>
+</html>

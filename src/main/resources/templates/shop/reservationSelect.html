@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragment/default}">
+
+<head>
+  <th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/shop/reservationSelect.css}">
+  </th:block>
+</head>
+<body>
+
+<div layout:fragment="main" id="main">
+
+  <input type="hidden" name="shopDesignerId" th:value="${selectedDesignerId}" />
+  <input type="hidden" name="shopId" th:value="${shopId}" />
+
+  <section id="designer-section" class="designer-list">
+    <div class="designer-card-list" th:if="${designerList != null}">
+      <div th:each="designer : ${designerList}" class="designer-card"
+           th:attr="data-id=${designer.id}, data-designer-name=${designer.name}">
+      <input type="radio"
+               name="selectedDesignerRadio"
+               class="hidden-designer-radio"
+               th:value="${designer.id}"
+               th:id="|designerRadio-${designer.id}|"
+               style="display: none;"
+               th:checked="${selectedDesignerId != null and designer.id == selectedDesignerId}" />
+
+        <img th:src="${designer.imgUrl} ?: @{/images/default.png}" alt="프로필 이미지" />
+        <div class="designer-info">
+          <div class="designer-name-title">
+            <h3 th:text="${designer.name ?: '이름 없음'}" >이름</h3>
+            <span class="summary" th:text="|· ${designer.position ?: '직급 없음'}|">직급</span>
+          </div>
+          <div class="designer-meta">
+            <div class="rating">💬 <span th:text="${designer.reviewCount ?: 0}">0</span></div>
+            <div class="likes">🤍 <span th:text="${designer.likeCount ?: 0}">0</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="designer-more">
+      </div>
+    </div>
+
+    <div class="designer-selected-summary" style="display: none; margin-top: 16px; text-align: center;">
+      <p>선택된 디자이너: <strong class="selected-designer-name">이름 없음</strong></p>
+      <button type="button" class="btn-more btn-reset-designer">디자이너 변경</button>
+    </div>
+  </section>
+
+  <section class="service-list">
+    <h2>시술 선택</h2>
+
+    <div class="service-filters">
+    </div>
+
+    <div class="service-selected-summary" style="display: none; text-align: center; margin-top: 24px">
+      <p class="selected-service-info" style="font-size: 16px; font-weight: 500"></p>
+      <button class="btn-more change-service-btn">시술 변경</button>
+    </div>
+  </section>
+
+
+  <section class="datetimeselect" id="schedule-select">
+    <h2>날짜 및 시간 선택</h2>
+
+    <div class="calendar-container">
+      <div class="calendar-header">
+        <button id="btn-prev" class="arrow-btn">←</button>
+        <h3 id="currentMonth">2025년 7월</h3>
+        <button id="btn-next" class="arrow-btn">→</button>
+      </div>
+      <div class="calendar-row date-list" id="dateList"></div>
+    </div>
+
+    <div class="time-grid"></div>
+    <div class="reservation-warning-message"><span></span></div>
+
+  </section>
+
+
+  <form th:action="@{/reservation/new}" method="post" id="reservationForm">
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+    <input type="hidden" name="memberId" th:value="${member.id}" />
+
+    <input type="hidden" id="selectedDesignerInput" name="shopDesignerId" th:value="${selectedDesignerId}" />
+
+    <input type="hidden" name="shopServiceId" id="selectedServiceId" />
+
+    <input type="hidden" id="selectedDateTime" name="dateTime" />
+
+    <input type="hidden" id="initialDate" th:value="${date != null ? date.toString() : ''}" />
+
+    <div class="reservation-warning-message" style="margin-top: 20px; font-weight: 500;"></div>
+    <div class="reservation-summary" style="margin-top: 12px; font-size: 15px; color: #333;"></div>
+
+    <button type="submit" class="btn-reserve">예약하기</button>
+  </form>
+</div>
+
+<th:block layout:fragment="script">
+  <script th:inline="javascript">
+    const GLOBAL_INITIAL_DESIGNER_ID = [[${selectedDesignerId != null ? selectedDesignerId : 'null'}]];
+    const GLOBAL_SHOP_ID = [[${shopId}]];
+    const GLOBAL_INITIAL_DATE = [[${date != null ? "'" + date.toString() + "'" : "''"}]];
+  </script>
+  <script th:src="@{/javascript/shop/reservation.js}" defer></script>
+</th:block>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragment/default}">
+<head>
+    <th:block layout:fragment="css">
+        <link rel="stylesheet" href="/css/admin/bannerList.css">
+    </th:block>
+</head>
+<body>
+<div layout:fragment="main" id="main">
+    <h1>쿠폰 배너 신청 목록</h1>
+    <table>
+        <tr>
+            <th>번호</th>
+            <th>미용실 이름</th>
+            <th>쿠폰 이름</th>
+            <th>지역</th>
+            <th>이벤트 기간</th>
+            <th>상세보기</th>
+            <th>상태</th>
+        </tr>
+    <tbody>
+    <tr th:each="banner, iterStat : ${couponBannerListDtoList}">
+        <td th:text="${iterStat.count}"></td>
+        <td th:text="${banner.shopName}"></td>
+        <td th:text="${banner.couponName}"></td>
+        <td th:text="${banner.region}"></td>
+        <td th:text="${#temporals.format(banner.startDate, 'yyyy-MM-dd ') + '~' + #temporals.format(banner.endDate, ' yyyy-MM-dd')}"></td>
+        <td><a th:href="@{/admin/cs/bannerDetail(id=${banner.id})}">상세보기</a></td>
+        <td th:text="${banner.statusLabel}"></td>
+    </tr>
+    </tbody>
+    </table>
+</div>
+<th:block layout:fragment="script"></th:block>
+</body>
+</html>

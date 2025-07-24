@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragment/default}">
+<head>
+    <th:block layout:fragment="css">
+        <link rel="stylesheet" href="/css/user/myQuestionList.css">
+    </th:block>
+</head>
+<body>
+<div layout:fragment="main" id="main">
+    <div class="my-page">
+        <div class="my-page-container">
+            <div class="my-page-wrap">
+                <div class="my-page-menus-area">
+                    <div class="my-page-menus">
+                        <div class="my-page-menu">
+                            <a class="my-reservation" th:href="@{/myPage/reservation}">내 예약 내역</a>
+                        </div>
+
+                        <div class="my-page-menu">
+                            <a class="my-coupons" th:href="@{/myPage/coupons}">쿠폰/정액권</a>
+                        </div>
+
+                        <div class="my-page-menu">
+                            <a class="my-like-page" th:href="@{/myPage/likeList}">찜목록</a>
+                        </div>
+
+                        <div class="my-page-menu">
+                            <a class="my-review" th:href="@{/myPage/review}">내 리뷰</a>
+                        </div>
+
+                        <div class="my-page-menu">
+                            <a class="my-cs-list-page" th:href="@{/myPage/myQuestionList}">나의 고객문의</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="my-page-content-area">
+                <div class="my-page-content-box">
+                    <h2>고객 문의 목록</h2>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>번호</th>
+                            <th>카테고리</th>
+                            <th>문의 내용</th>
+                            <th>작성자 유형</th>
+                            <th>상태</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="list" th:each="csList, stat : ${csListDtoList}">
+                            <td th:text="${stat.count}"></td>
+                            <td th:text="${csList.CategoryLabel}"></td> <!--csList.csCategory.label-->
+                            <td><a th:href="@{/admin/cs/reply(id=${csList.id})}" th:text="${csList.questionText}"></a></td>
+                            <td th:text="${csList.loginId}"></td>
+                            <!--<th th:text="${#temporals.format(csList.questionAt, 'yyyy-MM-dd')}"></th>-->
+                            <td th:text="${csList.statusLabel}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<th:block layout:fragment="script"></th:block>
+</body>
+</html>

@@ -1,0 +1,41 @@
+.attendance-buttons {
+  display: flex;
+  gap: 12px;
+  margin: 20px 0;
+  justify-content: center;
+}
+
+.attendance-buttons button {
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: var(--font-noto-snas);
+  transition: background-color 0.3s ease;
+}
+
+#btn-toggle-attendance {
+  background-color: var(--main-color);
+  color: white;
+}
+
+#btn-request-leave {
+  background-color: var(--pink-backgroud);
+  color: black;
+}
+
+.attendance-buttons button:hover {
+  opacity: 0.9;
+}
+
+.attendance-times {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #444;
+  font-family: var(--font-noto-snas);
+}

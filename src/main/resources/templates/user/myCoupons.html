@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragment/default}">
+<head>
+  <link rel="stylesheet" href="/css/user/myCoupons.css">
+  <th:block layout:fragment="css"></th:block>
+</head>
+<body>
+<div layout:fragment="main" id="main">
+  <div class="my-page">
+    <div class="my-page-container">
+      <div class="my-page-wrap">
+        <div class="my-page-menus-area">
+          <div class="my-page-menus">
+            <div class="my-page-menu">
+              <a class="my-reservation" th:href="@{/myPage/reservation}">내 예약 내역</a>
+            </div>
+
+            <div class="my-page-menu">
+              <a class="my-coupons" th:href="@{/myPage/coupons}">쿠폰/정액권</a>
+            </div>
+
+            <div class="my-page-menu">
+              <a class="my-like-page" th:href="@{/myPage/likeList}">찜목록</a>
+            </div>
+
+            <div class="my-page-menu">
+              <a class="my-review" th:href="@{/myPage/review}">내 리뷰</a>
+            </div>
+
+            <div class="my-page-menu">
+              <a class="my-cs-list-page" th:href="@{/myPage/myQuestionList}">나의 고객문의</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="my-page-content-area">
+        <div class="my-page-content-box">
+          <div class="my-page-title">쿠폰/정액권</div>
+
+          <!-- 변경부분 -->
+          <div class="my-CT-area">
+            <!-- 쿠폰영역 -->
+            <div class="my-coupons-area">
+              <div class="content-area-header">
+                <div>▶</div>
+                <div>내 쿠폰</div>
+              </div>
+
+              <div class="coupon-scroll-wrapper">
+                <div class="coupon-list">
+                  <!-- 쿠폰 박스 -->
+                  <div class="coupon-item" th:each="coupon: ${myCoupons}">
+                    <div class="coupon-left">
+                      <div class="coupon-amount">
+                        <span th:if="${coupon.couponType} == AMOUNT" th:text="${coupon.discountAmount} + '원 할인'"></span>
+                        <span th:if="${coupon.couponType} == PERCENT" th:text="${coupon.discountAmount} + '% 할인'"></span>
+                      </div>
+                      <div class="coupon-title" th:text="${coupon.couponName}">생일 쿠폰</div>
+                      <div class="coupon-min" th:text="${coupon.minimumAmount} + '원 이상 사용가능'">20,000원 이상 사용 가능</div>
+                      <div class="coupon-exp" th:text="'사용 기한 : ' + ${#temporals.format(coupon.expireDate, 'yyyy-MM-dd')}">사용 기한: 2025-07-18</div>
+                    </div>
+                    <a th:href="@{/shop/{id}(id=${coupon.shopId})}">
+                      <button type="button">사용하기</button>
+                    </a>
+                  </div>
+                  <!-- 쿠폰 박스 끝 -->
+
+                  <!-- 반복 시작 -->
+
+                  <!-- 반복 끝 -->
+                </div>
+              </div>
+            </div>
+
+            <!-- 정액권영역 -->
+            <div class="my-ticket-area">
+              <div class="content-area-header">
+                <div>▶</div>
+                <div>내 정액권</div>
+              </div>
+              <div class="coupon-scroll-wrapper">
+                <div class="coupon-list">
+                  <!-- 정액권 1 -->
+                  <div class="ticket-item" th:each="ticket : ${myTickets}">
+                    <div class="ticket-left">
+                      <div class="ticket-amount" th:text="${ticket.ticketInfoDto.remainingAmount} + '원'">50,000원</div>
+                      <div class="ticket-title" th:text="'[' +${ticket.shopName} + '] 정액권'">
+                        [Salon De DW] 5만원 정액권
+                      </div>
+                    </div>
+                    <a th:if="${ticket.shopId != null}" th:href="@{/shop/{id}(id=${ticket.shopId})}">
+                      <button type="button">사용하기</button>
+                    </a>
+                  </div>
+                  <!-- 정액권 박스 끝 -->
+                  <div th:if="${#lists.isEmpty(myTickets)}">
+                    <p>정액권이 없습니다.</p>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 변경부분 끝 -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<th:block layout:fragment="script">
+  <script src="/javascript/user/myCoupons.js"></script>
+</th:block>
+</body>
+</html>

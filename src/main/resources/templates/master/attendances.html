@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragment/default}">
+<head>
+  <th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/master/attendance.css}">
+  </th:block>
+</head>
+<body>
+
+<div layout:fragment="main" id="main">
+  <div class="attendance-main-container">
+    <div class="designer-list-section">
+      <h3>디자이너 목록</h3>
+      <ul id="designer-list">
+        <li class="no-data-message">디자이너 정보를 불러오는 중...</li>
+      </ul>
+    </div>
+
+    <div class="attendance-history-section">
+      <h3 id="history-title">출퇴근 이력</h3>
+      <ul id="attendance-history-list">
+        <li class="no-data-message" id="initial-history-message">디자이너를 선택해주세요.</li>
+        <li class="no-data-message" id="no-history-message" style="display:none;">선택된 디자이너의 출퇴근 이력이 없습니다.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div id="memberMemoModal" class="modal" style="display:none;">
+    <div class="modal-content">
+      <span class="close-button">&times;</span>
+      <h3><span id="memoModalMemberName"></span>님 개인 메모</h3>
+      <textarea id="memberMemoInput" placeholder="회원에게 남길 개인 메모를 입력하세요."></textarea>
+      <button id="saveMemberMemoBtn">저장</button>
+    </div>
+  </div>
+
+  <div id="cardMemoModal" class="modal" style="display:none;">
+    <div class="modal-content">
+      <span class="close-button">&times;</span>
+      <h3>시술 메모</h3>
+      <textarea id="cardMemoInput" placeholder="시술에 대한 상세 메모를 입력하세요."></textarea>
+      <button id="saveCardMemoBtn">저장</button>
+    </div>
+  </div>
+
+</div>
+
+<th:block layout:fragment="script">
+  <script>
+    // CSRF 토큰 및 헤더 이름 가져오기 (Thymeleaf 사용)
+    const csrfToken = document.querySelector('meta[name="_csrf"]').getAttribute('content');
+    const csrfHeader = document.querySelector('meta[name="_csrf_header"]').getAttribute('content');
+
+    const designerListEl = document.getElementById('designer-list');
+    const attendanceHistoryListEl = document.getElementById('attendance-history-list');
+    const historyTitleEl = document.getElementById('history-title');
+    const initialHistoryMessageEl = document.getElementById('initial-history-message');
+    const noHistoryMessageEl = document.getElementById('no-history-message');
+
+    let selectedDesignerId = null;
+
+    async function fetchAndRenderDesigners() {
+      try {
+        const response = await fetch('/master/attDes');
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const designers = await response.json(); // DesAttDto 리스트
+        renderDesigners(designers);
+      } catch (error) {
+        console.error('디자이너 목록을 불러오는 데 실패했습니다:', error);
+        designerListEl.innerHTML = '<li class="no-data-message">디자이너 정보를 불러오는 데 실패했습니다.</li>';
+      }
+    }
+
+    function renderDesigners(designers) {
+      designerListEl.innerHTML = '';
+
+      if (designers.length === 0) {
+        designerListEl.innerHTML = '<li class="no-data-message">등록된 디자이너가 없습니다.</li>';
+        return;
+      }
+
+      designers.forEach(designer => {
+        const li = document.createElement('li');
+        li.classList.add('designer-item');
+        li.dataset.designerId = designer.designerId;
+
+        const imgSrc = designer.imgUrl || '/images/default_profile.jpg';
+        li.innerHTML = `
+          <img src="${imgSrc}" alt="${designer.name} 프로필" class="designer-img">
+          <div class="designer-info">
+            <div class="designer-name">${designer.name}</div>
+            <div class="designer-tel">${designer.tel || '연락처 없음'}</div>
+          </div>
+        `;
+
+        li.addEventListener('click', () => {
+          document.querySelectorAll('.designer-item').forEach(item => item.classList.remove('selected'));
+          li.classList.add('selected');
+
+          selectedDesignerId = designer.designerId;
+          historyTitleEl.textContent = `${designer.name} 디자이너 출퇴근 이력`;
+
+          renderAttendanceHistory(designer.attendanceList);
+        });
+        designerListEl.appendChild(li);
+      });
+
+      // 첫 번째 디자이너를 자동으로 선택하고 이력 표시 (초기 로드 시)
+      if (designers.length > 0) {
+        // DOMContentLoaded 이후에 클릭 이벤트가 발동하도록 setTimeout을 사용하거나
+        // 직접 renderAttendanceHistory를 호출하는 방법도 고려할 수 있습니다.
+        // 현재는 첫 번째 항목을 찾아서 클릭 이벤트를 강제 발동시키는 방식입니다.
+        designerListEl.querySelector('.designer-item').click();
+      }
+    }
+
+    function renderAttendanceHistory(records) {
+      attendanceHistoryListEl.innerHTML = '';
+      initialHistoryMessageEl.style.display = 'none';
+      noHistoryMessageEl.style.display = 'none';
+
+      if (!records || records.length === 0) {
+        noHistoryMessageEl.textContent = '선택된 디자이너의 출퇴근 이력이 없습니다.';
+        noHistoryMessageEl.style.display = 'block';
+        return;
+      }
+
+      records.forEach(record => {
+        const li = document.createElement('li');
+        li.classList.add('attendance-record-item');
+
+        // 날짜 포맷팅 (YYYY-MM-DD (요일))
+        const recordDate = new Date(record.clockIn || record.clockOut || Date.now());
+        const formattedDate = recordDate.toLocaleDateString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit', weekday: 'short' });
+
+        // 시간 포맷팅 (HH:MM)
+        const clockInTime = record.clockIn ? new Date(record.clockIn).toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit', hour12: false }) : '-';
+        const clockOutTime = record.clockOut ? new Date(record.clockOut).toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit', hour12: false }) : '-';
+
+        // 상태에 따라 클래스 추가 (CSS에서 색상 정의)
+        let statusClass = '';
+        if (record.status === '정상') {
+            statusClass = 'normal';
+        } else if (record.status === '지각') {
+            statusClass = 'late';
+        } else if (record.status === '결근') {
+            statusClass = 'absent';
+        }
+
+        li.innerHTML = `
+          <span class="date-info">${formattedDate}</span>
+          <div class="time-info">
+            출근: <strong>${clockInTime}</strong><br>
+            퇴근: <strong>${clockOutTime}</strong><br>
+            근무 시간: <strong>${record.workTimeStr}</strong>
+          </div>
+          <div class="status-info ${statusClass}">상태: ${record.status}</div>
+        `;
+        attendanceHistoryListEl.appendChild(li);
+      });
+    }
+
+    // 페이지 로드 시 디자이너 목록 가져오기
+    document.addEventListener('DOMContentLoaded', fetchAndRenderDesigners);
+  </script>
+</th:block>
+
+</body>
+</html>

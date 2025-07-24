@@ -1,0 +1,1112 @@
+/* shopList.css */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+
+  color: #333;
+}
+
+.shop-list-wrap {
+  display: flex;
+  justify-content: center;
+  padding: 30px 0; /* 상하 패딩 증가 */
+}
+
+.container {
+  width: 1280px; /* 고정 너비 1280px */
+  background-color: #ffffff;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); /* 더 부드럽고 깊이 있는 그림자 */
+  border-radius: 12px; /* 모서리 둥글게 */
+  overflow: hidden; /* 내부 요소가 넘치지 않도록 */
+}
+
+/* 상단 검색 영역 (Top Bar) */
+.top-bar {
+  padding: 20px;
+  background-color: #fff;
+  border-bottom: 1px solid #e0e0e0; /* 연한 경계선 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80px;
+  box-sizing: border-box;
+}
+
+/* 새로 추가된 header-content 컨테이너 */
+.header-content {
+  width: 100%;
+  max-width: 1200px;
+  position: relative;
+  min-height: 48px;
+}
+
+.initial-display,
+.shop-search-expanded-area,
+.address-input-area {
+  position: static;
+  top: 0;
+  left: 0;
+  width: 100%;
+  opacity: 1;
+  visibility: visible;
+  height: auto;
+  padding: 0;
+  box-sizing: border-box;
+  transition: opacity 0.3s ease-out, visibility 0.3s ease-out,
+    height 0.3s ease-out, padding 0.3s ease-out;
+}
+
+/* 숨겨진 상태에 대한 클래스 */
+.hidden {
+  opacity: 0;
+  visibility: hidden;
+  height: 0;
+  overflow: hidden;
+  padding: 0 !important;
+  pointer-events: none;
+}
+
+/* 초기 상태 (미용실 검색 + 현재 위치 표시) */
+.initial-display {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 30px; /* 간격 조정 */
+}
+
+.initial-display .shop-search-box {
+  flex-grow: 1;
+  height: 50px; /* 높이 약간 증가 */
+  border: 1px solid #a7d9ff; /* 더 부드러운 파란색 테두리 */
+  border-radius: 25px; /* 더 둥글게 */
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  cursor: pointer;
+  background-color: #fcfcfc; /* 밝은 배경색 */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); /* 은은한 그림자 */
+}
+
+.initial-display .search-icon img {
+  width: 24px;
+  height: 24px;
+  opacity: 0.7; /* 아이콘 투명도 조정 */
+  margin-right: 10px;
+}
+
+.initial-display .shop-search-input {
+  border: none;
+  background: transparent;
+  outline: none;
+  width: 100%;
+  font-size: 1.05em; /* 폰트 크기 조정 */
+  color: #555;
+  cursor: pointer;
+  padding: 0;
+}
+
+.initial-display .location-search-area {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  cursor: pointer;
+  padding: 10px 18px; /* 패딩 조정 */
+  border-radius: 20px; /* 더 둥글게 */
+  background-color: #e3f2fd; /* 밝은 하늘색 배경 */
+  border: 1px solid #c1e4ff; /* 테두리 추가 */
+  transition: background-color 0.2s ease;
+}
+
+.initial-display .location-search-area:hover {
+  background-color: #d1ecfd;
+}
+
+.initial-display .location-icon img {
+  width: 24px;
+  height: 24px;
+  opacity: 0.7;
+}
+
+.initial-display .location-now {
+  font-size: 1.05em;
+  font-weight: 600; /* 폰트 굵기 강조 */
+  color: #2196f3; /* 파란색으로 강조 */
+}
+
+/* ----------------------------------------------------- */
+/* 미용실 검색 확장 영역 (shop-search-expanded-area) - 새로 추가 */
+/* ----------------------------------------------------- */
+.shop-search-expanded-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px; /* 패딩 조정 */
+}
+
+.expanded-search-box-centered {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 700px; /* 최대 너비 증가 */
+  height: 50px;
+  border: 1px solid #007bff;
+  border-radius: 25px;
+  padding: 0 20px;
+  background-color: #fff;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* 그림자 강조 */
+  margin-bottom: 25px; /* 간격 증가 */
+}
+
+.shop-search-input-expanded {
+  border: none;
+  background: transparent;
+  outline: none;
+  width: 100%;
+  font-size: 1.1em;
+  color: #333;
+  padding: 0;
+}
+
+.shop-search-expanded-area .search-icon img {
+  width: 24px;
+  height: 24px;
+  opacity: 0.7;
+  margin-right: 10px;
+}
+
+.shop-search-options {
+  width: 100%;
+  max-width: 700px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+  padding: 0 10px;
+}
+
+.shop-suggestion-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  list-style: none;
+  padding: 0;
+  margin: 8px 0 0; /* 간격 조정 */
+  border: 1px solid #ddd;
+  background: white;
+  max-height: 250px; /* 높이 증가 */
+  overflow-y: auto;
+  z-index: 1000;
+  width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.shop-suggestion-list li {
+  padding: 12px 20px; /* 패딩 증가 */
+  font-size: 1.05em;
+  color: #333;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.shop-suggestion-list li:hover {
+  background-color: #f2f2f2;
+}
+
+.close-search-mode-button {
+  background-color: #f0f0f0; /* 밝은 회색 */
+  border: none;
+  border-radius: 22px; /* 더 둥글게 */
+  padding: 10px 20px; /* 패딩 증가 */
+  cursor: pointer;
+  font-size: 1em;
+  color: #666;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.close-search-mode-button:hover {
+  background-color: #e0e0e0;
+  transform: translateY(-1px);
+}
+
+/* ----------------------------------------------------- */
+/* 위치 입력 확장 영역 (address-input-area) - 새로 추가 및 기존 조정 */
+/* ----------------------------------------------------- */
+.address-input-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px; /* 패딩 조정 */
+}
+
+.location-now-centered {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3em; /* 더 크게 */
+  font-weight: 700; /* 더 굵게 */
+  color: #007bff;
+  margin-bottom: 25px; /* 간격 증가 */
+  width: 100%;
+}
+
+.location-now-centered .location-icon img {
+  width: 30px; /* 아이콘 크기 키우기 */
+  height: 30px;
+  margin-right: 12px;
+}
+
+.address-search-box {
+  display: flex;
+  position: relative;
+  width: 100%;
+  max-width: 700px; /* 검색 인풋과 유사한 너비 */
+  height: 50px;
+  border: 1px solid #007bff;
+  border-radius: 25px;
+  padding: 5px;
+  background-color: #fff;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  margin-bottom: 25px;
+}
+
+.address-search-input {
+  border: none;
+  background: transparent;
+  outline: none;
+  flex-grow: 1;
+  padding: 0 18px; /* 내부 패딩 */
+  font-size: 1.1em;
+  border-radius: 20px 0 0 20px;
+  color: #333;
+}
+
+.address-suggestion-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  list-style: none;
+  padding: 0;
+  margin: 8px 0 0;
+  border: 1px solid #ddd;
+  background: white;
+  max-height: 250px;
+  overflow-y: auto;
+  z-index: 1000;
+  width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.address-suggestion-list li {
+  padding: 12px 20px;
+  cursor: pointer;
+  font-size: 1.05em;
+  color: #333;
+  transition: background-color 0.2s ease;
+}
+
+.address-suggestion-list li:hover {
+  background-color: #f2f2f2;
+}
+
+.address-manual-input {
+  width: 100%;
+  max-width: 700px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+  padding: 0 10px;
+}
+
+.close-location-mode-button {
+  background-color: #f0f0f0;
+  border: none;
+  border-radius: 22px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 1em;
+  color: #666;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.close-location-mode-button:hover {
+  background-color: #e0e0e0;
+  transform: translateY(-1px);
+}
+
+/* 필터 + 가격비교 선택 (Filter + Compare Section) */
+.shop-list-filter {
+  display: flex;
+  align-items: center;
+  padding: 20px; /* 패딩 조정 */
+  width: 100%;
+  background-color: #f9fbfd; /* 밝은 필터 배경색 */
+  border-bottom: 1px solid #e0e0e0;
+  flex-wrap: wrap;
+  gap: 15px 25px; /* 간격 조정 */
+  box-sizing: border-box;
+}
+
+.order-ops {
+  padding: 10px 40px 10px 20px; /* 패딩 및 화살표 공간 확보 */
+  border-radius: 22px;
+  border: 1px solid #ddd; /* 더 부드러운 테두리 */
+  min-width: 120px; /* 최소 너비 지정 */
+  background-color: #fff;
+  font-size: 1em;
+  color: #555;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23777777%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-6.5%200-12.3%203.2-16%208.7-3.6%205.4-3.5%2012.8.2%2018.2l123.4%20168.1c3.2%204.4%208.5%207.1%2014.3%207.1h.4c5.8%200%2011.1-2.7%2014.3-7.1L286.8%2087.6c3.8-5.5%203.9-12.9.2-18.2z%22%2F%3E%3C%2Fsvg%3E"); /* 화살표 색상 조정 */
+  background-repeat: no-repeat;
+  background-position: right 18px center;
+  background-size: 12px; /* 화살표 크기 조정 */
+  cursor: pointer;
+  flex-shrink: 0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.select-compare-area {
+  display: flex;
+  background-color: #f2f6fc; /* 더 부드러운 파란색 계열 배경 */
+  padding: 10px 15px; /* 패딩 조정 */
+  border-radius: 20px; /* 더 둥글게 */
+  flex-grow: 1;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  border: 1px solid #b3d9ff; /* 부드러운 파란색 테두리 */
+}
+
+.select-compare-title {
+  background-color: #e6f0ff; /* 밝은 파란색 강조 */
+  border: 1px solid #b3d9ff;
+  border-radius: 22px;
+  padding: 8px 16px; /* 패딩 조정 */
+  cursor: pointer;
+  font-size: 0.95em;
+  font-weight: 600; /* 폰트 굵기 강조 */
+  color: #007bff;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.select-compare-title:hover {
+  background-color: #d1e2ff;
+  transform: translateY(-1px);
+}
+
+.selected-shop-boxs {
+  display: flex;
+  gap: 10px; /* 간격 조정 */
+  flex-grow: 1;
+  flex-wrap: nowrap;
+  overflow-x: auto; /* 넘칠 경우 스크롤 */
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; /* Firefox 숨기기 */
+}
+
+.selected-shop-boxs::-webkit-scrollbar {
+  display: none; /* Chrome, Safari 숨기기 */
+}
+
+.selected-shop-one,
+.selected-shop-two,
+.selected-shop-three {
+  display: flex;
+  align-items: center;
+  background-color: #e8f5e9; /* 부드러운 녹색 계열 (선택된 항목 느낌) */
+  border: 1px solid #c8e6c9;
+  border-radius: 20px;
+  padding: 6px 14px; /* 패딩 조정 */
+  font-size: 0.9em;
+  color: #388e3c; /* 녹색 글씨 */
+  gap: 6px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.selected-shop-one span,
+.selected-shop-two span,
+.selected-shop-three span {
+  font-weight: 600;
+}
+
+.selected-shop-one .remove-btn,
+.selected-shop-two .remove-btn,
+.selected-shop-three .remove-btn {
+  background: none;
+  border: none;
+  color: #888;
+  font-size: 1.1em;
+  cursor: pointer;
+  padding: 0 3px;
+  line-height: 1;
+  transition: color 0.2s ease;
+}
+
+.selected-shop-one .remove-btn:hover,
+.selected-shop-two .remove-btn:hover,
+.selected-shop-three .remove-btn:hover {
+  color: #333;
+}
+
+/* 셀렉트 토글 */
+
+
+.floating-toggle {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+
+  position: fixed;
+  top: 200px;
+  right: 30px;
+  width: 80px;
+  background-color: #8ab1de;
+  border-radius: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  transition: height 0.3s ease;
+}
+
+.floating-toggle.visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.scissors-box {
+    background: white;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.scissors-box img {
+    width: 40px;
+    height: 40px;
+    rotate: -90deg;
+}
+
+.drop-down-btn {
+  background: none;
+  border: none;
+  margin: 8px 0;
+  cursor: pointer;
+}
+
+.drop-down-btn img {
+  width: 16px;
+  height: 16px;
+}
+
+.toggle-dropdown {
+  display: none;
+  width: 100%;
+  background-color: transparent;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 10px;
+}
+
+.toggle-option {
+    width: 60px;
+    background-color: white;
+    text-align: center;
+    padding: 10px 0;
+    margin: 0 auto;
+    border-radius: 8px;
+    font-size: 20px;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+
+
+.name-box {
+    display: none;
+    justify-content: space-between;
+    background-color: white;
+    text-align: center;
+    padding: 10px 0;
+    width: 200px;
+    margin: 0 auto;
+    border-radius: 8px;
+    font-size: 20px;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.selected-shop-name {
+  display: inline-block;
+  max-width: 180px; /* X 버튼 남길 여유 */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: bold;
+  color: #226633;
+}
+
+.toggle-option:hover {
+  background-color: #f0f0f0;
+}
+
+.remove-btn {
+  margin-left: 8px;
+  cursor: pointer;
+  flex-shrink: 0;
+  color: #444;
+  font-size: 14px;
+}
+
+/* 두번째 열린 상태 */
+.shop-list-toggle {
+  position: fixed;
+  top: 200px;
+  right: 30px;
+  width: 240px;
+  background-color: #8ab1de;
+  border-radius: 20px;
+  padding: 16px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end; /* 가위 + 화살표 정렬 */
+}
+
+.shop-list-box {
+  width: 100%;
+  background-color: transparent;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 10px;
+}
+
+.shop-list-box div {
+  font-size: 18px;
+  font-weight: 500;
+  margin: 8px 0;
+}
+
+
+.left-open-btn {
+  background: none;
+  border: none;
+  margin: 8px 0;
+  cursor: pointer;
+}
+
+.left-open-btn img {
+  width: 16px;
+  rotate: -90deg;
+  margin-right: 13px;
+  height: 16px;
+}
+
+
+/* 미용실 카드 리스트 (Shop List) */
+.shop-list {
+  padding: 30px; /* 패딩 증가 */
+  gap: 30px; /* 카드 간 간격 증가 */
+  display: flex;
+  flex-direction: column;
+}
+
+.shop-card {
+  display: flex;
+  background-color: #fff;
+  border: 1px solid #eee;
+  border-radius: 10px; /* 모서리 둥글게 */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08); /* 더 깊이 있는 그림자 */
+  overflow: hidden;
+  height: 350px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.shop-card:hover {
+  transform: translateY(-5px); /* 호버 시 살짝 올라가는 효과 */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.shop-link {
+  display: flex; /* a 태그 내부를 flex로 만들어 전체 영역을 클릭 가능하게 */
+  width: 100%;
+  text-decoration: none; /* 링크 밑줄 제거 */
+  color: inherit; /* 링크 색상 상속 */
+}
+
+.shop-img {
+    margin: 0 auto;
+    width: 480px;
+    min-width: 280px;
+    height: 350px;
+    background-color: #e8e8e8;
+    border-right: 1px solid #f0f0f0;
+    flex-shrink: 0;
+    background-size: cover;
+    background-position: center;
+}
+
+.shop-info-area {
+  position: relative;
+  flex-grow: 1;
+  padding: 20px; /* 패딩 조정 */
+  display: grid;
+  grid-template-rows: auto 1fr; /* 상단 정보는 내용만큼, 하단 아이콘은 남은 공간 */
+  min-width: 0;
+}
+
+.shop-info {
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* 간격 조정 */
+}
+
+.shop-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start; /* 상단 정렬 */
+  margin-bottom: 10px; /* 간격 조정 */
+}
+
+.shop-name {
+  margin: 0;
+  font-size: 2em; /* 가게 이름 폰트 크기 조정 */
+  font-weight: 700; /* 더 굵게 */
+  color: #222;
+  margin-right: 15px; /* 간격 조정 */
+  line-height: 1.2;
+}
+
+.shop-coupon {
+  width: 28px; /* 쿠폰 아이콘 크기 조정 */
+  height: 28px;
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: auto; /* 체크박스를 오른쪽 끝으로 밀어냄 */
+}
+
+.shop-coupon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.select-box {
+  width: 26px; /* 체크박스 크기 조정 */
+  height: 26px;
+  border: 2px solid #ccc; /* 테두리 두께 조정 */
+  border-radius: 6px; /* 모서리 둥글게 */
+  cursor: pointer;
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+  flex-shrink: 0; /* 줄어들지 않도록 */
+}
+
+.select-box.selected {
+  background-color: #007bff;
+  border-color: #007bff;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22%23ffffff%22%3E%3Cpath%20d%3D%22M9%2016.17L4.83%2012l-1.42%201.41L9%2019%2021%207l-1.41-1.41L9%2016.17z%22%2F%3E%3C%2Fsvg%3E"); /* 체크 아이콘 (흰색) */
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 70%;
+}
+
+.shop-rating {
+  font-size: 1em; /* 폰트 크기 조정 */
+  color: #8c9ed9;
+  margin-bottom: 8px; /* 간격 조정 */
+  display: flex;
+  align-items: center;
+}
+
+.shop-rating .rating-stars {
+  /* 별점 아이콘을 위한 공간 (JS로 채울 예정) */
+  margin-right: 5px;
+}
+
+.shop-rating .rating-count {
+  color: #777;
+  font-size: 0.9em;
+  margin-left: 5px;
+}
+
+.shop-address,
+.shop-time {
+  font-size: 1em; /* 폰트 크기 조정 */
+  color: #666;
+  margin-bottom: 5px;
+  line-height: 1.5; /* 줄 간격 조정 */
+}
+
+.profile-icons-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  margin-top: auto; /* 하단에 붙도록 */
+  padding-top: 15px; /* 상단 여백 추가 */
+  scrollbar-width: none;
+}
+
+.profile-icons-wrapper::-webkit-scrollbar {
+  display: none;
+}
+
+.profile-icons {
+  display: flex;
+  overflow-x: auto;
+  gap: 12px; /* 아이콘 간 간격 조정 */
+  flex-wrap: nowrap;
+  width: max-content;
+}
+
+.profile-icons.dragging {
+  cursor: grabbing;
+}
+
+.profile-icons a {
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
+[data-drag-scroll] {
+  cursor: grab;
+}
+[data-drag-scroll].dragging {
+  cursor: grabbing;
+}
+
+img {
+  -webkit-user-drag: none;
+}
+
+.icon-circle {
+  width: 120px; /* 아이콘 크기 조정 */
+  height: 120px;
+  border-radius: 50%;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f0f0f0;
+  border: 1px solid #ddd; /* 테두리 색상 조정 */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.icon-circle img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 100%;
+  width: auto;
+  object-fit: cover;
+
+  user-select: none;
+  -webkit-user-drag: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  pointer-events: auto;
+}
+
+.icon-circle img.landscape {
+  width: 100%;
+  height: auto;
+}
+
+
+.dot-open {
+  width: 10px;
+  height: 10px;
+  background-color: green;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 5px;
+}
+
+.dot-closed {
+  width: 10px;
+  height: 10px;
+  background-color: gray;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 5px;
+}
+
+.dot-holiday {
+  width: 10px;
+  height: 10px;
+  background-color: red;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 5px;
+}
+
+.shop-time-area {
+    display: flex;
+    gap: 5px;
+}
+
+.shop-dayoff {
+    color: var(--red-msg);
+}
+
+
+/* 위치 동의 모달 */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal.hidden {
+  display: none;
+}
+
+.modal-overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7); /* 오버레이 색상 진하게 */
+}
+
+.modal-content {
+  position: relative;
+  background: white;
+  padding: 2.5rem; /* 패딩 증가 */
+  border-radius: 12px; /* 모서리 둥글게 */
+  z-index: 10000;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); /* 그림자 강조 */
+  max-width: 400px; /* 모달 너비 제한 */
+}
+
+.modal-message {
+  font-size: 1.2em; /* 폰트 크기 조정 */
+  margin-bottom: 1.8rem; /* 간격 증가 */
+  line-height: 1.7;
+  color: #444;
+}
+
+.modal-message strong {
+  color: #007bff; /* 강조 색상 */
+}
+
+.modal-actions button {
+  margin: 0 0.6rem;
+  padding: 0.8rem 1.5rem; /* 패딩 증가 */
+  font-size: 1.05em;
+  cursor: pointer;
+  border-radius: 8px; /* 버튼 모서리 둥글게 */
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.btn-confirm {
+  background-color: #007bff;
+  color: white;
+  border: none;
+}
+
+.btn-confirm:hover {
+  background-color: #0069d9;
+  transform: translateY(-1px);
+}
+
+.btn-cancel {
+  background-color: #e9ecef;
+  color: #495057;
+  border: none;
+}
+
+.btn-cancel:hover {
+  background-color: #dae0e5;
+  transform: translateY(-1px);
+}
+
+@media (max-width: 1280px) {
+  .container {
+    width: 95%; /* 작은 화면에서는 너비를 유동적으로 */
+  }
+
+  .shop-list-filter {
+    gap: 10px 15px; /* 간격 조정 */
+    padding: 15px;
+  }
+}
+
+@media (max-width: 992px) {
+  .initial-display {
+    flex-direction: column; /* 세로 정렬 */
+    gap: 15px;
+    align-items: stretch; /* 늘어나도록 */
+  }
+
+  .initial-display .shop-search-box {
+    width: 100%;
+  }
+
+  .initial-display .location-search-area {
+    width: 100%;
+    justify-content: center;
+  }
+
+    .shop-card {
+        flex-direction: column;
+        height: 100%;
+        max-height: 440px;
+    }
+
+  .shop-img {
+    width: 480px; /* 이미지 영역 너비를 100%로 */
+    height: 240px; /* 모바일에서 이미지 높이 조정 */
+    border-right: none;
+    border-bottom: 1px solid #eee;
+  }
+
+  .shop-info-area {
+    padding: 15px; /* 모바일 패딩 조정 */
+  }
+
+  .shop-name {
+    font-size: 1.6em; /* 모바일 폰트 크기 조정 */
+  }
+
+  .profile-icons-wrapper {
+    padding-top: 10px;
+  }
+
+  .icon-circle {
+    width: 60px; /* 모바일 아이콘 크기 조정 */
+    height: 60px;
+  }
+}
+
+@media (max-width: 576px) {
+  .shop-list-wrap {
+    padding: 20px 0;
+  }
+
+  .container {
+    border-radius: 0; /* 모바일에서는 컨테이너 모서리 제거 */
+    box-shadow: none; /* 그림자 제거 */
+  }
+
+  .top-bar {
+    padding: 15px;
+    min-height: 70px;
+  }
+
+  .initial-display .shop-search-box {
+    height: 45px; /* 높이 조정 */
+    font-size: 0.95em;
+  }
+
+  .initial-display .location-search-area {
+    padding: 8px 15px; /* 패딩 조정 */
+    font-size: 0.95em;
+  }
+
+  .shop-search-expanded-area,
+  .address-input-area {
+    padding: 15px;
+  }
+
+  .expanded-search-box-centered,
+  .address-search-box {
+    height: 45px;
+    font-size: 0.95em;
+  }
+
+  .close-search-mode-button,
+  .close-location-mode-button {
+    padding: 8px 15px;
+    font-size: 0.9em;
+  }
+
+  .shop-list-filter {
+    flex-direction: column; /* 세로로 정렬 */
+    gap: 10px;
+    padding: 15px;
+  }
+
+  .order-ops {
+    width: 100%; /* 너비 100% */
+    padding: 8px 35px 8px 15px;
+    font-size: 0.9em;
+  }
+
+  .select-compare-area {
+    width: 100%; /* 너비 100% */
+    padding: 8px 12px;
+  }
+
+  .selected-shop-boxs {
+    flex-wrap: wrap; /* 모바일에서 박스들이 줄바꿈되도록 */
+    gap: 8px;
+  }
+
+  .selected-shop-one,
+  .selected-shop-two,
+  .selected-shop-three {
+    padding: 4px 10px;
+    font-size: 0.85em;
+  }
+
+  .shop-list {
+    padding: 15px;
+    gap: 20px;
+  }
+
+  .shop-img {
+    height: 180px; /* 더 작은 모바일 화면에서 이미지 높이 조정 */
+  }
+
+  .shop-name {
+    font-size: 1.4em;
+  }
+
+  .shop-address,
+  .shop-time,
+  .shop-rating {
+    font-size: 0.9em;
+  }
+}

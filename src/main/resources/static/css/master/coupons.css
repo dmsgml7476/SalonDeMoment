@@ -1,0 +1,97 @@
+
+.designer-container {
+  max-width: 1280px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgb(0 0 0 / 0.1);
+  font-family: var(--font-noto-snas);
+}
+
+#coupon-main h2 {
+  margin-bottom: 20px;
+  font-size: 28px;
+  font-weight: bold;
+  color: var(--main-color);
+}
+
+section {
+  margin-bottom: 40px;
+}
+
+section h3 {
+  font-size: 22px;
+  font-weight: bold;
+  color: var(--main-color);
+  margin-bottom: 10px;
+}
+
+.coupon-register-section h3 {
+  text-align: center;
+}
+
+.default-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.default-table thead tr {
+  background-color: var(--main-color);
+  color: white;
+}
+
+.default-table th,
+.default-table td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+
+.btn-submit,
+.btn-edit,
+.btn-manage {
+  background-color: var(--main-color);
+  border: none;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease, opacity 0.3s ease;
+}
+
+.btn-submit:hover,
+.btn-edit:hover,
+.btn-manage:hover {
+  background-color: var(--point-color);
+  opacity: 0.9;
+}
+
+
+.coupon-form {
+  margin: 0 auto;
+  max-width: 600px;
+  margin-top: 20px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-weight: bold;
+  margin-bottom: 6px;
+  color: var(--main-color);
+}
+
+.form-group input,
+.form-group select {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-family: var(--font-noto-snas);
+}

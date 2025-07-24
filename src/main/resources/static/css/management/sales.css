@@ -1,0 +1,113 @@
+.section-container {
+  max-width: 1280px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgb(0 0 0 / 0.1);
+  font-family: var(--font-noto-snas);
+}
+
+.section-container h3 {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--main-color);
+  margin-bottom: 20px;
+}
+
+.section-container table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 16px;
+}
+
+.section-container th,
+.section-container td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.section-container thead tr {
+  background-color: var(--main-color);
+  color: white;
+}
+
+.res {
+  color: green;
+  font-weight: bold;
+}
+
+.visit {
+  color: orange;
+  font-weight: bold;
+}
+
+.btn-edit {
+  background-color: var(--point-color);
+  border: none;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+.btn-edit:hover {
+  opacity: 0.8;
+}
+
+.date-selector {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
+.date-selector a {
+  display: inline-block;
+  padding: 10px 16px;
+  border: 1px solid var(--main-color);
+  border-radius: 6px;
+  background-color: white;
+  color: var(--main-color);
+  font-weight: bold;
+  font-family: var(--font-noto-snas);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.date-selector a.active {
+  background-color: var(--main-color);
+  color: white;
+}
+
+.date-selector a:hover {
+  opacity: 0.85;
+}
+
+.btn-add-payment,
+.btn-add-payment:link,
+.btn-add-payment:visited{
+  margin-top: 20px;
+  background-color: var(--main-color);
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 700;
+  font-family: var(--font-pretendard);
+  transition: opacity 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.section-container table td.table-empty {
+  text-align: center;
+  color: #888;
+  padding: 20px;
+}
+

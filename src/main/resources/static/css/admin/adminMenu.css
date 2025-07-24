@@ -1,0 +1,52 @@
+/* 관리자 헤더 */
+.admin-header {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 16px 24px;
+  background-color: var(--main-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--font-white);
+  box-sizing: border-box;
+}
+
+/* 메뉴 리스트 */
+.admin-header ul {
+  display: flex;
+  gap: 24px;
+  list-style: none;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.admin-header ul li a {
+  color: var(--font-white);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 1rem;
+  position: relative;
+  transition: color 0.3s;
+}
+
+.admin-header ul li a:hover,
+.admin-header ul li a:focus {
+  color: var(--point-color);
+}
+
+/* 로그아웃 버튼 */
+
+/* 반응형 대응 */
+@media (max-width: 768px) {
+  .admin-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .admin-header ul {
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 12px;
+  }
+
+}

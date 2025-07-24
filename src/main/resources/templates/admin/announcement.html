@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragment/default}">
+<head>
+    <th:block layout:fragment="css">
+        <link rel="stylesheet" th:href="@{/css/admin/announcement.css}" />
+    </th:block>
+</head>
+<body>
+<div layout:fragment="main" id="main">
+    <h1>공지사항</h1>
+    <div th:if="${isAdmin}">
+        <label><input type="radio" name="role" value="USER" th:checked="${userRole == 'USER'}" onchange="filter()"/>회원</label>
+        <label><input type="radio" name="role" value="DESIGNER" th:checked="${userRole == 'DESIGNER'}" onchange="filter()" />디자이너</label>
+    </div>
+    <br/>
+
+    <input type="text" name="search" id="search" placeholder="제목 또는 내용을 검색하세요"/>
+    <button onclick="filter()">검색</button>
+
+    <table>
+        <thead>
+        <tr>
+            <th>번호</th>
+            <th>제목</th>
+            <th>업로드 날짜</th>
+            <th>첨부파일</th>
+        </tr>
+        </thead>
+        <tbody id="noticeTable">
+        <tr th:each="ancList : ${ancListDto}" th:data-role="${ancList.roleName}">
+            <td class="number"></td>
+            <td class="title"><a th:href="@{/cs/detail(id=${ancList.id})}" th:text="${ancList.title}"></a></td>
+            <td th:text="${#temporals.format(ancList.writeAt, 'yyyy-MM-dd')}"></td>
+            <td>
+                <span th:if="${ancList.fileUrl != null}">
+                    <a th:href="${ancList.fileUrl}" th:text="${ancList.fileName}" target="_blank"></a>
+                </span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div th:if="${isAdmin}">
+        <a href="/admin/anc/create" id="button">
+            <button>공지 작성</button>
+        </a>
+    </div>
+</div>
+<th:block layout:fragment="script">
+    <script>
+        window.onload = function() {
+
+            const userRole = /*[[${userRole}]]*/ 'USER';
+
+            const radios = document.querySelectorAll('input[name="role"]');
+            radios.forEach(radio => {
+                radio.checked = (radio.value === userRole);
+            });
+            filter();
+        }
+        function filter() {
+            const keyword = document.getElementById("search").value.trim();
+            const selectRole = document.querySelector('input[name="role"]:checked').value;
+            const rows = document.querySelectorAll("#noticeTable tr");
+
+        let number = 1;
+
+        rows.forEach((row) => {
+            const rowRole = row.getAttribute("data-role")?.trim();
+            const title = row.querySelector(".title a").textContent.trim();
+
+            const matchesRole = rowRole === selectRole;
+            const matchesKeyword = title.includes(keyword);
+
+            if(matchesRole && matchesKeyword){
+                row.style.display = "";
+                row.querySelector(".number").textContent = number++;
+            } else {
+                row.style.display = "none";
+            }
+        });
+    }
+    </script>
+</th:block>
+</body>
+</html>

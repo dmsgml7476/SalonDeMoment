@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragment/default}">
+<head>
+  <th:block layout:fragment="css">
+    <link rel="stylesheet" href="/css/admin/shopApply.css">
+  </th:block>
+</head>
+<body>
+<div layout:fragment="main" id="main">
+  <div class="modal-overlay" id="ownerApplyModel">
+    <div class="modal">
+      <h2>원장 디자이너 권한 신청</h2>
+      <form th:action="@{/cs/shopApply}" th:object="${applyDto}" id="ownerApplyForm" method="post">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+        <label for="applyNumber">사업자등록번호</label>
+        <input type="text" id="applyNumber" th:field="*{applyNumber}" placeholder="숫자만 입력" required>
+        <button type="button" id="verifyBtn" class="verify-btn">사업자등록번호 확인</button>
+        <label for="issuedDate">발급일</label>
+        <input type="date" id="issuedDate" th:field="*{issuedDate}" required>
+        <div class="button">
+          <button type="submit" class="submit-btn">신청하기</button>
+        </div>
+      </form>
+      <div th:if="${errorMessage}" style="color:red; font-weight:bold;">
+        <p th:text="${errorMessage}"></p>
+      </div>
+
+      <div id="resultMessage" style="margin-top: 10px; color : blue; font-weight: bold;"></div>
+    </div>
+  </div>
+</div>
+<th:block layout:fragment="script">
+  <script>
+    const form = document.getElementById('ownerApplyForm');
+    const verifyBtn = document.getElementById('verifyBtn')
+    const resultMessage = document.getElementById('resultMessage');
+    let isVerified = false; // ✅ 사업자 확인 플래그
+
+    form.addEventListener('submit', function(event) {
+      if(!isVerified) {
+        event.preventDefault();
+        resultMessage.style.color = 'red';
+        resultMessage.textContent = "먼저 사업자등록번호 확인을 완료해주세요.";
+        }
+      });
+
+    verifyBtn.addEventListener('click', function () {
+      const bizNo = document.getElementById('applyNumber').value.trim();
+
+      if (!bizNo) {
+        resultMessage.style.color = 'red';
+        resultMessage.textContent = "사업자등록번호를 입력하세요.";
+        return;
+      }
+
+      resultMessage.style.color = 'black';
+      resultMessage.textContent = "조회 중... 잠시만 기다려 주세요.";
+
+      const url = `/cs/api/bizCheck?bizNo=${encodeURIComponent(bizNo)}`;
+
+      fetch(url)
+        .then(response => {
+          if (!response.ok) throw new Error('API 호출 실패: ' + response.status);
+          return response.json();
+        })
+        .then(data => {
+          console.log(data);
+          const info = data.data?.[0];
+          if (info?.b_stt === "계속사업자") {
+            resultMessage.style.color = "green";
+            resultMessage.textContent = '정상 사업자입니다.';
+
+            isVerified = true; // ✅ 검증 통과
+          } else {
+            resultMessage.style.color = 'red';
+            resultMessage.textContent = `사업자 상태: ${info?.b_stt || '정보 없음'}`;
+            isVerified = false;
+          }
+        })
+        .catch(error => {
+          resultMessage.style.color = 'red';
+          resultMessage.textContent = '오류 발생: ' + error.message;
+        });
+  });
+  </script>
+</th:block>
+</body>
+</html>

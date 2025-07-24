@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragment/default}">
+<head>
+  <th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/management/main.css}">
+    <link rel="stylesheet" th:href="@{/css/management/attendanceButtons.css}">
+
+  </th:block>
+</head>
+<body>
+
+<div layout:fragment="main" id="main">
+
+  <!-- 출퇴근 토큰용 -->
+  <meta name="_csrf" th:content="${_csrf.token}"/>
+  <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+
+  <div class="attendance-buttons">
+    <button id="btn-toggle-attendance">출근하기</button>
+    <button id="btn-request-leave">휴가 신청</button>
+  </div>
+
+  <div class="attendance-times">
+    <p id="attendance-time-display"></p>
+  </div>
+
+
+
+  <div id="designer-main" class="designer-container">
+    <h2>디자이너 메인 페이지</h2>
+
+    <section class="dashboard-summary">
+      <div class="card">
+        <h3>오늘 예약 수</h3>
+        <p th:text="${dto.todayReservationCount} + 건">12건</p>
+      </div>
+      <div class="card">
+        <h3>오늘 시술 건수</h3>
+        <p th:text="${dto.todayCompletedPayments} + 건">8건</p>
+      </div>
+      <div class="card">
+        <h3>알림</h3>
+        <p th:text="'신규 문의 '+ ${dto.todayNewCustomers}+ 건 ">신규 문의 3건</p>
+      </div>
+    </section>
+
+    <section class="schedule">
+      <h3>오늘 스케줄</h3>
+      <table>
+        <thead>
+        <tr>
+          <th>시간</th>
+          <th>고객명</th>
+          <th>시술 내용</th>
+          <th>상태</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="list : ${dto.todayScheduleList}">
+          <td th:text="${list.time}">10:00</td>
+          <td th:text="${list.customerName}">홍길동</td>
+          <td th:text="${list.serviceName}">컷트</td>
+          <td th:if="${list.status.toString()} == '예약완료'"
+              th:text="${list.status}" class="status-complete">예약완료</td>
+          <td th:if="${list.status.toString()} == '예약중'"
+              th:text="${list.status}" class="status-reserved">예약중</td>
+          <td th:if="${list.status.toString()} == '예약취소'"
+              th:text="${list.status}" class="status-canceled">예약취소</td>
+          <td th:if="${list.status.toString()} == '노쇼'"
+              th:text="${list.status}" class="status-noshow">노쇼</td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(dto.todayScheduleList)}">
+          <td colspan="4" class="table-empty"> 스케줄이 없습니다. </td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="quick-actions">
+      <a href="/manage/reservations/new">새 예약 등록</a>
+      <a href="/manage/member-card">고객 관리</a>
+      <a href="/manage/reservations">예약 내역 보기</a>
+    </section>
+  </div>
+
+
+</div>
+<th:block layout:fragment="script">
+  <script th:src="@{/javascript/management/attendanceButtons.js}"></script>
+</th:block>
+</body>
+</html>

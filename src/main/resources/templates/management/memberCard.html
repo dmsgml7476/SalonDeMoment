@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragment/default}">
+<head>
+  <th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/management/memberCard.css}">
+  </th:block>
+</head>
+<body>
+<div layout:fragment="main" id="main">
+
+  <div class="section-container">
+    <h3 class="customer-title">회원 리스트</h3>
+    <ul id="customer-list" style="list-style:none; padding-left:0;">
+    </ul>
+  </div>
+
+  <div id="memberMemoModal" class="modal">
+    <div class="modal-content">
+      <span class="close-button">&times;</span>
+      <h3><span id="memoModalMemberName"></span>님 개인 메모</h3>
+      <textarea id="memberMemoInput" placeholder="회원에게 남길 개인 메모를 입력하세요."></textarea>
+      <button id="saveMemberMemoBtn">저장</button>
+    </div>
+  </div>
+
+  <div id="cardMemoModal" class="modal">
+    <div class="modal-content">
+      <span class="close-button">&times;</span>
+      <h3>시술 메모</h3>
+      <textarea id="cardMemoInput" placeholder="시술에 대한 상세 메모를 입력하세요."></textarea>
+      <button id="saveCardMemoBtn">저장</button>
+    </div>
+  </div>
+
+</div>
+
+<th:block layout:fragment="script">
+  <script>
+
+    // DOM 요소 선택
+    const customerListEl = document.getElementById('customer-list');
+    const memberMemoModal = document.getElementById('memberMemoModal');
+    const cardMemoModal = document.getElementById('cardMemoModal');
+    const memberMemoInput = document.getElementById('memberMemoInput');
+    const cardMemoInput = document.getElementById('cardMemoInput');
+    const saveMemberMemoBtn = document.getElementById('saveMemberMemoBtn');
+    const saveCardMemoBtn = document.getElementById('saveCardMemoBtn');
+    const memoModalMemberName = document.getElementById('memoModalMemberName');
+
+    // CSRF 토큰 및 헤더 이름 가져오기
+    const csrfToken = document.querySelector('meta[name="_csrf"]').getAttribute('content');
+    const csrfHeader = document.querySelector('meta[name="_csrf_header"]').getAttribute('content');
+
+    // 현재 선택된 회원 ID 및 결제 ID (메모 저장 시 사용)
+    let currentMemberId = null;
+    let currentPaymentId = null; // MemberCard ID 대신 Payment ID 사용
+
+    // 모달을 여는 함수
+    function openModal(modalEl) {
+      modalEl.style.display = 'flex'; // flex로 변경하여 중앙 정렬 효과
+    }
+
+    // 모달을 닫는 함수
+    function closeModal(modalEl) {
+      modalEl.style.display = 'none';
+      // 모달 닫을 때 입력 필드 초기화
+      if (modalEl === memberMemoModal) memberMemoInput.value = '';
+      if (modalEl === cardMemoModal) cardMemoInput.value = '';
+    }
+
+    // 모든 닫기 버튼에 이벤트 리스너 추가 (모달 닫기)
+    document.querySelectorAll('.close-button').forEach(button => {
+      button.addEventListener('click', (e) => {
+        closeModal(e.target.closest('.modal')); // 가장 가까운 .modal 부모를 찾아 닫음
+      });
+    });
+
+    // 모달 외부 클릭 시 닫기
+    window.addEventListener('click', (e) => {
+      if (e.target === memberMemoModal) closeModal(memberMemoModal);
+      if (e.target === cardMemoModal) closeModal(cardMemoModal);
+    });
+
+    // 서버에서 회원 목록 데이터를 가져와 렌더링하는 비동기 함수
+    async function fetchAndRenderMemberList() {
+      try {
+        const response = await fetch('/manage/members'); // API 엔드포인트: /api/members
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const memberListData = await response.json(); // JSON 형태로 응답 받음
+        renderMemberList(memberListData); // 받아온 데이터로 목록 렌더링
+      } catch (error) {
+        console.error('회원 데이터를 불러오는 데 실패했습니다:', error);
+        customerListEl.innerHTML = '<li>회원 정보를 불러오는 데 실패했습니다. 잠시 후 다시 시도해주세요.</li>';
+      }
+    }
+
+    // MemberListDto 리스트를 바탕으로 HTML 리스트를 렌더링하는 함수
+    function renderMemberList(members) {
+      customerListEl.innerHTML = ''; // 기존 목록을 비웁니다.
+
+      if (members.length === 0) {
+        customerListEl.innerHTML = '<li>등록된 회원 정보가 없습니다.</li>';
+        return;
+      }
+
+      members.forEach(member => {
+        const li = document.createElement('li');
+        li.classList.add('customer-item');
+
+        const headerDiv = document.createElement('div');
+        headerDiv.classList.add('customer-header');
+
+        const nameMemoDiv = document.createElement('div');
+        nameMemoDiv.classList.add('name-memo');
+        // member.memo는 MemberListDto의 memo (개인 메모 내용)
+        nameMemoDiv.innerHTML = `<strong>${member.memberName} (${member.memberTel})</strong><em>${member.memo || '개인 메모 없음'}</em>`;
+
+        const memoBtn = document.createElement('button');
+        memoBtn.classList.add('memo-btn');
+        memoBtn.textContent = member.memo ? '수정' : '작성';
+        memoBtn.dataset.memberId = member.memberId; // 회원 ID를 데이터 속성으로 저장
+        memoBtn.dataset.memberName = member.memberName; // 회원 이름을 데이터 속성으로 저장 (모달 표시용)
+
+
+        headerDiv.appendChild(nameMemoDiv);
+        headerDiv.appendChild(memoBtn);
+        li.appendChild(headerDiv);
+
+        const detailDiv = document.createElement('div');
+        detailDiv.classList.add('customer-detail');
+
+        const paymentTitle = document.createElement('h5');
+        paymentTitle.textContent = '시술 내역';
+        detailDiv.appendChild(paymentTitle);
+
+        const paymentUl = document.createElement('ul');
+
+        // member.cardList는 MemberCardListDto 리스트 (시술 내역)
+        if (!member.cardList || member.cardList.length === 0) {
+          const noItem = document.createElement('li');
+          noItem.textContent = '시술 내역이 없습니다.';
+          paymentUl.appendChild(noItem);
+        } else {
+          member.cardList.forEach(card => { // 여기서 `card`는 MemberCardListDto
+            const pLi = document.createElement('li');
+            // 날짜 포맷팅 (LocalDateTime을 JS Date 객체로 변환하여 처리)
+            const payDate = new Date(card.payDate);
+            const formattedDate = `${payDate.getFullYear()}-${(payDate.getMonth() + 1).toString().padStart(2, '0')}-${payDate.getDate().toString().padStart(2, '0')}`;
+            const formattedPrice = card.totalPrice.toLocaleString('ko-KR') + '원'; // 가격 포맷팅
+
+            pLi.innerHTML = `
+              <div>
+                <strong>${formattedDate}</strong>: ${card.serviceName} - ${formattedPrice}
+                ${card.memo ? `<br><small>메모: ${card.memo}</small>` : ''}
+              </div>
+            `;
+            // 시술 메모 버튼 추가
+            const cardMemoBtn = document.createElement('button');
+            cardMemoBtn.classList.add('memo-btn'); // CSS 재활용
+            cardMemoBtn.style.marginLeft = '10px'; // 스타일 조정
+            cardMemoBtn.textContent = card.memo ? '수정' : '작성';
+
+            // ***** 중요 변경: MemberCard ID 대신 Payment ID를 데이터 속성으로 저장 *****
+            cardMemoBtn.dataset.paymentId = card.paymentId; // MemberCardListDto의 paymentId 필드 사용
+            cardMemoBtn.dataset.currentMemo = card.memo || ''; // 현재 메모 내용
+
+            pLi.appendChild(cardMemoBtn);
+            paymentUl.appendChild(pLi);
+
+            // 시술 메모 버튼 이벤트 리스너
+            cardMemoBtn.addEventListener('click', (e) => {
+              e.stopPropagation(); // 부모 요소의 클릭 이벤트 (toggle)가 발생하지 않도록 막음
+              currentPaymentId = e.target.dataset.paymentId; // 현재 Payment ID 설정
+              cardMemoInput.value = e.target.dataset.currentMemo; // 기존 메모 불러오기
+              openModal(cardMemoModal); // 시술 메모 모달 열기
+            });
+          });
+        }
+
+        detailDiv.appendChild(paymentUl);
+        li.appendChild(detailDiv);
+
+        // 펼침/닫힘 토글 기능
+        headerDiv.addEventListener('click', () => {
+          li.classList.toggle('open');
+        });
+
+        // 개인 메모 버튼 클릭 시 모달 열기
+        memoBtn.addEventListener('click', (e) => {
+          e.stopPropagation(); // 부모 요소의 클릭 이벤트 방지
+          currentMemberId = e.target.dataset.memberId; // 현재 회원 ID 설정
+          memoModalMemberName.textContent = e.target.dataset.memberName; // 모달에 회원 이름 표시
+          memberMemoInput.value = member.memo || ''; // 기존 개인 메모 불러오기
+          openModal(memberMemoModal); // 개인 메모 모달 열기
+        });
+
+        customerListEl.appendChild(li); // 생성된 리스트 항목을 ul에 추가
+      });
+    }
+
+    // 개인 메모 저장 기능 (백엔드로 PUT 요청 전송 - @RequestParam 방식)
+    saveMemberMemoBtn.addEventListener('click', async () => {
+      const memoContent = encodeURIComponent(memberMemoInput.value); // URL에 포함하기 위해 인코딩
+      if (currentMemberId) {
+        try {
+          const response = await fetch(`/manage/members/${currentMemberId}/personal-memo?personal-memo=${memoContent}`, {
+            method: 'PUT', // PUT 메서드 사용
+             headers: {
+              [csrfHeader]: csrfToken // CSRF 토큰 헤더 추가
+              // 'Content-Type': 'application/x-www-form-urlencoded' // @RequestParam은 이 헤더가 더 적합할 수 있지만, 없어도 작동하는 경우 많음
+            }
+          });
+
+          if (!response.ok) {
+            // HTTP 응답이 200번대(성공)가 아니면 에러 발생
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          alert('개인 메모가 성공적으로 저장되었습니다.');
+          closeModal(memberMemoModal); // 모달 닫기
+          fetchAndRenderMemberList(); // 목록 새로고침하여 변경된 내용 반영
+        } catch (error) {
+          console.error('개인 메모 저장 실패:', error);
+          alert('개인 메모 저장에 실패했습니다. 잠시 후 다시 시도해주세요.');
+        }
+      }
+    });
+
+    // 시술 메모 저장 기능 (백엔드로 PUT 요청 전송 - @RequestParam 방식)
+    saveCardMemoBtn.addEventListener('click', async () => {
+      const memoContent = encodeURIComponent(cardMemoInput.value); // URL에 포함하기 위해 인코딩
+      if (currentPaymentId) { // 현재 Payment ID가 유효한지 확인
+        try {
+          const response = await fetch(`/manage/members/${currentPaymentId}/card-memo?card-memo=${memoContent}`, {
+            method: 'PUT', // PUT 메서드 사용
+            headers: {
+              [csrfHeader]: csrfToken // CSRF 토큰 헤더 추가
+              // 'Content-Type': 'application/x-www-form-urlencoded'
+            }
+          });
+
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          alert('시술 메모가 성공적으로 저장되었습니다.');
+          closeModal(cardMemoModal); // 모달 닫기
+          fetchAndRenderMemberList(); // 목록 새로고침
+        } catch (error) {
+          console.error('시술 메모 저장 실패:', error);
+          alert('시술 메모 저장에 실패했습니다. 잠시 후 다시 시도해주세요.');
+        }
+      }
+    });
+
+    // 페이지 로드 시 데이터 가져오기 및 렌더링 시작
+    document.addEventListener('DOMContentLoaded', fetchAndRenderMemberList);
+  </script>
+</th:block>
+
+</body>
+</html>

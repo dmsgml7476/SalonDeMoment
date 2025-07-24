@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragment/default}">
+<head>
+  <th:block layout:fragment="css">
+    <link rel="stylesheet" href="/css/admin/apply.css">
+  </th:block>
+</head>
+<body>
+<div layout:fragment="main" id="main">
+  <form th:action="@{/cs/request}" th:object="${applyDto}" method="post" enctype="multipart/form-data">
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+    <div>
+      <label>성명</label>
+      <input type="text" name="name" th:field="*{name}" required />
+    </div>
+    <div>
+      <label>자격증 번호</label>
+      <input type="text" name="applyNumber" id="applyNumber" th:field="*{applyNumber}">
+    </div>
+    <div>
+      <label>자격증 파일 첨부(이미지/PDF)</label>
+      <input type="file" name="file" id="fileInput" accept="image/*, application/pdf">
+      <button type="button" onclick="runOcr()">OCR 자동 추출</button>
+      <pre id="result" style="white-space: pre-wrap; margin-top: 10px;"></pre>
+    </div>
+    <div>
+      <label>발급일</label>
+      <input type="date" name="issuedDate" id="issuedDate" th:field="*{issuedDate}">
+    </div>
+    <div class="form-buttons">
+      <button type="submit">승인 요청</button>
+      <a href="/" style="margin-left: 10px;"></a>
+    </div>
+  </form>
+</div>
+<th:block layout:fragment="script">
+  <script th:inline="javascript">
+    /*<![CDATA[*/
+    const apiKey = /*[[${ocrApiKey}]]*/ 'YOUR_FALLBACK_KEY';
+    console.log("API key 확인:", apiKey);
+    /*]]>*/
+
+    let error = /*[[${error}]]*/ null;
+    let message = /*[[${message}]]*/ null;
+
+    if(error){
+      alert(error)
+    }
+
+    if(message) {
+      alert(message);
+    }
+
+    async function runOcr(){
+      const fileInput = document.getElementById("fileInput");
+      const file = fileInput.files[0];
+      if(!file) {
+        alert("이미지를 선택하세요");
+        return;
+      }
+
+      const reader = new FileReader();
+
+      reader.onload = async function(){
+        console.log("FileReader result:", reader.result);
+        const base64Image = reader.result.split(",")[1];
+
+      if(!base64Image){
+        alert("이미지 변환 실패: base64 인코딩이 비정상입니다.");
+        return;
+      }
+      const requestBody = {
+        requests: [
+          {
+            image: { content: base64Image},
+            features: [{type: "TEXT_DETECTION"}]
+          }
+        ]
+      };
+
+      try{
+        const response = await fetch(
+          `https://vision.googleapis.com/v1/images:annotate?key=${apiKey}`,
+          {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(requestBody)
+          }
+        );
+        console.log("Fetch Response:", response);
+        const result = await response.json();
+        console.log("Fetch Response JSON:", result);
+
+        const text = result.responses?.[0]?.fullTextAnnotation?.text
+              || result.responses?.[0]?.textAnnotations?.[0]?.description
+              || "결과 없음";
+
+        console.log("OCR 결과 텍스트:\n", text);
+        document.getElementById("result").textContent = text;
+
+        const match = text.match(/\d{5,}-\d+/);
+        if(match) {
+        document.getElementById("applyNumber").value = match[0];
+        }
+
+        const dateMatch = text.match(/(\d{4})[.\-년\s]*(\d{1,2})[.\-월\s]*(\d{1,2})/);
+        if(dateMatch){
+          const [_, y, m, d] = dateMatch;
+          document.getElementById("issuedDate").value = `${y}-${m.padStart(2, '0')}-${d.padStart(2, '0')}`;
+        }
+
+        } catch (err) {
+        console.error("OCR 요청 실패:", err);
+        alert("OCR 처리 중 오류가 발생했습니다.");
+        }
+      };
+
+    reader.readAsDataURL(file);
+  }
+  </script>
+</th:block>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragment/default}">
+<head>
+    <th:block layout:fragment="css">
+        <link rel="stylesheet" th:href="@{/css/management/attendance.css}">
+        <link rel="stylesheet" th:href="@{/css/management/attendanceButtons.css}">
+    </th:block>
+</head>
+<body>
+<div layout:fragment="main" id="main">
+
+    <!-- 토큰용 -->
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+
+    <div class="attendance-buttons">
+        <button id="btn-toggle-attendance">출근하기</button>
+        <button id="btn-request-leave">휴가 신청</button>
+    </div>
+
+    <div class="attendance-times">
+        <p id="attendance-time-display"></p>
+    </div>
+
+    <div class="section-container">
+
+        <h3>디자이너 근태 현황</h3>
+
+        <!-- 날짜 선택 영역 -->
+        <div class="month-navigation">
+            <a th:href="@{/manage/attendance(monthStart=${monthStart.minusMonths(1)})}">&lt;</a>
+            <span th:text="${#temporals.format(monthStart, 'yyyy년 MM월')}">2025년 07월</span>
+            <a th:href="@{/manage/attendance(monthStart=${monthStart.plusMonths(1)})}">&gt;</a>
+        </div>
+
+        <!-- 주차 선택 -->
+        <div class="week-selector">
+            <a th:each="week, iter : ${weeks}"
+               th:href="@{/manage/attendance(monthStart=${monthStart}, selectedWeek=${iter.index})}"
+               th:text="${week.label}"
+               th:classappend="${iter.index} == ${selectedWeekIndex} ? 'active' : ''">
+            </a>
+        </div>
+
+        <!-- 근태 리스트 출력 -->
+        <table>
+            <thead>
+            <tr>
+                <th>날짜</th>
+                <th>출근 시간</th>
+                <th>퇴근 시간</th>
+                <th>근무 시간</th>
+                <th>비고</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="att : ${attendanceList}">
+                <td th:text="${#temporals.format(att.clockIn, 'yyyy-MM-dd')}">2025-07-01</td>
+                <td th:text="${#temporals.format(att.clockIn, 'HH:mm')}">09:00</td>
+                <td th:text="${#temporals.format(att.clockOut, 'HH:mm')}">18:00</td>
+                <td th:text="${att.workTimeStr}">9시간</td>
+                <td th:text="${att.status}">비고</td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(attendanceList)}">
+                <td colspan="5" class="table-empty"> 근무기록이 없습니다. </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<th:block layout:fragment="script">
+    <script th:src="@{/javascript/management/attendanceButtons.js}"></script>
+</th:block>
+</body>
+</html>

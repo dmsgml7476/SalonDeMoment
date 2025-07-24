@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragment/default}">
+<head>
+  <th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/shop/shopDetail.css}">
+  </th:block>
+</head>
+<body>
+<div layout:fragment="main" id="main">
+  <div class="container">
+  <section class="shop-top">
+    <div class="shop-main">
+      <!-- 미용실 이미지 -->
+      <div class="shop-img"
+           th:style="${shop?.shopImageDtos != null and !shop.shopImageDtos.isEmpty() and shop.shopImageDtos[0]?.imgUrl != null} ?
+                    'background-image: url(' + ${shop.shopImageDtos[0].imgUrl} + ')' :
+                    'background-image: url(/images/default.png)'">
+      </div>
+
+      <!-- 이미지 오른쪽 아이콘 버튼 영역 -->
+      <div class="shop-side">
+        <!-- 찜하기 -->
+        <button class="shop-btn">
+        <span class="icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart1">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+          </svg>
+        </span>
+          <div class="text">
+            <strong>찜하기</strong>
+            <small> | <span th:text="${shop?.likeCount ?: 0}">0</span></small>
+          </div>
+        </button>
+
+        <!-- 미용실 주소 -->
+        <div class="shop-icon">
+        <span class="icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin">
+            <path d="M12 21s8-4.5 8-10a8 8 0 1 0-16 0c0 5.5 8 10 8 10z"/>
+            <circle cx="12" cy="11" r="3"/>
+          </svg>
+        </span>
+          <div class="text">
+            주소<br/>
+            <small th:text="${shop?.address ?: '주소 정보 없음'}">대전 중구 대덕대로 192</small>
+          </div>
+        </div>
+
+        <!-- 미용실 전화번호 -->
+        <div class="shop-icon">
+        <span class="icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-phone">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.86 19.86 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.86 19.86 0 0 1 2.1 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.2 1.43.6 2.82 1.17 4.14a2 2 0 0 1-.45 2.11l-1.27 1.27a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c1.32.57 2.71.97 4.14 1.17a2 2 0 0 1 1.72 2z"/>
+          </svg>
+        </span>
+          <div class="text">
+            전화번호<br/>
+            <small th:text="${shop?.tel ?: '전화번호 정보 없음'}">042-518-1884</small>
+          </div>
+        </div>
+
+        <!-- 공유하기 버튼 -->
+        <button class="shop-btn">
+        <span class="icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-share">
+            <path d="M4 12v7a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7"/>
+            <polyline points="16 6 12 2 8 6"/>
+            <line x1="12" y1="2" x2="12" y2="15"/>
+          </svg>
+        </span>
+        <div class="text"><strong>공유하기</strong></div>
+        </button>
+        <div id="share-modal" style="display: none">
+          <div class="modal-content">
+            <p>공유할 수 있는 링크 복사하기</p>
+            <input type="text" th:value="${shop?.id != null ? 'https://localhost/shop/' + shop.id : '잘못된 링크'}" readonly />
+            <button>복사</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 미용실 이름 및 평점 -->
+    <div class="shop-title">
+      <h2 th:text="${shop?.name ?: '미용실 정보 없음'}">Salon De DW</h2>
+      <div class="rating">
+      <span th:if="${shop?.rating != null}" th:text="${'★'.repeat(shop.rating.intValue()) + '☆'.repeat(5 - shop.rating.intValue()) + ' ' + shop.rating}">
+        ★★★★☆ 4.0
+      </span>
+        <span th:unless="${shop?.rating != null}">평점 없음</span>
+      </div>
+    </div>
+
+    <!-- 운영시간 및 주의사항 -->
+    <div class="shop-info-box">
+      <h3>✔ 매장 운영시간 ✔</h3>
+      <p>
+        <span class="red" th:text="|휴무일 : ${shop?.dayOffText ?: '정보 없음'}|">휴무일 안내</span><br/>
+        <span th:text="|운영시간 : ${#temporals.format(shop.openTime, 'HH:mm')} ~ ${#temporals.format(shop.closeTime, 'HH:mm')}|">
+                 매장 운영시간 : 10:00 ~ 20:00
+        </span>
+      </p>
+      <div class="shop-description">
+        <p><strong>✔ 매장 소개 ✔</strong></p>
+        <p th:if="${shop?.description != null}" th:utext="${#strings.replace(shop.description, '\n', '<br/>')}"></p>
+        <p th:unless="${shop?.description != null}">매장 소개 정보 없음</p>
+      </div>
+    </div>
+
+    <!-- 메뉴바 -->
+    <section class="shop-tabs-wrapper">
+      <div class="container">
+        <nav class="shop-tabs">
+          <ul>
+            <li class="tab-item active" data-tab="section-home">홈</li>
+            <li class="tab-item" data-tab="section-service">시술 목록</li>
+            <li class="tab-item" data-tab="section-designer">디자이너</li>
+            <li class="tab-item" data-tab="section-review">리뷰</li>
+          </ul>
+        </nav>
+      </div>
+    </section>
+  </section>
+
+  <!-- 홈 섹션-->
+  <section class="tab-content" id="section-home">
+
+    <!-- 추천 시술 목록 -->
+    <section class="recommend-service" th:if="${recommendedService != null and !recommendedService.isEmpty()}">
+      <h3>추천 시술</h3>
+      <ul class="service-list">
+        <li class="service-item selected" th:each="service : ${recommendedService}">
+          <div class="service-thumb"
+               th:if="${service != null}"
+               th:style="'background-image: url(' + (${service.imgUrl} != null ? ${service.imgUrl} : '/images/default.png') + ')'">
+          </div>
+          <div class="service-info">
+            <strong th:text="${service?.name ?: '시술명 없음'}">시술 이름</strong>
+            <p th:text="${service?.price != null ? #numbers.formatInteger(service.price, 3, 'COMMA') : '가격 미정'}">120,000</p>
+            <span th:text="${service.description}">커트 포함</span>
+          </div>
+        </li>
+      </ul>
+      <button class="btn-more">
+        시술 더보기 <i class="fa-solid fa-chevron-down"></i>
+      </button>
+    </section>
+
+    <section th:if="${recommendedService == null or recommendedService.isEmpty()}">
+      <p>아직 추천 시술이 등록되지 않았습니다.</p>
+    </section>
+
+    <!-- 디자이너 목록 -->
+    <section class="designer-section" th:if="${designerLists != null and !designerLists.isEmpty()}">
+      <h3>디자이너</h3>
+      <div class="designer-list">
+        <div class="designer-card" th:each="designer : ${designerLists}">
+          <!-- 디자이너 프로필 사진 -->
+          <div class="designer-img">
+            <img th:src="${(designer?.imgUrl ?: '/images/default_profile.jpg')}" alt="디자이너 프로필"/>
+          </div>
+            <p>
+          <div class="designer-info">
+              <strong th:text="${designer?.name ?: '이름 없음'}">나미리 원장디자이너</strong>
+              <span class="designer-summary" th:text="${designer?.profileSummary ?: '요약 정보 없음'}">펌, 클리닉 전문 (11년차)</span>
+            </p>
+          </div>
+          <div class="designer-status">
+            <span>💬 <span th:text="${designer?.reviewCount != null ? designer.reviewCount : 0}">256</span></span>
+            <span>🤍 <span th:text="${designer?.likeCount != null ? designer.likeCount : 0}">1,547</span></span>
+          </div>
+          <button class="btn-book"
+                  th:onclick="'location.href=\'/reservation/designer/' + (designer.id != null ? designer.id : 0) + '\';'">
+            예약
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 리뷰 목록 -->
+    <section class="review-section" th:if="${reviewList != null and !reviewList.isEmpty()}">
+      <h3>리뷰 <span th:text="${#lists.size(reviewList)}">0</span></h3>
+      <article class="review-card" th:each="review : ${reviewList}" th:data-category="${review.category}">
+        <h4>
+          <div>
+            <span th:text="${review.serviceName}">시술명</span>
+          </div>
+          <span th:text="${review.designerName}">디자이너명</span>
+        </h4>
+
+        <div th:if="${review.imageDtos != null and #lists.size(review.imageDtos) > 0}" class="review-images">
+          <img th:src="${review.imageDtos[0]?.imgUrl ?: '/images/placeholder.png'}" alt="리뷰 이미지" class="photo" />
+        </div>
+
+
+        <div class="r-content">
+          <p class="review-comment" th:text="${review.comment}">리뷰 내용</p>
+          <span th:text="${review.rating}" class="r-rating">5.0</span> ·
+          <span th:text="${review.memberName}">익명</span> ·
+          <span th:text="${#temporals.format(review.createAt, 'yyyy.MM.dd')}">X일 전</span> ·
+          <span th:text="${review.visitCount + '번째 방문'}">X번째 방문</span>
+        </div>
+      </article>
+    </section>
+
+    <section class="review-section" th:if="${reviewList == null or reviewList.isEmpty()}">
+      <h3>리뷰</h3>
+      <p>아직 등록된 리뷰가 없습니다.</p>
+    </section>
+
+    <div class="fixed-reserve">
+      <div class="reserve-inner">
+        <a th:href="@{/reservation/write(shopId=${shop?.id ?: 0})}" class="reserve-btn">예약하기</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 시술 목록 섹션 -->
+    <section class="tab-content" id="section-service" style="display: none">
+      <div class="category-tabs-wrapper">
+        <div class="container">
+          <div class="category-tabs">
+            <button class="category-btn active" data-category="all">전체</button>
+            <button class="category-btn" data-category="cut">커트</button>
+            <button class="category-btn" data-category="perm">펌</button>
+            <button class="category-btn" data-category="clinic">클리닉</button>
+            <button class="category-btn" data-category="upstyle">업스타일</button>
+            <button class="category-btn" data-category="dry">드라이</button>
+            <button class="category-btn" data-category="color">염색</button>
+            <button class="category-btn" data-category="hair-extension">붙임머리</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="container">
+        <h3> 추천 시술</h3>
+        <div class="service-section" data-category="all"> <ul class="service=list" th:each="recommended : ${recommendedService}">
+          <li class="service-card">
+            <div class="service-img" th:if="${recommended.imgUrl != null}">
+              <img th:src="${recommended.imgUrl}">
+            </div>
+            <div class="service-content">
+              <strong class="service-name" th:text="${recommended.name}"></strong>
+              <div class="service-price">
+              <span class="original"
+                    th:text="${recommended?.price != null ? #numbers.formatInteger(recommended.price, 3, 'COMMA') + '원' : '가격 미정'}">
+              </span>
+                <div class="service-extra" th:text="${recommended.description}">커트 포함</div>
+              </div>
+            </div>
+          </li>
+        </ul>
+        </div>
+        <i class="chevron fa-solid fa-chevron-down"></i>
+
+        <div th:each="category : ${T(com.salon.constant.ServiceCategory).values()}"
+             class="category-section"
+             th:id="${category.name().toLowerCase()}"
+             th:data-category="${category.name().toLowerCase()}"> <h3 th:text="${category.label}">카테고리명</h3>
+
+          <ul class="service-list">
+            <li class="service-card" th:each="svc : ${serviceSection.categoryMap[T(com.salon.constant.ServiceCategory).valueOf(category.name())]}">
+              <div class="service-img" th:if="${svc.imgUrl != null}">
+                <img th:src="${svc.imgUrl}">
+              </div>
+              <div class="service-content">
+                <strong class="service-name"
+                        th:text="${svc?.name ?: '시술명 없음'}">시술명</strong>
+
+
+                <div class="service-price">
+        <span class="original"
+              th:text="${svc?.price != null ? #numbers.formatInteger(svc.price, 3, 'COMMA') + '원' : '가격 미정'}">
+          가격
+        </span>
+
+                </div>
+                <div class="service-extra" th:text="${svc.description}">커트 포함</div>
+              </div>
+            </li>
+          </ul>
+
+          <div class="service-more">
+            <i class="chevron fa-solid fa-chevron-down"></i>
+          </div>
+
+        </div>
+
+        <div class="category-section" id="pick-menu" data-category="all"> <h3>추천 시술</h3>
+          <ul class="service-list category-pick-menu"
+              th:if="${serviceSection != null and serviceSection.recommended != null and !serviceSection.recommended.isEmpty()}">
+            <li class="service-item no-image"
+                th:each="svc : ${serviceSection.recommended}">
+              <strong class="service-name" th:text="${svc != null and svc.name != null ? svc.name : '시술명 없음'}">시술명</strong>
+              <div class="service-price">
+            <span class="original"
+                  th:text="${svc != null and svc.price != null ? #numbers.formatInteger(svc.price, 3, 'COMMA') + '원' : '가격 미정'}">
+              가격
+            </span>
+              </div>
+            </li>
+          </ul>
+          <i class="chevron fa-solid fa-chevron-down"></i>
+        </div>
+      </div>
+    </section>
+
+  <!-- 디자이너 목록 섹션 -->
+  <section class="tab-content" id="section-designer" style="display: none">
+    <div class="container">
+      <ul class="designer-list-view" th:if="${designerLists != null and !designerLists.isEmpty()}">
+        <li class="designer-item" th:each="designer : ${designerLists}" th:attr="data-id=${designer.id}">
+
+          <!-- 디자이너 프로필 사진 -->
+          <img th:src="${(designer?.imgUrl ?: '/images/default_profile.jpg')}" alt="디자이너 프로필"/>
+
+          <!-- 디자이너 정보 -->
+          <div class="designer-detail">
+            <p class="designer-label">
+              <span th:text="${designer != null and designer.name != null ? designer.name : '이름 없음'}">디자이너 이름</span>
+              <span th:text="${designer != null and designer.position != null ? designer.position : '디자이너'}">직급</span>
+            </p>
+
+            <div class="de-detail">
+              <div class="designer-card">
+                <p th:text="${designer != null and designer.profileSummary != null ? designer.profileSummary : '소개 정보 없음'}">
+                  전문시술 분야 + 연차
+                </p>
+              </div>
+            </div>
+
+            <div class="designer-status">
+            <span class="status-item">
+              🤍 <span th:text="${designer != null and designer.likeCount != null ? #numbers.formatInteger(designer.likeCount, 3, 'COMMA') : '0'}">0</span>
+            </span>
+              <span class="status-item">
+              💬 <span th:text="${designer != null and designer.reviewCount != null ? #numbers.formatInteger(designer.reviewCount, 3, 'COMMA') : '0'}">0</span>
+            </span>
+            </div>
+          </div>
+
+          <!-- 예약 버튼 -->
+          <div class="designer-book">
+            <button class="btn-book"
+                    th:if="${designer != null and designer.id != null}"
+                    th:onclick="|location.href='/reservation/designer/${designer.id}'|">
+              <i class="fa fa-calendar-days"></i>예약
+            </button>
+            <button class="btn-book" th:unless="${designer != null and designer.id != null}" disabled>
+              <i class="fa fa-calendar-days"></i>예약 불가
+            </button>
+          </div>
+        </li>
+      </ul>
+
+      <!-- 디자이너가 없을 경우 -->
+      <p th:if="${designerLists == null or designerLists.isEmpty()}">등록된 디자이너가 없습니다.</p>
+    </div>
+  </section>
+
+  <!-- 리뷰 섹션 -->
+  <section class="tab-content" id="section-review" style="display: none">
+    <div class="container">
+      <!-- 카테고리 탭 -->
+      <div class="r-tabs-wrapper">
+        <div class="r-tabs">
+          <button class="r-tab active" data-category="all">전체</button>
+          <button class="r-tab" data-category="커트">커트</button>
+          <button class="r-tab" data-category="염색">염색</button>
+          <button class="r-tab" data-category="펌">펌</button>
+          <button class="r-tab" data-category="업스타일">업스타일</button>
+          <button class="r-tab" data-category="드라이">드라이</button>
+          <button class="r-tab" data-category="붙임머리">붙임머리</button>
+          <button class="r-tab" data-category="클리닉">클리닉</button>
+        </div>
+      </div>
+
+      <div class="r-toolbar">
+        <!-- 고객 리뷰 제목 + 정렬 필터 -->
+        <div class="r-header">
+          <h3 class="r-title">고객 리뷰</h3>
+          <select class="r-sort">
+            <option value="latest">최신순</option>
+            <option value="high">별점 높은순</option>
+            <option value="low">별점 낮은순</option>
+          </select>
+        </div>
+
+        <!-- 리뷰 썸네일 -->
+        <div class="r-thumbnails">
+          <th:block th:if="${reviewImgUrls != null and !reviewImgUrls.isEmpty()}">
+            <div th:each="imgUrl, stat : ${reviewImgUrls}"
+                 th:classappend="${stat.index == 7 and #lists.size(reviewImgUrls) > 8 ? 'r-thumb-last' : 'r-thumb'}">
+              <img th:src="${imgUrl != null ? imgUrl : '/images/default.png'}" alt="리뷰 썸네일" />
+              <span th:if="${stat.index == 7 and #lists.size(reviewImgUrls) > 8}" class="r-plus">+ 더보기</span>
+            </div>
+
+            <th:block th:if="${#lists.size(reviewImgUrls) < 8}">
+              <div th:each="i : ${#numbers.sequence(#lists.size(reviewImgUrls), 7)}" class="r-thumb-empty"></div>
+            </th:block>
+
+          </th:block>
+          <p th:unless="${reviewImgUrls != null and !reviewImgUrls.isEmpty()}">등록된 리뷰 이미지가 없습니다.</p>
+        </div>
+
+        <!-- 리뷰 리스트 -->
+        <ul class="r-list" th:if="${reviewList != null and !reviewList.isEmpty()}">
+
+          <li class="r-item"   th:each="review : ${reviewList}"  th:data-category="${review.category}" >
+
+            <div class="r-item-header">
+              <strong th:text="${review != null and review.serviceName != null ? review.serviceName : '서비스명 없음'}">서비스명</strong>
+              <span class="chevron">&gt</span>
+            </div>
+
+            <div class="r-rating"
+                 th:text="${review.rating}">
+              ★★★★☆ 4.0
+            </div>
+
+            <div class="review-images"th:each="imageDto : ${review.imageDtos}"
+                 th:if="${imageDto != null && imageDto.imgUrl != null}">
+                <img th:src="${imageDto.imgUrl}" class="photo">
+            </div>
+
+            <div class="r-content">
+              <p th:text="${ review.comment }">
+                리뷰 내용
+              </p>
+              <div class="r-meta"
+                   th:text="${(review.memberName ) +
+                            ' · ' +
+                            ( #temporals.format(review.createAt, 'yyyy.MM.dd') ) +
+                            ' · ' +
+                            ( review.visitCount + '번째 방문')}">
+                이*나 · 2025.06.28 · 3번째 방문
+              </div>
+            </div>
+          </li>
+        </ul>
+
+        <!-- 리뷰 없을 때 -->
+        <p th:if="${reviewList == null or reviewList.isEmpty()}">등록된 리뷰가 없습니다.</p>
+
+        <!-- 더보기 버튼 -->
+        <div class="r-more" th:if="${reviewList != null and !reviewList.isEmpty()}">
+          <button class="r-toggle-btn">
+            더보기 <span class="arrow">▼</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+  </div>
+
+  <script>
+    let reviewRatings = document.getElementsByClassName("r-rating");
+    for(var idx in reviewRatings){
+        var rating = reviewRatings[idx].innerText;
+        rating = parseInt(rating);
+        var temp='';
+        for(var i=1; i<=5; i++){
+        if( i > rating)
+          temp +='☆';
+        else
+          temp +='★';
+        }
+        reviewRatings[idx].innerText = temp;
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // 탭 버튼 선택자 변경: .category-btn
+        const tabButtons = document.querySelectorAll('.category-btn');
+
+        // 모든 시술 섹션 (필터링 대상)을 선택합니다.
+        // 'service-section'은 추천 시술 섹션, 'category-section'은 각 카테고리별 시술 섹션
+        const serviceSections = document.querySelectorAll('.service-section, .category-section');
+
+        // 각 탭 버튼에 클릭 이벤트 리스너를 추가합니다.
+        tabButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                // 현재 활성화된 탭에서 'active' 클래스 제거
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+
+                // 클릭된 버튼에 'active' 클래스 추가
+                this.classList.add('active');
+
+                // 클릭된 버튼의 data-category 값을 가져옵니다.
+                const selectedCategory = this.dataset.category;
+
+                // 모든 시술 섹션을 순회하며 필터링합니다.
+                serviceSections.forEach(section => {
+                    const sectionCategory = section.dataset.category; // 각 섹션의 data-category 값
+
+                    // 'all' 탭이 선택되었거나, 섹션의 카테고리가 선택된 카테고리와 일치하면
+                    // 해당 섹션을 보여주고, 그렇지 않으면 숨깁니다.
+                    if (selectedCategory === 'all' || sectionCategory === selectedCategory) {
+                        section.style.display = ''; // 기본 display 속성으로 (보이게)
+                    } else {
+                        section.style.display = 'none'; // 숨김
+                    }
+                });
+            });
+        });
+
+        // 페이지 로드 시 'all' 탭을 자동으로 클릭하여 모든 항목을 보여줍니다.
+        const allTabButton = document.querySelector('.category-btn[data-category="all"]');
+        if (allTabButton) {
+            allTabButton.click(); // 'all' 탭 클릭 이벤트를 강제로 발생시켜 초기 상태 설정
+        }
+    });
+
+
+    // 리뷰 카테고리 클릭  처리 이다
+    // 모든 탭 버튼을 가져옵니다.
+    const tabButtons = document.querySelectorAll('.r-tab');
+    // 모든 리뷰 항목을 가져옵니다.
+    const reviewItems = document.querySelectorAll('.r-item');
+
+    // 각 탭 버튼에 클릭 이벤트 리스너를 추가합니다.
+    tabButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            // 1. 현재 활성화된 탭에서 'active' 클래스 제거
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+
+            // 2. 클릭된 버튼에 'active' 클래스 추가
+            this.classList.add('active');
+
+            // 3. 클릭된 버튼의 data-category 값을 가져옵니다.
+            const selectedCategory = this.dataset.category; // data-category 속성 접근
+
+            // 4. 모든 리뷰 항목을 순회하며 필터링합니다.
+            reviewItems.forEach(item => {
+                const itemCategory = item.dataset.category; // 각 리뷰 항목의 data-category 값
+
+                // 'all' 탭이 선택되었거나, 항목의 카테고리가 선택된 카테고리와 일치하면
+                // 해당 항목을 보여주고, 그렇지 않으면 숨깁니다.
+                if (selectedCategory === 'all' || itemCategory === selectedCategory) {
+                    item.style.display = ''; // 기본 display 속성으로 (보이게)
+                } else {
+                    item.style.display = 'none'; // 숨김
+                }
+            });
+        });
+    });
+
+    // 페이지 로드 시 'all' 탭을 자동으로 클릭하여 모든 항목을 보여줍니다.
+    // 또는 초기 'active' 탭에 따라 초기 필터링을 수행할 수 있습니다.
+    // 여기서는 'all' 탭을 찾아 클릭하는 방식으로 초기화합니다.
+    const allTabButton = document.querySelector('.r-tab[data-category="all"]');
+    if (allTabButton) {
+        allTabButton.click(); // 'all' 탭 클릭 이벤트를 강제로 발생시켜 초기 상태 설정
+    }
+  </script>
+</div>
+
+
+<th:block layout:fragment="script" >
+  <script th:src="@{/javascript/shop/shopDetail.js}" defer></script>
+</th:block>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragment/default}">
+<head>
+    <th:block layout:fragment="css"></th:block>
+</head>
+<body>
+<div layout:fragment="main" id="main">
+    <div th:fragment="userMenu" class="user-footer">
+        <ul>
+            <li><a href="/cs">공지사항</a></li>
+            <li><a href="">미용실 예약안내</a></li>
+        </ul>
+        <ul>
+            <li><a href="">이용약관</a></li>
+            <li><a href="">개인정보처리방침</a></li>
+            <li><a href="">위치정보동의</a></li>
+            <th:block th:if="${userRole != 'MAIN_DESIGNER' and userRole != 'ADMIN'}">
+                <li><a href="/cs/question">고객문의</a></li>
+            </th:block>
+            <th:block th:if="${userRole == 'USER'}">
+                <li><a href="/cs/request">디자이너 신청</a></li>
+            </th:block>
+            <th:block th:if="${userRole == 'DESIGNER'}">
+                <li><a href="/cs/shopApply">미용실 등록신청</a></li>
+            </th:block>
+            <th:block th:if="${userRole == 'MAIN_DESIGNER'}">
+                <li><a href="/cs/apply">배너 광고 신청</a></li>
+            </th:block>
+        </ul>
+        전화번호 : 1004-0920 | 이메일 주소 : dkgow@dkslgjlkw.com<br>
+        대표자 : 000 | 사업자 등록번호 : 300-22-41524<br>
+        ⓒ 어쩌구저쩌구 Corp
+    </div>
+</div>
+<th:block layout:fragment="script"></th:block>
+</body>
+</html>
